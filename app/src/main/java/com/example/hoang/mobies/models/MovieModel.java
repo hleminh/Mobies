@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Hoang on 6/9/2017.
  */
 
-public class TrendingModel implements Serializable {
+public class MovieModel implements Serializable {
     String poster_path;
     boolean adult;
     String overview;
