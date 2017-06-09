@@ -1,10 +1,13 @@
 package com.example.hoang.mobies.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.util.Log;
-import android.view.View;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,11 +19,14 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
-import com.example.hoang.mobies.models.TrendingModel;
+
+import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.trending_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.trending_movies.MainObject;
-import com.example.hoang.mobies.network.trending_movies.MovieObject;
+
+import com.example.hoang.mobies.fragments.MoviesFragment;
+
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -44,16 +50,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 MainObject mainObject = response.body();
-                for (TrendingModel trendingModel : mainObject.getResults())
+                for (MovieModel trendingModel : mainObject.getResults())
                     Log.d("test:",trendingModel.toString());
             }
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Log.d("weww","abc");
+
             }
         });
-        Log.d("wew","abc");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,6 +71,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        displayStartScreen();
+    }
+
+    private void displayStartScreen() {
+        MoviesFragment moviesFragment = new MoviesFragment();
+        changeScreen(moviesFragment, false);
     }
 
     @Override
@@ -122,5 +134,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void changeScreen(Fragment fragment, boolean addToBackStack) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fl_container, fragment);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

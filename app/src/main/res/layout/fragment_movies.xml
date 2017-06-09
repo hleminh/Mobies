@@ -34,7 +34,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_below="@id/tl_container"
-                android:id="@+id/rv_movies"
+                android:id="@+id/rv_movies_by_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">

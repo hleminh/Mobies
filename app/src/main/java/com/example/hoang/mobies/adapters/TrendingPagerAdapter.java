@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 
 import com.example.hoang.mobies.fragments.TrendingFragment;
-import com.example.hoang.mobies.models.TrendingModel;
+import com.example.hoang.mobies.models.MovieModel;
 
 import java.util.List;
 
@@ -17,24 +15,24 @@ import java.util.List;
  */
 
 public class TrendingPagerAdapter extends FragmentStatePagerAdapter {
-    private List<TrendingModel> trendingModelList;
+    private List<MovieModel> movieModelList;
 
-    public TrendingPagerAdapter(FragmentManager fm, List<TrendingModel> trendingModelList) {
+    public TrendingPagerAdapter(FragmentManager fm, List<MovieModel> movieModelList) {
         super(fm);
-        this.trendingModelList = trendingModelList;
+        this.movieModelList = movieModelList;
     }
 
     @Override
     public Fragment getItem(int position) {
         TrendingFragment trendingFragment = new TrendingFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("MovieModel", trendingModelList.get(position));
+        bundle.putSerializable("TrendingModel", movieModelList.get(position));
         trendingFragment.setArguments(bundle);
         return trendingFragment;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return movieModelList.size();
     }
 }

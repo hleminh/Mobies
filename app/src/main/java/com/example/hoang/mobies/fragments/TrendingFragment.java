@@ -10,7 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
-import com.example.hoang.mobies.models.TrendingModel;
+import com.example.hoang.mobies.models.MovieModel;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -39,13 +39,13 @@ public class TrendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        TrendingModel trendingModel = (TrendingModel) getArguments().getSerializable("TrendingModel");
+        MovieModel movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
         View view = inflater.inflate(R.layout.item_trending, container, false);
         ButterKnife.bind(this, view);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w300//" + trendingModel.getBackdrop_path()).into(ivTrendingImage);
-        tvTrendingName.setText(trendingModel.getTitle());
-        tvTrendingRating.setText(trendingModel.getVote_count() + " votes");
-        rbTrending.setRating(trendingModel.getVote_average());
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w300//" + movieModel.getBackdrop_path()).into(ivTrendingImage);
+        tvTrendingName.setText(movieModel.getTitle());
+        tvTrendingRating.setText(movieModel.getVote_count() + " votes");
+        rbTrending.setRating(movieModel.getVote_average());
         return view;
     }
 }

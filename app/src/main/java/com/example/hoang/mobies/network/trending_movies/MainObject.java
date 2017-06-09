@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.network.trending_movies;
 
-import com.example.hoang.mobies.models.TrendingModel;
+import com.example.hoang.mobies.models.MovieModel;
+
 
 import java.util.List;
 
@@ -9,13 +10,13 @@ import java.util.List;
  */
 
 public class MainObject {
-    List<TrendingModel> results;
+    List<MovieModel> results;
 
-    public List<TrendingModel> getResults() {
+    public List<MovieModel> getResults() {
         return results;
     }
 
-    public void setResults(List<TrendingModel> results) {
+    public void setResults(List<MovieModel> results) {
         this.results = results;
     }
 }
