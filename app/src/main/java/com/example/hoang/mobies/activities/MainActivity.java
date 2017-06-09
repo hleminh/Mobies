@@ -20,8 +20,11 @@ import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
 
+import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.get_genres.GetGenresService;
+import com.example.hoang.mobies.network.get_genres.MainGenresObject;
 import com.example.hoang.mobies.network.trending_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.trending_movies.MainObject;
 
@@ -34,6 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
+import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,12 +50,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GetTrendingMoviesService getTrendingMoviesService = RetrofitFactory.getInstance().createService(GetTrendingMoviesService.class);
-        getTrendingMoviesService.getTrendingMovies(API_KEY,"en-US","1").enqueue(new Callback<MainObject>() {
+        getTrendingMoviesService.getTrendingMovies(API_KEY,LANGUAGE,"1").enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 MainObject mainObject = response.body();
-                for (MovieModel trendingModel : mainObject.getResults())
-                    Log.d("test:",trendingModel.toString());
+                for (MovieModel movieModel : mainObject.getResults())
+                    Log.d("test:",movieModel.toString());
             }
 
             @Override
@@ -59,7 +63,20 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        GetGenresService getGenresService= RetrofitFactory.getInstance().createService(GetGenresService.class);
+        getGenresService.getAllGenres(API_KEY,LANGUAGE).enqueue(new Callback<MainGenresObject>() {
+            @Override
+            public void onResponse(Call<MainGenresObject> call, Response<MainGenresObject> response) {
+                MainGenresObject mainGenresObject= response.body();
+                for(GenresModel genresModel: mainGenresObject.getGenres())
+                    Log.d("test genres:",genresModel.toString());
+            }
 
+            @Override
+            public void onFailure(Call<MainGenresObject> call, Throwable t) {
+
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
