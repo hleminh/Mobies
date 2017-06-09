@@ -18,7 +18,7 @@ public class MovieModel implements Serializable {
     String original_language;
     String title;
     String backdrop_path;
-   double popularity;
+    double popularity;
     int vote_count;
     boolean video;
     float vote_average;
