@@ -25,6 +25,7 @@ import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_genres.GetGenresService;
 import com.example.hoang.mobies.network.get_genres.MainGenresObject;
+import com.example.hoang.mobies.network.get_movie_by_genres.GetMovieByGenresService;
 import com.example.hoang.mobies.network.trending_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.trending_movies.MainObject;
 
@@ -77,6 +78,21 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        GetMovieByGenresService getMovieByGenresService= RetrofitFactory.getInstance().createService(GetMovieByGenresService.class);
+        getMovieByGenresService.getMovieByGenres("28",API_KEY,LANGUAGE,"false").enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject= response.body();
+                for(MovieModel movieModel: mainObject.getResults())
+                    Log.d("test movie genrse:",movieModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
