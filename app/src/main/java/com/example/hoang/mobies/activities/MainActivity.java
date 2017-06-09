@@ -3,6 +3,7 @@ package com.example.hoang.mobies.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,8 +16,18 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.models.TrendingModel;
+import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.trending_movies.GetTrendingMoviesService;
+import com.example.hoang.mobies.network.trending_movies.MainObject;
+import com.example.hoang.mobies.network.trending_movies.MovieObject;
 
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +39,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GetTrendingMoviesService getTrendingMoviesService = RetrofitFactory.getInstance().createService(GetTrendingMoviesService.class);
+        getTrendingMoviesService.getTrendingMovies(API_KEY,"en-US","1").enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (TrendingModel trendingModel : mainObject.getResults())
+                    Log.d("test:",trendingModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+                Log.d("weww","abc");
+            }
+        });
+        Log.d("wew","abc");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

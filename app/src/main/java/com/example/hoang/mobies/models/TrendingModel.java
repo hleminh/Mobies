@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Hoang on 6/9/2017.
@@ -11,16 +12,16 @@ public class TrendingModel implements Serializable {
     boolean adult;
     String overview;
     String release_date;
-    int[] genre_ids;
+    List<Integer> genre_ids;
     int id;
     String original_title;
     String original_language;
     String title;
     String backdrop_path;
-    int popularity;
+   double popularity;
     int vote_count;
     boolean video;
-    int vote_average;
+    float vote_average;
 
     public String getPoster_path() {
         return poster_path;
@@ -54,11 +55,11 @@ public class TrendingModel implements Serializable {
         this.release_date = release_date;
     }
 
-    public int[] getGenre_ids() {
+    public List<Integer> getGenre_ids() {
         return genre_ids;
     }
 
-    public void setGenre_ids(int[] genre_ids) {
+    public void setGenre_ids(List<Integer> genre_ids) {
         this.genre_ids = genre_ids;
     }
 
@@ -102,11 +103,11 @@ public class TrendingModel implements Serializable {
         this.backdrop_path = backdrop_path;
     }
 
-    public int getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(int popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
@@ -126,11 +127,17 @@ public class TrendingModel implements Serializable {
         this.video = video;
     }
 
-    public int getVote_average() {
+    public float getVote_average() {
         return vote_average;
     }
 
-    public void setVote_average(int vote_average) {
+    public void setVote_average(float vote_average) {
         this.vote_average = vote_average;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ID:%s-title:%s", id, title);
+    }
+
 }
