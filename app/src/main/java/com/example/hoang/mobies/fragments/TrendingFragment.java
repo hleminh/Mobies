@@ -42,9 +42,9 @@ public class TrendingFragment extends Fragment {
         MovieModel movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
         View view = inflater.inflate(R.layout.item_trending, container, false);
         ButterKnife.bind(this, view);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w300//" + movieModel.getBackdrop_path()).into(ivTrendingImage);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w300/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
         tvTrendingName.setText(movieModel.getTitle());
-        tvTrendingRating.setText(movieModel.getVote_count() + " votes");
+        tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
         rbTrending.setRating(movieModel.getVote_average());
         return view;
     }
