@@ -25,9 +25,12 @@ import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_genres.GetGenresService;
 import com.example.hoang.mobies.network.get_genres.MainGenresObject;
-import com.example.hoang.mobies.network.get_movie_by_genres.GetMovieByGenresService;
-import com.example.hoang.mobies.network.trending_movies.GetTrendingMoviesService;
-import com.example.hoang.mobies.network.trending_movies.MainObject;
+import com.example.hoang.mobies.network.get_movies.GetComingSoonService;
+import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
+import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
+import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
+import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
+import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
 
@@ -38,7 +41,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
+import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,12 +56,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GetTrendingMoviesService getTrendingMoviesService = RetrofitFactory.getInstance().createService(GetTrendingMoviesService.class);
-        getTrendingMoviesService.getTrendingMovies(API_KEY,LANGUAGE,"1").enqueue(new Callback<MainObject>() {
+        getTrendingMoviesService.getTrendingMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults())
-                    Log.d("test:",movieModel.toString());
+                    Log.d("test trending:", movieModel.toString());
             }
 
             @Override
@@ -64,13 +69,13 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        GetGenresService getGenresService= RetrofitFactory.getInstance().createService(GetGenresService.class);
-        getGenresService.getAllGenres(API_KEY,LANGUAGE).enqueue(new Callback<MainGenresObject>() {
+        GetGenresService getGenresService = RetrofitFactory.getInstance().createService(GetGenresService.class);
+        getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
             @Override
             public void onResponse(Call<MainGenresObject> call, Response<MainGenresObject> response) {
-                MainGenresObject mainGenresObject= response.body();
-                for(GenresModel genresModel: mainGenresObject.getGenres())
-                    Log.d("test genres:",genresModel.toString());
+                MainGenresObject mainGenresObject = response.body();
+                for (GenresModel genresModel : mainGenresObject.getGenres())
+                    Log.d("test genres:", genresModel.toString());
             }
 
             @Override
@@ -78,13 +83,13 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        GetMovieByGenresService getMovieByGenresService= RetrofitFactory.getInstance().createService(GetMovieByGenresService.class);
-        getMovieByGenresService.getMovieByGenres("28",API_KEY,LANGUAGE,"false").enqueue(new Callback<MainObject>() {
+        GetMovieByGenresService getMovieByGenresService = RetrofitFactory.getInstance().createService(GetMovieByGenresService.class);
+        getMovieByGenresService.getMovieByGenres("28", API_KEY, LANGUAGE, "false").enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
-                MainObject mainObject= response.body();
-                for(MovieModel movieModel: mainObject.getResults())
-                    Log.d("test movie genrse:",movieModel.toString());
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults())
+                    Log.d("test movie genrse:", movieModel.toString());
             }
 
             @Override
@@ -93,6 +98,49 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        GetInCinemasMoviesService getInCinemasMoviesService = RetrofitFactory.getInstance().createService(GetInCinemasMoviesService.class);
+        getInCinemasMoviesService.getInCinemaMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults())
+                    Log.d("test in cinemas:", movieModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
+
+        GetComingSoonService getComingSoonService = RetrofitFactory.getInstance().createService(GetComingSoonService.class);
+        getComingSoonService.getComingSoonMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults())
+                    Log.d("test coming soon:", movieModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
+        GetTopRatedMoviesService getTopRatedMoviesService = RetrofitFactory.getInstance().createService(GetTopRatedMoviesService.class);
+        getTopRatedMoviesService.getTopRatedMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults())
+                    Log.d("test top rated:", movieModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

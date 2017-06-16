@@ -11,6 +11,8 @@ public class RetrofitFactory {
     private static Retrofit retrofit;
     public static String API_KEY="edf1f4d5b56b3b1d9454f2b090695246";
     public static String LANGUAGE="en-US";
+    public static int DEFAULT_PAGE=1;
+    public static String REGION="us";
     public static RetrofitFactory retrofitFactory= new RetrofitFactory();
     public static RetrofitFactory getInstance(){
         return retrofitFactory;

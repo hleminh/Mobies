@@ -1,6 +1,6 @@
-package com.example.hoang.mobies.network.get_movie_by_genres;
+package com.example.hoang.mobies.network.get_movies;
 
-import com.example.hoang.mobies.network.trending_movies.MainObject;
+import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

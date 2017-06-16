@@ -1,4 +1,4 @@
-package com.example.hoang.mobies.network.trending_movies;
+package com.example.hoang.mobies.network.get_movies;
 
 import com.example.hoang.mobies.models.MovieModel;
 
