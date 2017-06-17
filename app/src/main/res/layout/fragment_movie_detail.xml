@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.hoang.mobies.fragments.MovieDetailFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/iv_back_drop_movie_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom">
+
+        <RelativeLayout
+            android:id="@+id/rl_movie_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_poster_movie_detail"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/colorRed"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/iv_poster_movie_detail"
+                android:layout_toRightOf="@id/iv_poster_movie_detail"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tv_movie_name_movie_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:id="@+id/tv_movie_relase_date_movie_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_movie_name_movie_detail" />
+
+                <RatingBar
+                    android:id="@+id/rb_movie_detail"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_movie_relase_date_movie_detail"
+                    android:numStars="10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_movie_relase_date_movie_detail"
+                    android:layout_toRightOf="@id/rb_movie_detail" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:id="@+id/tv_genre_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_below="@+id/tv_genre_header"
+                android:id="@+id/tv_genre_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_below="@+id/tv_genre_content"
+                android:id="@+id/tv_plot_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/plot"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tv_plot_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_plot_header"
+                android:text="@string/plot"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cast"
+                android:textColor="@android:color/white"
+                android:textAllCaps="true"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@color/colorRed"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
 
+import com.example.hoang.mobies.fragments.MovieDetailFragment;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TV_Model;

@@ -36,7 +36,8 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             android:numStars="10"
-            android:stepSize="0.1"/>
+            android:stepSize="0.1"
+            android:progressTint="@color/colorYellow"/>
 
         <TextView
             android:layout_toRightOf="@id/rb_trending"
