@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="150dp"
-    android:layout_height="match_parent">
+    android:layout_width="150dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_mbc_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="center"/>
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,12 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/rb_mbc"
-            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
             android:text="Test"
             android:textAllCaps="true"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:layout_marginLeft="10dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RatingBar
             android:id="@+id/rb_mbc"
@@ -35,16 +36,16 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             android:numStars="1"
-            android:stepSize="0.1"
-            android:rating="1"/>
+            android:rating="1"
+            android:stepSize="0.1" />
 
         <TextView
-            android:layout_toRightOf="@id/rb_mbc"
             android:id="@+id/tv_mbc_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/rb_mbc" />
 
     </RelativeLayout>
 
