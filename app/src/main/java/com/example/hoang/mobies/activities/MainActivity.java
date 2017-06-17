@@ -22,6 +22,7 @@ import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_genres.GetGenresService;
 import com.example.hoang.mobies.network.get_genres.MainGenresObject;
@@ -33,6 +34,9 @@ import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
+import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
+import com.example.hoang.mobies.network.get_tv.MainTvObject;
 
 
 import butterknife.BindView;
@@ -139,6 +143,36 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
 
+            }
+        });
+
+        GetPopularTvService getPopularTvService=RetrofitFactory.getInstance().createService(GetPopularTvService.class);
+        getPopularTvService.getPopularTV(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                MainTvObject mainObject = response.body();
+                for (TV_Model tv_model : mainObject.getResults())
+                    Log.d("test tv popular:", tv_model.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+                Log.d("test","??");
+            }
+        });
+        GetTopRatedTVService getTopRatedTVService=  RetrofitFactory.getInstance().createService(GetTopRatedTVService.class);
+        getTopRatedTVService.getTopRatedTv(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                MainTvObject mainObject = response.body();
+                Log.d("size:",mainObject.getResults().size()+"");
+                for (TV_Model tv_model : mainObject.getResults())
+                    Log.d("test tv top rated:", tv_model.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+                Log.d("test","??");
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

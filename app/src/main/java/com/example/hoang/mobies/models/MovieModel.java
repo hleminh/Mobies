@@ -8,20 +8,20 @@ import java.util.List;
  */
 
 public class MovieModel implements Serializable {
-    String poster_path;
-    boolean adult;
-    String overview;
-    String release_date;
-    List<Integer> genre_ids;
-    int id;
-    String original_title;
-    String original_language;
-    String title;
-    String backdrop_path;
-    double popularity;
-    int vote_count;
-    boolean video;
-    float vote_average;
+    private String poster_path;
+    private boolean adult;
+    private String overview;
+    private String release_date;
+    private List<Integer> genre_ids;
+    private int id;
+    private String original_title;
+    private String original_language;
+    private String title;
+    private String backdrop_path;
+    private double popularity;
+    private int vote_count;
+    private boolean video;
+    private float vote_average;
 
     public String getPoster_path() {
         return poster_path;
