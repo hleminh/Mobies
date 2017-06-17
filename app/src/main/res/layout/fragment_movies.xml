@@ -32,6 +32,7 @@
 
             </HorizontalScrollView>
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_movies_by_categories"
                 android:layout_width="match_parent"
@@ -43,52 +44,51 @@
 
             <TextView
                 android:id="@+id/tv_coming_soon"
-                android:layout_below="@id/rv_movies_by_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
+                android:layout_below="@id/rv_movies_by_categories"
                 android:text="@string/coming_soon"
-                android:textAllCaps="true"/>
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_below="@id/tv_coming_soon"
                 android:id="@+id/rv_coming_soon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
+                android:layout_below="@id/tv_coming_soon"
+                android:padding="10dp" />
 
             <TextView
-                android:layout_below="@id/rv_coming_soon"
+                android:id="@+id/tv_in_cinemas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_in_cinemas"
+                android:layout_below="@id/rv_coming_soon"
+                android:text="@string/in_cinemas"
                 android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:text="@string/in_cinemas"/>
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_below="@id/tv_coming_soon"
                 android:id="@+id/rv_in_cinemas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
+                android:layout_below="@id/tv_in_cinemas"
+                android:padding="10dp" />
 
             <TextView
-                android:layout_below="@id/rv_in_cinemas"
+                android:id="@+id/tv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_top_rated"
+                android:layout_below="@id/rv_in_cinemas"
+                android:text="@string/top_rated"
                 android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:text="@string/top_rated"/>
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_below="@id/tv_top_rated"
                 android:id="@+id/rv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
-
+                android:layout_below="@id/tv_top_rated"
+                android:padding="10dp" />
 
 
         </RelativeLayout>

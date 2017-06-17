@@ -21,7 +21,10 @@ import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_genres.GetGenresService;
 import com.example.hoang.mobies.network.get_genres.MainGenresObject;
+import com.example.hoang.mobies.network.get_movies.GetComingSoonService;
+import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
+import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
@@ -49,12 +52,24 @@ public class MoviesFragment extends Fragment {
     TabLayout tlCategory;
     @BindView(R.id.rv_movies_by_categories)
     RecyclerView rvMovies;
+    @BindView(R.id.rv_coming_soon)
+    RecyclerView rvComingSoon;
+    @BindView(R.id.rv_in_cinemas)
+    RecyclerView rvInCinemas;
+    @BindView(R.id.rv_top_rated)
+    RecyclerView rvTopRated;
 
+    private List<MovieModel> topRatedMoviesList;
+    private List<MovieModel> comingSoonMoviesList;
+    private List<MovieModel> inCinemasMoviesList;
     private List<MovieModel> trendingMoviesList;
     private List<MovieModel> moviesByCategoryList;
     private List<GenresModel> genresModelList;
     private TrendingPagerAdapter trendingPagerAdapter;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
+    private MoviesByCategoriesAdapter topRatedAdapter;
+    private MoviesByCategoriesAdapter comingSoonAdapter;
+    private MoviesByCategoriesAdapter inCinemasAdapter;
 
 
     public MoviesFragment() {
@@ -77,15 +92,17 @@ public class MoviesFragment extends Fragment {
         trendingPagerAdapter = new TrendingPagerAdapter(getFragmentManager(), trendingMoviesList);
         vpTrending.setAdapter(trendingPagerAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvMovies.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+
 
         tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 loadMoviesByCaterogy((genresModelList.get(tab.getPosition()).getId() + ""));
-                moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(moviesByCategoryList, getContext());
-                rvMovies.setAdapter(moviesByCategoriesAdapter);
             }
 
             @Override
@@ -99,20 +116,96 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(moviesByCategoryList, getContext());
+        topRatedAdapter = new MoviesByCategoriesAdapter(topRatedMoviesList, getContext());
+        comingSoonAdapter = new MoviesByCategoriesAdapter(comingSoonMoviesList, getContext());
+        inCinemasAdapter = new MoviesByCategoriesAdapter(inCinemasMoviesList, getContext());
 
+        rvMovies.setAdapter(moviesByCategoriesAdapter);
+        rvComingSoon.setAdapter(comingSoonAdapter);
+        rvInCinemas.setAdapter(inCinemasAdapter);
+        rvTopRated.setAdapter(topRatedAdapter);
+
+        rvMovies.setLayoutManager(linearLayoutManager1);
+        rvTopRated.setLayoutManager(linearLayoutManager2);
+        rvInCinemas.setLayoutManager(linearLayoutManager3);
+        rvComingSoon.setLayoutManager(linearLayoutManager4);
     }
 
     private void loadData() {
         trendingMoviesList = new ArrayList<>();
         genresModelList = new ArrayList<>();
+        moviesByCategoryList = new ArrayList<>();
+        inCinemasMoviesList = new ArrayList<>();
+        topRatedMoviesList = new ArrayList<>();
+        comingSoonMoviesList = new ArrayList<>();
 
         loadTrendingMovies();
         loadGenres();
+        loadComingSoon();
+        loadInCinemas();
+        loadTopRated();
+    }
 
+    private void loadTopRated() {
+        GetTopRatedMoviesService getTopRatedMoviesService = RetrofitFactory.getInstance().createService(GetTopRatedMoviesService.class);
+        getTopRatedMoviesService.getTopRatedMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults()) {
+                    topRatedMoviesList.add(movieModel);
+                }
+                topRatedAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadInCinemas() {
+        GetInCinemasMoviesService getInCinemasMoviesService = RetrofitFactory.getInstance().createService(GetInCinemasMoviesService.class);
+        getInCinemasMoviesService.getInCinemaMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults()) {
+                    inCinemasMoviesList.add(movieModel);
+                }
+                inCinemasAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadComingSoon() {
+        GetComingSoonService getComingSoonService = RetrofitFactory.getInstance().createService(GetComingSoonService.class);
+        getComingSoonService.getComingSoonMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults()) {
+                    comingSoonMoviesList.add(movieModel);
+                }
+                comingSoonAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadMoviesByCaterogy(String genreID) {
-        moviesByCategoryList = new ArrayList<>();
+        moviesByCategoryList.clear();
         GetMovieByGenresService getMovieByGenresService = RetrofitFactory.getInstance().createService(GetMovieByGenresService.class);
         getMovieByGenresService.getMovieByGenres(genreID, API_KEY, LANGUAGE, "false").enqueue(new Callback<MainObject>() {
             @Override
