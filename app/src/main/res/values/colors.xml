@@ -6,6 +6,9 @@
     <color name="colorBackground">#FF303030</color>
     <color name="colorToolBar">#FF212121</color>
     <color name="colorStatusBar">#FF1a1a1a</color>
-    <color name="colorYellow">#FFff9900</color>
+    <color name="colorRatingBarYellow">#FFff9900</color>
     <color name="colorRed">#FFe23328</color>
+    <color name="colorTextSecondary">#FF737373</color>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorRatingBarGrey">#FFa8a8a8</color>
 </resources>

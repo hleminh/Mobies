@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="140dp"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <ImageView
         android:id="@+id/iv_mbc_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop" />
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,35 +20,67 @@
 
         <TextView
             android:id="@+id/tv_mbc_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/rb_mbc"
             android:layout_marginLeft="10dp"
             android:text="Test"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_below="@id/tv_mbc_name"
+            android:id="@+id/tv_mbc_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            android:text="Test"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"/>
 
         <RatingBar
+            android:layout_toRightOf="@id/tv_mbc_vote"
             android:id="@+id/rb_mbc"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
             android:numStars="1"
             android:stepSize="0.1"
             android:rating="1"
-            android:progressTint="@color/colorYellow"/>
+            android:progressTint="@color/colorRatingBarYellow"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:foregroundGravity="center"/>
 
         <TextView
+            android:layout_toRightOf="@id/rb_mbc"
+            android:layout_below="@id/tv_mbc_name"
             android:id="@+id/tv_mbc_rating"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:textColor="@color/colorRatingBarGrey"
+            android:textSize="11sp"
+            android:text="Test"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/rb_mbc" />
+            android:gravity="center"/>
+
+
 
     </RelativeLayout>
 

@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.CubeInTransformer;
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
@@ -91,6 +94,7 @@ public class MoviesFragment extends Fragment {
         ButterKnife.bind(this, view);
         trendingPagerAdapter = new TrendingPagerAdapter(getFragmentManager(), trendingMoviesList);
         vpTrending.setAdapter(trendingPagerAdapter);
+        vpTrending.setOffscreenPageLimit(3);
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

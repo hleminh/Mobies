@@ -1,5 +1,6 @@
 package com.example.hoang.mobies.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
+        }
 
         GetPopularTvService getPopularTvService=RetrofitFactory.getInstance().createService(GetPopularTvService.class);
         getPopularTvService.getPopularTV(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {

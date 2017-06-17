@@ -54,6 +54,8 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
         TextView tvMbcName;
         @BindView(R.id.tv_mbc_rating)
         TextView tvMbcRating;
+        @BindView(R.id.tv_mbc_vote)
+        TextView tvMbcVote;
         View view;
 
         public MoviesByCategoriesViewHolder(View itemView) {
@@ -63,9 +65,10 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
         }
 
         public void setData(MovieModel movieModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + movieModel.getPoster_path()).into(ivMbcImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).into(ivMbcImage);
             tvMbcName.setText(movieModel.getTitle());
-            tvMbcRating.setText(movieModel.getVote_average() + "");
+            tvMbcVote.setText(movieModel.getVote_average() + "");
+            tvMbcRating.setText(movieModel.getVote_count() + " Ratings");
         }
     }
 }
