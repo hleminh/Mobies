@@ -91,9 +91,15 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        trendingPagerAdapter = new TrendingPagerAdapter(getFragmentManager(), trendingMoviesList);
+        trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList);
         vpTrending.setAdapter(trendingPagerAdapter);
         vpTrending.setOffscreenPageLimit(3);
 
@@ -272,6 +278,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         if (v.getTag() instanceof MovieModel) {
             MovieModel movieModel = (MovieModel) v.getTag();
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();

@@ -29,6 +29,7 @@ public class TrendingFragment extends Fragment {
     TextView tvTrendingRating;
     @BindView(R.id.rb_trending)
     RatingBar rbTrending;
+    private MovieModel movieModel;
 
     public TrendingFragment() {
         // Required empty public constructor
@@ -39,13 +40,24 @@ public class TrendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        MovieModel movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
+        movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
         View view = inflater.inflate(R.layout.item_trending, container, false);
+        loadData(view);
+        view.setTag(movieModel);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadData(getView());
+    }
+
+    private void loadData(View view) {
         ButterKnife.bind(this, view);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
         tvTrendingName.setText(movieModel.getTitle());
         tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
         rbTrending.setRating(movieModel.getVote_average());
-        return view;
     }
 }
