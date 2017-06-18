@@ -24,6 +24,11 @@ import butterknife.ButterKnife;
 public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCategoriesAdapter.MoviesByCategoriesViewHolder> {
     private List<MovieModel> movieModelList;
     private Context context;
+    private View.OnClickListener onClickListener;
+
+    public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
+        this.onClickListener = onItemClickListener;
+    }
 
     public MoviesByCategoriesAdapter(List<MovieModel> movieModelList, Context context) {
         this.movieModelList = movieModelList;
@@ -34,6 +39,7 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
     public MoviesByCategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_movie_by_category, parent, false);
+        view.setOnClickListener(onClickListener);
         return new MoviesByCategoriesViewHolder(view);
     }
 
@@ -69,6 +75,7 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
             tvMbcName.setText(movieModel.getTitle());
             tvMbcVote.setText(movieModel.getVote_average() + "");
             tvMbcRating.setText(movieModel.getVote_count() + " Ratings");
+            view.setTag(movieModel);
         }
     }
 }

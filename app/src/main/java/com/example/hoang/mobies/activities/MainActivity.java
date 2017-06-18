@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.fragments.MovieDetailFragment;
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TV_Model;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
 
-        GetPopularTvService getPopularTvService=RetrofitFactory.getInstance().createService(GetPopularTvService.class);
+        GetPopularTvService getPopularTvService = RetrofitFactory.getInstance().createService(GetPopularTvService.class);
         getPopularTvService.getPopularTV(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
@@ -79,22 +80,22 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Log.d("test","??");
+                Log.d("test", "??");
             }
         });
-        GetTopRatedTVService getTopRatedTVService=  RetrofitFactory.getInstance().createService(GetTopRatedTVService.class);
+        GetTopRatedTVService getTopRatedTVService = RetrofitFactory.getInstance().createService(GetTopRatedTVService.class);
         getTopRatedTVService.getTopRatedTv(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 MainTvObject mainObject = response.body();
-                Log.d("size:",mainObject.getResults().size()+"");
+                Log.d("size:", mainObject.getResults().size() + "");
                 for (TV_Model tv_model : mainObject.getResults())
                     Log.d("test tv top rated:", tv_model.toString());
             }
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Log.d("test","??");
+                Log.d("test", "??");
             }
         });
 
@@ -113,8 +114,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void displayStartScreen() {
-        MoviesFragment moviesFragment = new MoviesFragment();
-        changeScreen(moviesFragment, false);
+        ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, false, false);
     }
 
     @Override
@@ -174,12 +174,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void changeScreen(Fragment fragment, boolean addToBackStack) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_container, fragment);
-        if (addToBackStack)
-            transaction.addToBackStack(null);
-        transaction.commit();
-    }
 }

@@ -19,6 +19,7 @@ import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
@@ -48,7 +49,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends Fragment {
+public class MoviesFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.vp_trending)
     ViewPager vpTrending;
     @BindView(R.id.tl_category)
@@ -101,8 +102,6 @@ public class MoviesFragment extends Fragment {
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
-
-
         tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -124,6 +123,11 @@ public class MoviesFragment extends Fragment {
         topRatedAdapter = new MoviesByCategoriesAdapter(topRatedMoviesList, getContext());
         comingSoonAdapter = new MoviesByCategoriesAdapter(comingSoonMoviesList, getContext());
         inCinemasAdapter = new MoviesByCategoriesAdapter(inCinemasMoviesList, getContext());
+
+        moviesByCategoriesAdapter.setOnItemClickListener(this);
+        topRatedAdapter.setOnItemClickListener(this);
+        comingSoonAdapter.setOnItemClickListener(this);
+        inCinemasAdapter.setOnItemClickListener(this);
 
         rvMovies.setAdapter(moviesByCategoriesAdapter);
         rvComingSoon.setAdapter(comingSoonAdapter);
@@ -266,4 +270,15 @@ public class MoviesFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getTag() instanceof MovieModel) {
+            MovieModel movieModel = (MovieModel) v.getTag();
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("MovieDetail", movieModel);
+            movieDetailFragment.setArguments(bundle);
+            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+        }
+    }
 }
