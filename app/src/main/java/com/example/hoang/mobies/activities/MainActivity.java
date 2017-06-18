@@ -24,24 +24,33 @@ import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.fragments.MovieDetailFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
+import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
+import com.example.hoang.mobies.network.get_cast.MainCastObject;
 import com.example.hoang.mobies.network.get_genres.GetGenresService;
 import com.example.hoang.mobies.network.get_genres.MainGenresObject;
 import com.example.hoang.mobies.network.get_movies.GetComingSoonService;
 import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
+import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
 import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
+import com.example.hoang.mobies.network.get_people.MainPeopleObject;
 import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
 import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
 
+
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -52,6 +61,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
+import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,36 +79,25 @@ public class MainActivity extends AppCompatActivity
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
 
-        GetPopularTvService getPopularTvService = RetrofitFactory.getInstance().createService(GetPopularTvService.class);
-        getPopularTvService.getPopularTV(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
+
+
+        GetCastOfAMovieService getCastOfAMovieService= RetrofitFactory.getInstance().createService(GetCastOfAMovieService.class);
+        getCastOfAMovieService.getCastOfAMovie(209112,API_KEY).enqueue(new Callback<MainCastObject>() {
             @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainObject = response.body();
-                for (TV_Model tv_model : mainObject.getResults())
-                    Log.d("test tv popular:", tv_model.toString());
+            public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
+                MainCastObject mainCastObject= response.body();
+                List<CastModel> castModels= mainCastObject.getCast();
+                for(CastModel castModel: castModels)
+                {
+                    Log.d("test cast:", castModel.toString());
+                }
             }
 
             @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Log.d("test", "??");
+            public void onFailure(Call<MainCastObject> call, Throwable t) {
+
             }
         });
-        GetTopRatedTVService getTopRatedTVService = RetrofitFactory.getInstance().createService(GetTopRatedTVService.class);
-        getTopRatedTVService.getTopRatedTv(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainObject = response.body();
-                Log.d("size:", mainObject.getResults().size() + "");
-                for (TV_Model tv_model : mainObject.getResults())
-                    Log.d("test tv top rated:", tv_model.toString());
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Log.d("test", "??");
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
