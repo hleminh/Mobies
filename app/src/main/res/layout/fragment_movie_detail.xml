@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.hoang.mobies.fragments.MovieDetailFragment">
+    tools:context="com.example.hoang.mobies.fragments.MovieDetailFragment"
+    android:background="@color/colorBackground">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom">
+        app:layout_anchorGravity="bottom|end">
 
         <RelativeLayout
             android:id="@+id/rl_movie_header"
@@ -56,41 +57,57 @@
                 android:layout_height="170dp"
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerCrop"
-                android:background="@color/colorRed" />
+                android:background="@color/colorRed"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_poster_movie_detail"
                 android:layout_toRightOf="@id/iv_poster_movie_detail"
-                android:paddingLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_movie_name_movie_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentStart="true"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"/>
 
                 <TextView
-                    android:id="@+id/tv_movie_relase_date_movie_detail"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/tv_movie_release_date_movie_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_movie_name_movie_detail" />
+                    android:layout_below="@+id/tv_movie_name_movie_detail"
+                    android:textColor="@color/colorTextSecondary"/>
 
                 <RatingBar
+                    android:layout_alignParentStart="true"
                     android:id="@+id/rb_movie_detail"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_relase_date_movie_detail"
-                    android:numStars="10" />
+                    android:layout_below="@id/tv_movie_release_date_movie_detail"
+                    android:numStars="5"
+                    android:theme="@style/RatingBar"
+                    android:layout_marginRight="5dp"
+                    android:scaleX="1"
+                    android:scaleY="1" />
 
                 <TextView
                     android:id="@+id/tv_rating_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_relase_date_movie_detail"
-                    android:layout_toRightOf="@id/rb_movie_detail" />
+                    android:layout_below="@id/tv_movie_release_date_movie_detail"
+                    android:layout_toRightOf="@id/rb_movie_detail"
+                    android:textColor="@color/colorTextSecondary"/>
             </RelativeLayout>
 
         </RelativeLayout>
@@ -99,49 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <TextView
-                android:id="@+id/tv_genre_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/genre"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tv_genre_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_genre_header"
-                android:text="@string/genre"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tv_plot_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_genre_content"
-                android:text="@string/plot"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tv_plot_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_plot_header"
-                android:text="@string/plot"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cast"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
 
         </RelativeLayout>
 

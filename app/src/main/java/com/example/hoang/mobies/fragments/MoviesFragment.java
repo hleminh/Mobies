@@ -111,7 +111,10 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                rvMovies.stopScroll();
+                rvMovies.removeAllViews();
                 loadMoviesByCaterogy((genresModelList.get(tab.getPosition()).getId() + ""));
+                rvMovies.getLayoutManager().scrollToPosition(0);
             }
 
             @Override
@@ -135,6 +138,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         comingSoonAdapter.setOnItemClickListener(this);
         inCinemasAdapter.setOnItemClickListener(this);
 
+        rvMovies.setHasFixedSize(true);
         rvMovies.setAdapter(moviesByCategoriesAdapter);
         rvComingSoon.setAdapter(comingSoonAdapter);
         rvInCinemas.setAdapter(inCinemasAdapter);

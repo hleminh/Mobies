@@ -58,6 +58,6 @@ public class TrendingFragment extends Fragment {
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
         tvTrendingName.setText(movieModel.getTitle());
         tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
-        rbTrending.setRating(movieModel.getVote_average());
+        rbTrending.setRating(movieModel.getVote_average()/2);
     }
 }
