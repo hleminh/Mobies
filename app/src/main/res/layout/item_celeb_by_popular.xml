@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="140dp"
     android:layout_height="140dp"
-    android:orientation="vertical"
+    android:layout_marginBottom="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_cbp_image"
@@ -25,64 +25,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="Test"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"/>
+            android:textStyle="bold" />
 
         <!--<TextView-->
-            <!--android:layout_below="@id/tv_cbp_name"-->
-            <!--android:id="@+id/tv_cbp_vote"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="11sp"-->
-            <!--android:text="Test"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:gravity="center"/>-->
+        <!--android:layout_below="@id/tv_cbp_name"-->
+        <!--android:id="@+id/tv_cbp_vote"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="11sp"-->
+        <!--android:text="Test"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:gravity="center"/>-->
 
         <!--<RatingBar-->
-            <!--android:layout_toRightOf="@id/tv_cbp_vote"-->
-            <!--android:id="@+id/rb_cbp"-->
-            <!--style="@style/Widget.AppCompat.RatingBar.Small"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:numStars="1"-->
-            <!--android:stepSize="0.1"-->
-            <!--android:rating="1"-->
-            <!--android:progressTint="@color/colorRatingBarYellow"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:scaleX="0.7"-->
-            <!--android:scaleY="0.7"-->
-            <!--android:foregroundGravity="center"/>-->
+        <!--android:layout_toRightOf="@id/tv_cbp_vote"-->
+        <!--android:id="@+id/rb_cbp"-->
+        <!--style="@style/Widget.AppCompat.RatingBar.Small"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:numStars="1"-->
+        <!--android:stepSize="0.1"-->
+        <!--android:rating="1"-->
+        <!--android:progressTint="@color/colorRatingBarYellow"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:scaleX="0.7"-->
+        <!--android:scaleY="0.7"-->
+        <!--android:foregroundGravity="center"/>-->
 
         <!--<TextView-->
-            <!--android:layout_toRightOf="@id/rb_cbp"-->
-            <!--android:layout_below="@id/tv_cbp_name"-->
-            <!--android:id="@+id/tv_cbp_rating"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:textColor="@color/colorRatingBarGrey"-->
-            <!--android:textSize="11sp"-->
-            <!--android:text="Test"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:gravity="center"/>-->
-
+        <!--android:layout_toRightOf="@id/rb_cbp"-->
+        <!--android:layout_below="@id/tv_cbp_name"-->
+        <!--android:id="@+id/tv_cbp_rating"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:textColor="@color/colorRatingBarGrey"-->
+        <!--android:textSize="11sp"-->
+        <!--android:text="Test"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:gravity="center"/>-->
 
 
     </RelativeLayout>

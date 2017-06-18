@@ -22,7 +22,9 @@ import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
 
+import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.MovieDetailFragment;
+import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -156,8 +159,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
         } else if (id == R.id.nav_gallery) {
-
+            ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
