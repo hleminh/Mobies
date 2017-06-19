@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.fragments;
 
 
+import android.graphics.Color;
 import android.graphics.Movie;
 import android.os.Build;
 import android.os.Bundle;
@@ -195,7 +196,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
     }
 
@@ -205,7 +205,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
     }
 
