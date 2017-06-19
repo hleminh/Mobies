@@ -17,9 +17,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
+import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
@@ -73,6 +75,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
+    private CastsAdapter castsAdapter;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -112,12 +115,17 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         }
         tvGenre.setText(genres);
 
+        castsAdapter = new CastsAdapter(castModelList, getContext());
+        rvCasts.setAdapter(castsAdapter);
+
         moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(movieModelList, getContext());
         moviesByCategoriesAdapter.setOnItemClickListener(this);
         rvRecommended.setAdapter(moviesByCategoriesAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvRecommended.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rvRecommended.setLayoutManager(linearLayoutManager1);
+        rvCasts.setLayoutManager(linearLayoutManager2);
     }
 
     private void loadData() {
@@ -140,6 +148,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -153,12 +162,15 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 MainCastObject mainCastObject = response.body();
                 List<CastModel> castModels = mainCastObject.getCast();
                 for (CastModel castModel : castModels) {
-                    castModelList.add(castModel);
+                    if (castModelList.size() < 5)
+                        castModelList.add(castModel);
                 }
+                castsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<MainCastObject> call, Throwable t) {
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
 
             }
         });
