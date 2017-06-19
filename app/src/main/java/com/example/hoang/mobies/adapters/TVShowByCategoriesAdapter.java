@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by tonto on 6/19/2017.
  */
 
-public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCategoriesAdapter.TVShowByCategoriesViewHolder>{
+public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCategoriesAdapter.TVShowByCategoriesViewHolder> {
     private List<TV_Model> tv_modelList;
     private Context context;
     private View.OnClickListener onClickListener;

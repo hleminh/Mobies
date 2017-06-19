@@ -76,7 +76,6 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, view);
 
 
-
         trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), null, tvShowTrendingList);
         airingTodayAdapter = new TVShowByCategoriesAdapter(tvShowAiringTodayList, getContext());
         onAirAdapter = new TVShowByCategoriesAdapter(tvShowOnAirList, getContext());
