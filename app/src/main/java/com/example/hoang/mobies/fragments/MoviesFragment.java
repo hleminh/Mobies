@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -239,6 +240,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadGenres() {
+        Utils.genresModelList = new ArrayList<>();
         GetGenresService getGenresService = RetrofitFactory.getInstance().createService(GetGenresService.class);
         getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
             @Override
@@ -246,6 +248,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 MainGenresObject mainGenresObject = response.body();
                 for (GenresModel genresModel : mainGenresObject.getGenres()) {
                     genresModelList.add(genresModel);
+                    Utils.genresModelList.add(genresModel);
                     tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
                 }
             }

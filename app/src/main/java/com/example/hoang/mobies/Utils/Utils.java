@@ -22,25 +22,6 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
  */
 
 public class Utils {
-    public static List<GenresModel> genresModelList = getAllGenres();
+    public static List<GenresModel> genresModelList;
 
-    private static List<GenresModel> getAllGenres() {
-        genresModelList = new ArrayList<>();
-        GetGenresService getGenresService = RetrofitFactory.getInstance().createService(GetGenresService.class);
-        getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
-            @Override
-            public void onResponse(Call<MainGenresObject> call, Response<MainGenresObject> response) {
-                MainGenresObject mainGenresObject = response.body();
-                for (GenresModel genresModel : mainGenresObject.getGenres()) {
-                    genresModelList.add(genresModel);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainGenresObject> call, Throwable t) {
-            }
-        });
-
-        return genresModelList;
-    }
 }
