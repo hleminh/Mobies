@@ -1,7 +1,5 @@
 package com.example.hoang.mobies.models;
 
-import com.example.hoang.mobies.network.get_people.KnownForObject;
-
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ public class PeopleModel {
     int id;
     String profile_path;
     String name;
-    List<KnownForObject> known_for;
+    List<MediaModel> known_for;
     String backdrop_path;
     boolean adult;
 
@@ -34,7 +32,7 @@ public class PeopleModel {
         return name;
     }
 
-    public List<KnownForObject> getKnown_for() {
+    public List<MediaModel> getKnown_for() {
         return known_for;
     }
 
