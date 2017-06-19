@@ -28,6 +28,7 @@ import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
+import com.example.hoang.mobies.models.MediaModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.models.TV_Model;
@@ -41,12 +42,20 @@ import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
 import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
 import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
+import com.example.hoang.mobies.network.get_movies.GetTrailerService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
+import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
 import com.example.hoang.mobies.network.get_people.MainPeopleObject;
+import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
+import com.example.hoang.mobies.network.get_search.GetSearchMoviesService;
+import com.example.hoang.mobies.network.get_search.GetSearchPeopleService;
+import com.example.hoang.mobies.network.get_search.GetSearchTvService;
+import com.example.hoang.mobies.network.get_search.MainSearchModel;
 import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
 import com.example.hoang.mobies.network.get_tv.GetRecommendTvService;
 import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
@@ -118,6 +127,84 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
+
+            }
+        });
+
+        GetMultiSearchService getMultiSearchService= RetrofitFactory.getInstance().createService(GetMultiSearchService.class);
+        getMultiSearchService.getMultiSearch("now you",API_KEY,LANGUAGE,DEFAULT_PAGE).enqueue(new Callback<MainSearchModel>() {
+            @Override
+            public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
+                MainSearchModel mainSearchModel= response.body();
+                for(MediaModel mediaModel: mainSearchModel.getResults())
+                {
+                    Log.d("test search:",mediaModel.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainSearchModel> call, Throwable t) {
+
+            }
+        });
+
+        GetSearchMoviesService getSearchMoviesService= RetrofitFactory.getInstance().createService(GetSearchMoviesService.class);
+        getSearchMoviesService.getMovieSearch("now you",API_KEY,LANGUAGE,DEFAULT_PAGE).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                MainObject mainObject= response.body();
+                for(MovieModel movieModel: mainObject.getResults())
+                {
+                    Log.d("test search movie:",movieModel.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
+
+        GetSearchTvService getSearchTvService= RetrofitFactory.getInstance().createService(GetSearchTvService.class);
+        getSearchTvService.getTVSearch("now you",API_KEY,LANGUAGE,DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                for(TV_Model tv_model: response.body().getResults())
+                    Log.d("test serach tv:",tv_model.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+
+            }
+        });
+
+        GetSearchPeopleService getSearchPeopleService= RetrofitFactory.getInstance().createService(GetSearchPeopleService.class);
+        getSearchPeopleService.getPersonSearch("gal gadot",API_KEY,LANGUAGE,DEFAULT_PAGE).enqueue(new Callback<MainPeopleObject>() {
+            @Override
+            public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
+                for(PeopleModel peopleModel: response.body().getResults())
+                    Log.d("test search ppl:",peopleModel.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MainPeopleObject> call, Throwable t) {
+
+            }
+        });
+
+        GetTrailerService getTrailerService= RetrofitFactory.getInstance().createService(GetTrailerService.class);
+        getTrailerService.getMovieTrailer(291805,API_KEY,LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+            @Override
+            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+                Log.d("test trailer",response.body().getId()+"");
+                for(TrailerObject trailerObject: response.body().getResults())
+                    Log.d("test trailer:",trailerObject.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
 
             }
         });
