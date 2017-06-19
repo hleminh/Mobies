@@ -1,0 +1,46 @@
+package com.example.hoang.mobies.Utils;
+
+import android.widget.Toast;
+
+import com.example.hoang.mobies.models.GenresModel;
+import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.get_genres.GetGenresService;
+import com.example.hoang.mobies.network.get_genres.MainGenresObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
+import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+
+/**
+ * Created by tonto on 6/19/2017.
+ */
+
+public class Utils {
+    public static List<GenresModel> genresModelList = getAllGenres();
+
+    private static List<GenresModel> getAllGenres() {
+        genresModelList = new ArrayList<>();
+        GetGenresService getGenresService = RetrofitFactory.getInstance().createService(GetGenresService.class);
+        getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
+            @Override
+            public void onResponse(Call<MainGenresObject> call, Response<MainGenresObject> response) {
+                MainGenresObject mainGenresObject = response.body();
+                for (GenresModel genresModel : mainGenresObject.getGenres()) {
+                    genresModelList.add(genresModel);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainGenresObject> call, Throwable t) {
+            }
+        });
+
+        return genresModelList;
+    }
+}

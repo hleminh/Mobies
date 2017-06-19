@@ -79,6 +79,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static List<GenresModel> genresModelList;
 
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
@@ -92,27 +93,6 @@ public class MainActivity extends AppCompatActivity
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
-
-
-        GetCastOfAMovieService getCastOfAMovieService = RetrofitFactory.getInstance().createService(GetCastOfAMovieService.class);
-        getCastOfAMovieService.getCastOfAMovie(209112, API_KEY).enqueue(new Callback<MainCastObject>() {
-            @Override
-            public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                MainCastObject mainCastObject = response.body();
-                List<CastModel> castModels = mainCastObject.getCast();
-                for (CastModel castModel : castModels) {
-                    Log.d("test cast:", castModel.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainCastObject> call, Throwable t) {
-
-            }
-        });
-
-
-
 
 
         GetRecommendTvService getRecommendTvService = RetrofitFactory.getInstance().createService(GetRecommendTvService.class);
