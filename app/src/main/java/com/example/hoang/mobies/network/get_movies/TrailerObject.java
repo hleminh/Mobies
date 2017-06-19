@@ -5,4 +5,11 @@ package com.example.hoang.mobies.network.get_movies;
  */
 
 public class TrailerObject {
+    String id;
+    String key;
+
+    @Override
+    public String toString() {
+        return id+" "+key;
+    }
 }

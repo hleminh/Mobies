@@ -42,10 +42,13 @@ import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
 import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
 import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
+import com.example.hoang.mobies.network.get_movies.GetTrailerService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
+import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
 import com.example.hoang.mobies.network.get_people.MainPeopleObject;
 import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
@@ -214,6 +217,22 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<MainPeopleObject> call, Throwable t) {
+
+            }
+        });
+
+        GetTrailerService getTrailerService= RetrofitFactory.getInstance().createService(GetTrailerService.class);
+        getTrailerService.getMovieTrailer(291805,API_KEY,LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+            @Override
+            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+                Log.d("test trailer",response.body().getId()+"");
+                for(TrailerObject trailerObject: response.body().getResults())
+                    Log.d("test trailer:",trailerObject.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
 
             }
         });
