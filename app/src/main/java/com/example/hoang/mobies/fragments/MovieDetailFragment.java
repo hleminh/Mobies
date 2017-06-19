@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     TextView tvPlot;
     @BindView(R.id.rv_recommended)
     RecyclerView rvRecommended;
+    @BindView(R.id.toolbar)
+    Toolbar tbDetail;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -126,6 +129,15 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvRecommended.setLayoutManager(linearLayoutManager1);
         rvCasts.setLayoutManager(linearLayoutManager2);
+
+        tbDetail.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        tbDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ScreenManager.backFragment(getActivity().getSupportFragmentManager());
+            }
+        });
+
     }
 
     private void loadData() {

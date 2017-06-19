@@ -8,7 +8,7 @@
         android:id="@+id/iv_trending_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,14 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/rb_trending"
-            android:textSize="20sp"
-            android:text="Test"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"/>
+            android:text="Test"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RatingBar
             android:id="@+id/rb_trending"
@@ -36,26 +36,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/colorRatingBarGrey"
             android:numStars="5"
             android:stepSize="0.1"
-            android:theme="@style/RatingBar"
-            android:backgroundTint="@color/colorRatingBarGrey"/>
+            android:theme="@style/RatingBar" />
 
         <TextView
-            android:layout_toRightOf="@id/rb_trending"
             android:id="@+id/tv_trending_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/colorRatingBarGrey"
-            android:gravity="center"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/rb_trending"
+            android:gravity="center"
+            android:textColor="@color/colorRatingBarGrey" />
 
     </RelativeLayout>
 

@@ -53,7 +53,7 @@ public class PopularCelebAdapter extends RecyclerView.Adapter<PopularCelebAdapte
         return peopleModelList.size();
     }
 
-    public class PopularCelebViewHolder extends RecyclerView.ViewHolder{
+    public class PopularCelebViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_cbp_name)
         TextView tvCbpName;
         @BindView(R.id.iv_cbp_image)
@@ -67,7 +67,7 @@ public class PopularCelebAdapter extends RecyclerView.Adapter<PopularCelebAdapte
             this.view = view;
         }
 
-        public void setData(PeopleModel peopleModel){
+        public void setData(PeopleModel peopleModel) {
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).into(ivCbpImage);
             tvCbpName.setText(peopleModel.getName());
             view.setTag(peopleModel);
