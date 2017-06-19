@@ -60,7 +60,6 @@ public class CelebFragment extends Fragment {
         ButterKnife.bind(this, view);
         popularCelebAdapter = new PopularCelebAdapter(getContext(), popularList);
         rvPopularCeleb.setAdapter(popularCelebAdapter);
-        rvPopularCeleb.setPadding(70,0,0,0);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvPopularCeleb.setLayoutManager(manager);
 

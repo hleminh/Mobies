@@ -37,4 +37,5 @@ dependencies {
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 }
