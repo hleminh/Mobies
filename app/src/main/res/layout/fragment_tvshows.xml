@@ -20,52 +20,52 @@
                 android:layout_height="200dp"
                 android:layout_margin="10dp" />
 
-            <HorizontalScrollView
-                android:id="@+id/tl_container"
+            <!--<HorizontalScrollView-->
+            <!--android:id="@+id/tl_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/vp_trending"-->
+            <!--android:scrollbars="none">-->
+
+            <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tl_category"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:tabIndicatorHeight="0dp"-->
+            <!--app:tabSelectedTextColor="@color/colorTextPrimary"-->
+            <!--app:tabTextColor="@color/colorTextSecondary"></android.support.design.widget.TabLayout>-->
+
+            <!--</HorizontalScrollView>-->
+
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_tvshows_airing_today"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/vp_trending"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_marginTop="10dp">-->
+
+            <!--</android.support.v7.widget.RecyclerView>-->
+
+            <TextView
+                android:id="@+id/tv_airing_today"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vp_trending"
-                android:scrollbars="none">
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tl_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabSelectedTextColor="@color/colorTextPrimary"
-                    app:tabTextColor="@color/colorTextSecondary"></android.support.design.widget.TabLayout>
-
-            </HorizontalScrollView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_tvshows_by_categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tl_container"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/tv_coming_soon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rv_tvshows_by_categories"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/coming_soon"
+                android:text="@string/airing_today"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_coming_soon"
+                android:id="@+id/rv_airing_today"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_coming_soon"
+                android:layout_below="@id/tv_airing_today"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp" />
@@ -74,7 +74,7 @@
                 android:id="@+id/tv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rv_coming_soon"
+                android:layout_below="@id/rv_airing_today"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/top_rated"
@@ -88,6 +88,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_top_rated"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/tv_on_air"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rv_top_rated"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/on_air"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_on_air"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_on_air"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"

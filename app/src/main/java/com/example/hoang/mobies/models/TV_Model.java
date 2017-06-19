@@ -1,12 +1,15 @@
 package com.example.hoang.mobies.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Inpriron on 6/17/2017.
  */
 
-public class TV_Model {
+public class TV_Model implements Serializable{
     private String original_name;
     private int id;
     private String name;
@@ -20,6 +23,59 @@ public class TV_Model {
     private String backdrop_path;
     private String overview;
     private List<String> origin_country;
+
+
+    public String getOriginal_name() {
+        return original_name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getVote_count() {
+        return vote_count;
+    }
+
+    public float getVote_average() {
+        return vote_average;
+    }
+
+    public String getPoster_path() {
+        return poster_path;
+    }
+
+    public String getFirst_air_date() {
+        return first_air_date;
+    }
+
+    public float getPopularity() {
+        return popularity;
+    }
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
+    public String getOriginal_language() {
+        return original_language;
+    }
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public List<String> getOrigin_country() {
+        return origin_country;
+    }
 
     @Override
     public String toString() {

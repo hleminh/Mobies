@@ -102,37 +102,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        GetTvAiringToday getTvAiringToday = RetrofitFactory.getInstance().createService(GetTvAiringToday.class);
-        getTvAiringToday.getTvAiringToday(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    Log.d("test today:", tv_model.toString());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
 
-            }
-        });
 
-        GetTvOnTheAir getTvOnTheAir = RetrofitFactory.getInstance().createService(GetTvOnTheAir.class);
-        getTvOnTheAir.getTvOnTheAir(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    Log.d("test on the air:", tv_model.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
 
         GetRecommendTvService getRecommendTvService = RetrofitFactory.getInstance().createService(GetRecommendTvService.class);
         getRecommendTvService.getRecommendTv(57243, API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
