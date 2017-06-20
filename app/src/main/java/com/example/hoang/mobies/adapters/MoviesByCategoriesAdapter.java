@@ -74,7 +74,7 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).into(ivMbcImage);
             tvMbcName.setText(movieModel.getTitle());
             tvMbcVote.setText(movieModel.getVote_average() + "");
-            tvMbcRating.setText(movieModel.getVote_count() + " Ratings");
+            tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
             view.setTag(movieModel);
         }
     }

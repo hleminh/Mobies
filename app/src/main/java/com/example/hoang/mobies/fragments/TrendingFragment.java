@@ -1,5 +1,6 @@
 package com.example.hoang.mobies.fragments;
 
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,14 +68,14 @@ public class TrendingFragment extends Fragment {
         if (movieModel != null) {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
             tvTrendingName.setText(movieModel.getTitle());
-            tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
+            tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
             rbTrending.setRating(movieModel.getVote_average() / 2);
         }
 
         if (tvModel != null) {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).into(ivTrendingImage);
             tvTrendingName.setText(tvModel.getName());
-            tvTrendingRating.setText(tvModel.getVote_count() + " Ratings");
+            tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
             rbTrending.setRating(tvModel.getVote_average() / 2);
         }
 

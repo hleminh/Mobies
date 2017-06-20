@@ -8,7 +8,8 @@
     <color name="colorStatusBar">#FF1a1a1a</color>
     <color name="colorRatingBarYellow">#FFff9900</color>
     <color name="colorRed">#FFe23328</color>
-    <color name="colorTextSecondary">#FF737373</color>
+    <color name="colorTextSecondary">#FFcdcdcd</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorRatingBarGrey">#FFa8a8a8</color>
+    <color name="colorCastBackground">#3d3d3d</color>
 </resources>

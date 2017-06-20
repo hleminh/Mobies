@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.fragments;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Movie;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,7 +104,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivBackDrop);
         tvMovieName.setText(movieModel.getTitle());
-        tvRatingDetail.setText(movieModel.getVote_count() + " Ratings");
+        tvRatingDetail.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
         tvMobieReleaseDate.setText(movieModel.getRelease_date());
         tvPlot.setText(movieModel.getOverview());
@@ -128,6 +130,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
         rvRecommended.setLayoutManager(linearLayoutManager1);
         rvCasts.setLayoutManager(linearLayoutManager2);
 
@@ -194,7 +197,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
         }
     }
