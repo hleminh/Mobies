@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.PopularCelebAdapter;
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
@@ -35,7 +36,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CelebFragment extends Fragment {
+public class CelebFragment extends Fragment implements View.OnClickListener{
     @BindView(R.id.rv_popular_celeb_content)
     RecyclerView rvPopularCeleb;
     private List<PeopleModel> popularList;
@@ -63,6 +64,7 @@ public class CelebFragment extends Fragment {
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
         popularCelebAdapter = new PopularCelebAdapter(getContext(), popularList);
+        popularCelebAdapter.setOnItemClickListener(this);
         rvPopularCeleb.setAdapter(popularCelebAdapter);
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvPopularCeleb.setLayoutManager(manager);
@@ -121,4 +123,15 @@ public class CelebFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getTag() instanceof PeopleModel) {
+            PeopleModel peopleModel = (PeopleModel) v.getTag();
+            CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("CelebDetail", peopleModel);
+            celebDetailFragment.setArguments(bundle);
+            ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.fl_container, true, false);
+        }
+    }
 }

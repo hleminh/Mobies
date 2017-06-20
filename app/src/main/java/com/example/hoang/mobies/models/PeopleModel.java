@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Inpriron on 6/18/2017.
  */
 
-public class PeopleModel implements Serializable{
+public class PeopleModel implements Serializable {
     float popularity;
     int id;
     String name;
@@ -26,9 +26,39 @@ public class PeopleModel implements Serializable{
 
     String place_of_birth;
     String profile_path;
+
+    public List<String> getAlso_known_as() {
+        return also_known_as;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getDeathday() {
+        return deathday;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public String getImdb_id() {
+        return imdb_id;
+    }
+
     public String getPlace_of_birth() {
         return place_of_birth;
     }
+
     public float getPopularity() {
         return popularity;
     }
@@ -59,6 +89,6 @@ public class PeopleModel implements Serializable{
 
     @Override
     public String toString() {
-        return String.format("id:%d, name: %s",id,name);
+        return String.format("id:%d, name: %s", id, name);
     }
 }
