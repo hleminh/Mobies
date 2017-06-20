@@ -1,5 +1,7 @@
 package com.example.hoang.mobies.models;
 
+import com.example.hoang.mobies.network.get_people.KnownForObject;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -140,4 +142,21 @@ public class MovieModel implements Serializable {
         return String.format("ID:%s-title:%s", id, title);
     }
 
+    public MovieModel(KnownForObject knownForObject) {
+
+        poster_path= knownForObject.getPoster_path();
+        overview= knownForObject.getOverview();
+        adult= knownForObject.isAdult();
+        release_date=knownForObject.getRelease_date();
+        genre_ids=knownForObject.getGenre_ids();
+        id=knownForObject.getId();
+        original_language=knownForObject.getOriginal_language();
+        original_title=knownForObject.getOriginal_title();
+        title=knownForObject.getTitle();
+        backdrop_path=knownForObject.getBackdrop_path();
+        popularity=knownForObject.getPopularity();
+        vote_count=knownForObject.getVote_count();
+        vote_average=knownForObject.getVote_average();
+        video=knownForObject.isVideo();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.hoang.mobies.models;
 
+import com.example.hoang.mobies.network.get_people.KnownForObject;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -80,5 +81,21 @@ public class TV_Model implements Serializable{
     @Override
     public String toString() {
         return String.format("name: %s, id: %d",original_name,id);
+    }
+
+    public TV_Model(KnownForObject knownForObject) {
+        original_name=knownForObject.getOriginal_name();
+        id=knownForObject.getId();
+        name=knownForObject.getName();
+        vote_average=knownForObject.getVote_average();
+        vote_count=knownForObject.getVote_count();
+        poster_path=knownForObject.getPoster_path();
+        first_air_date= knownForObject.getFirst_air_date();
+        popularity=knownForObject.getPopularity();
+        genre_ids=knownForObject.getGenre_ids();
+        original_language=knownForObject.getOriginal_language();
+        backdrop_path=knownForObject.getBackdrop_path();
+        overview=knownForObject.getOverview();
+        origin_country=knownForObject.getOrigin_country();
     }
 }

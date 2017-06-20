@@ -249,6 +249,22 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        GetPopularPeopleService getPopularPeopleService = RetrofitFactory.createService(GetPopularPeopleService.class);
+        getPopularPeopleService.getPopularPeople(API_KEY, LANGUAGE, DEFAULT_PAGE ).enqueue(new Callback<MainPeopleObject>() {
+            @Override
+            public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
+                for (PeopleModel peopleModel : response.body().getResults()) {
+                    Log.d("test popular ppl:",peopleModel.toString());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MainPeopleObject> call, Throwable t) {
+
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
