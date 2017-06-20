@@ -109,21 +109,6 @@ public class MainActivity extends AppCompatActivity
         }
         SHAREED_PREFERENCES=getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        GetRecommendTvService getRecommendTvService = RetrofitFactory.getInstance().createService(GetRecommendTvService.class);
-        getRecommendTvService.getRecommendTv(57243, API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    Log.d("test ramen:", tv_model.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
 
         GetMultiSearchService getMultiSearchService= RetrofitFactory.getInstance().createService(GetMultiSearchService.class);
         getMultiSearchService.getMultiSearch("now you",API_KEY,LANGUAGE,DEFAULT_PAGE).enqueue(new Callback<MainSearchModel>() {

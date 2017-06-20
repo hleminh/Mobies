@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.TVShowByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
@@ -192,6 +193,13 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        if (v.getTag() instanceof TV_Model) {
+            TV_Model tvModel = (TV_Model) v.getTag();
+            TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("TVDetail", tvModel);
+            tvShowDetailFragment.setArguments(bundle);
+            ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.fl_container, true, false);
+        }
     }
 }

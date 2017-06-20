@@ -1,9 +1,6 @@
 package com.example.hoang.mobies.fragments;
 
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Movie;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,15 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +54,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     @BindView(R.id.tv_movie_name_movie_detail)
     TextView tvMovieName;
     @BindView(R.id.tv_movie_release_date_movie_detail)
-    TextView tvMobieReleaseDate;
+    TextView tvMovieReleaseDate;
     @BindView(R.id.rb_movie_detail)
     RatingBar rbMovieDetail;
     @BindView(R.id.tv_rating_detail)
@@ -106,7 +100,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         tvMovieName.setText(movieModel.getTitle());
         tvRatingDetail.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
-        tvMobieReleaseDate.setText(movieModel.getRelease_date());
+        tvMovieReleaseDate.setText(movieModel.getRelease_date());
         tvPlot.setText(movieModel.getOverview());
 
         String genres = "";
