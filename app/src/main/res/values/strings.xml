@@ -26,12 +26,27 @@
     <string name="airing_today">Airing Today</string>
 
     <string name="random">Random</string>
+
     <string name="title_activity_scrolling">ScrollingActivity</string>
+
     <string name="plot">Plot Synopsis</string>
-    <string name="cast">Casts</string>
+
+    <string name="cast">Featured Casts</string>
+
     <string name="genre">Genres</string>
+
     <string name="popular_celeb">Popular Celebrities</string>
-    <string name="recommended_movies">Similar movies</string>
+
+    <string name="recommended_movies">Similar Movies</string>
+
+    <string name="recommended_tvshows">Similar TV Shows</string>
+
+    <string name="known_for">Known For</string>
+
+    <string name="biography">Biography</string>
+
+    <string name="aka">Also Known As</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

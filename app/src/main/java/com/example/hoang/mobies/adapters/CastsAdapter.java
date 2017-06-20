@@ -1,11 +1,14 @@
 package com.example.hoang.mobies.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
@@ -48,6 +51,7 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
         holder.setData(castModelList.get(position));
+        if (position % 2 == 0) holder.bgCast.setBackgroundColor(context.getResources().getColor(R.color.colorCastBackground));
     }
 
     @Override
@@ -62,6 +66,8 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
         TextView tvCastName;
         @BindView(R.id.tv_character_name)
         TextView tvCharacterName;
+        @BindView(R.id.bg_cast)
+        LinearLayout bgCast;
         View view;
 
         public CastViewHolder(View itemView) {

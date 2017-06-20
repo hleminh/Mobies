@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vp_trending"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/airing_today"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -81,14 +80,14 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_top_rated"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp" />
@@ -104,7 +103,8 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_on_air"
