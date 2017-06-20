@@ -1,5 +1,7 @@
 package com.example.hoang.mobies.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -62,6 +64,11 @@ import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
 import com.example.hoang.mobies.network.get_tv.GetTvAiringToday;
 import com.example.hoang.mobies.network.get_tv.GetTvOnTheAir;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
+import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
+import com.example.hoang.mobies.network.guest_session.GuestObject;
+import com.example.hoang.mobies.network.rate.RateMovieRequest;
+import com.example.hoang.mobies.network.rate.RateMoviesResponse;
+import com.example.hoang.mobies.network.rate.RateMoviesService;
 
 
 import java.util.List;
@@ -70,16 +77,20 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.GET;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
+import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
+import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID_PREFERENCE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+import static com.example.hoang.mobies.network.RetrofitFactory.MyPREFERENCES;
 import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
+import static com.example.hoang.mobies.network.RetrofitFactory.SHAREED_PREFERENCES;
 import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
-
+        SHAREED_PREFERENCES=getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         GetCastOfAMovieService getCastOfAMovieService = RetrofitFactory.getInstance().createService(GetCastOfAMovieService.class);
         getCastOfAMovieService.getCastOfAMovie(209112, API_KEY).enqueue(new Callback<MainCastObject>() {
@@ -236,6 +247,41 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        GUEST_ID=SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE,null);
+        if(GUEST_ID==null)
+        {
+            CreateGuestSessionService createGuestSessionService= RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
+            createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
+                @Override
+                public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
+                    GUEST_ID = response.body().getGuest_session_id();
+                    Log.d("test guest id 1: ",""+GUEST_ID);
+                    SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
+                    editor.putString(GUEST_ID_PREFERENCE,GUEST_ID);
+                    editor.commit();
+                }
+
+                @Override
+                public void onFailure(Call<GuestObject> call, Throwable t) {
+
+                }
+            });
+        }
+        if(GUEST_ID!=null)
+        {
+            RateMoviesService rateMoviesService= RetrofitFactory.getInstance().createService(RateMoviesService.class);
+            rateMoviesService.rateMovie(75656,new RateMovieRequest((float) 8.5),API_KEY,GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
+                @Override
+                public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
+                    Log.d("test rate:",response.body().getStatus_message());
+                }
+
+                @Override
+                public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
+
+                }
+            });
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

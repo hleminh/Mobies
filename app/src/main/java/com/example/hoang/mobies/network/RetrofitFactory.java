@@ -1,5 +1,8 @@
 package com.example.hoang.mobies.network;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,6 +16,11 @@ public class RetrofitFactory {
     public static String LANGUAGE="en-US";
     public static int DEFAULT_PAGE=1;
     public static String REGION="us";
+    public static String GUEST_ID;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String GUEST_ID_PREFERENCE = "guest_id";
+
+    public static SharedPreferences SHAREED_PREFERENCES;
     public static RetrofitFactory retrofitFactory= new RetrofitFactory();
     public static RetrofitFactory getInstance(){
         return retrofitFactory;
