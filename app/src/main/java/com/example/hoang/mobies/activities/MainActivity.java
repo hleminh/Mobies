@@ -91,6 +91,10 @@ import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static List<GenresModel> genresModelList;
+
+
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -104,55 +108,6 @@ public class MainActivity extends AppCompatActivity
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
         SHAREED_PREFERENCES=getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
-        GetCastOfAMovieService getCastOfAMovieService = RetrofitFactory.getInstance().createService(GetCastOfAMovieService.class);
-        getCastOfAMovieService.getCastOfAMovie(209112, API_KEY).enqueue(new Callback<MainCastObject>() {
-            @Override
-            public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                MainCastObject mainCastObject = response.body();
-                List<CastModel> castModels = mainCastObject.getCast();
-                for (CastModel castModel : castModels) {
-                    Log.d("test cast:", castModel.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainCastObject> call, Throwable t) {
-
-            }
-        });
-
-        GetTvAiringToday getTvAiringToday = RetrofitFactory.getInstance().createService(GetTvAiringToday.class);
-        getTvAiringToday.getTvAiringToday(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    Log.d("test today:", tv_model.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
-
-        GetTvOnTheAir getTvOnTheAir = RetrofitFactory.getInstance().createService(GetTvOnTheAir.class);
-        getTvOnTheAir.getTvOnTheAir(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    Log.d("test on the air:", tv_model.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
 
         GetRecommendTvService getRecommendTvService = RetrofitFactory.getInstance().createService(GetRecommendTvService.class);
         getRecommendTvService.getRecommendTv(57243, API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {

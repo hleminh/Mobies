@@ -21,6 +21,10 @@
 
     <string name="news">News</string>
 
+    <string name="on_air">On Air</string>
+
+    <string name="airing_today">Airing Today</string>
+
     <string name="random">Random</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="plot">Plot Synopsis</string>

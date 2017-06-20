@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.TV_Model;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -30,6 +31,7 @@ public class TrendingFragment extends Fragment {
     @BindView(R.id.rb_trending)
     RatingBar rbTrending;
     private MovieModel movieModel;
+    private TV_Model tvModel;
 
     public TrendingFragment() {
         // Required empty public constructor
@@ -40,10 +42,15 @@ public class TrendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
         View view = inflater.inflate(R.layout.item_trending, container, false);
+        if (getArguments().getSerializable("TrendingModel") instanceof MovieModel) {
+            movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
+            view.setTag(movieModel);
+        } else if (getArguments().getSerializable("TrendingModel") instanceof TV_Model) {
+            tvModel = (TV_Model) getArguments().getSerializable("TrendingModel");
+            view.setTag(tvModel);
+        }
         loadData(view);
-        view.setTag(movieModel);
         return view;
     }
 
@@ -55,9 +62,19 @@ public class TrendingFragment extends Fragment {
 
     private void loadData(View view) {
         ButterKnife.bind(this, view);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
-        tvTrendingName.setText(movieModel.getTitle());
-        tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
-        rbTrending.setRating(movieModel.getVote_average()/2);
+        if (movieModel != null) {
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
+            tvTrendingName.setText(movieModel.getTitle());
+            tvTrendingRating.setText(movieModel.getVote_count() + " Ratings");
+            rbTrending.setRating(movieModel.getVote_average() / 2);
+        }
+
+        if (tvModel != null) {
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).into(ivTrendingImage);
+            tvTrendingName.setText(tvModel.getName());
+            tvTrendingRating.setText(tvModel.getVote_count() + " Ratings");
+            rbTrending.setRating(tvModel.getVote_average() / 2);
+        }
+
     }
 }

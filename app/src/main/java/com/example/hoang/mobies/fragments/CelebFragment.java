@@ -40,7 +40,11 @@ public class CelebFragment extends Fragment {
     RecyclerView rvPopularCeleb;
     private List<PeopleModel> popularList;
     private PopularCelebAdapter popularCelebAdapter;
-
+    private boolean loading = true;
+    private int pastVisiblesItems;
+    private int visibleItemCount;
+    private int totalItemCount;
+    private int loadTimes = 0;
     public CelebFragment() {
         // Required empty public constructor
     }
@@ -60,21 +64,53 @@ public class CelebFragment extends Fragment {
         ButterKnife.bind(this, view);
         popularCelebAdapter = new PopularCelebAdapter(getContext(), popularList);
         rvPopularCeleb.setAdapter(popularCelebAdapter);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        final GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvPopularCeleb.setLayoutManager(manager);
 
+        rvPopularCeleb.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy > 0) //check for scroll down
+                {
+                    visibleItemCount = manager.getChildCount();
+                    totalItemCount = manager.getItemCount();
+                    pastVisiblesItems = manager.findFirstVisibleItemPosition();
+
+                    if (loading)
+                    {
+                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                        {
+                            loading = false;
+                            loadTimes ++;
+                            loadPopularPeople();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void loadData() {
         popularList = new ArrayList<>();
+        loadPopularPeople();
 
+    }
+
+    private void loadPopularPeople() {
         GetPopularPeopleService getPopularPeopleService = RetrofitFactory.createService(GetPopularPeopleService.class);
-        getPopularPeopleService.getPopularPeople(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainPeopleObject>() {
+        getPopularPeopleService.getPopularPeople(API_KEY, LANGUAGE, DEFAULT_PAGE + loadTimes).enqueue(new Callback<MainPeopleObject>() {
             @Override
             public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
                 for (PeopleModel peopleModel : response.body().getResults()) {
                     popularList.add(peopleModel);
                 }
+                loading = true;
                 popularCelebAdapter.notifyDataSetChanged();
             }
 

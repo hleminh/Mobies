@@ -1,17 +1,20 @@
 package com.example.hoang.mobies.models;
 
+import com.example.hoang.mobies.network.get_people.KnownForObject;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Inpriron on 6/18/2017.
  */
 
-public class PeopleModel {
+public class PeopleModel implements Serializable{
     float popularity;
     int id;
     String profile_path;
     String name;
-    List<MediaModel> known_for;
+    List<KnownForObject> known_for;
     String backdrop_path;
     boolean adult;
 
@@ -32,7 +35,7 @@ public class PeopleModel {
         return name;
     }
 
-    public List<MediaModel> getKnown_for() {
+    public List<KnownForObject> getKnown_for() {
         return known_for;
     }
 

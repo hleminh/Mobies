@@ -7,16 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ToxicBakery.viewpager.transforms.CubeInTransformer;
-import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
-import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -99,7 +96,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList);
+        trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList, null);
         vpTrending.setAdapter(trendingPagerAdapter);
         vpTrending.setOffscreenPageLimit(3);
 
@@ -243,6 +240,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadGenres() {
+        Utils.genresModelList = new ArrayList<>();
         GetGenresService getGenresService = RetrofitFactory.getInstance().createService(GetGenresService.class);
         getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
             @Override
@@ -250,6 +248,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 MainGenresObject mainGenresObject = response.body();
                 for (GenresModel genresModel : mainGenresObject.getGenres()) {
                     genresModelList.add(genresModel);
+                    Utils.genresModelList.add(genresModel);
                     tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
                 }
             }
