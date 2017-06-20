@@ -221,50 +221,8 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
-        GetDetailPeopleService getDetailPeopleService = RetrofitFactory.getInstance().createService(GetDetailPeopleService.class);
-        getDetailPeopleService.getDetailPeople(44735, API_KEY).enqueue(new Callback<PeopleModel>() {
-            @Override
-            public void onResponse(Call<PeopleModel> call, Response<PeopleModel> response) {
 
-                Log.d("test detail:", response.body().getPlace_of_birth() + "");
-            }
 
-            @Override
-            public void onFailure(Call<PeopleModel> call, Throwable t) {
-
-            }
-        });
-
-        GetCastTvService getCastTvService = RetrofitFactory.getInstance().createService(GetCastTvService.class);
-        getCastTvService.getCastOfAMovie(1399, API_KEY).enqueue(new Callback<MainCastObject>() {
-            @Override
-            public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                for (CastModel castModel : response.body().getCast()) {
-                    Log.d("test cast tv:",castModel.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainCastObject> call, Throwable t) {
-
-            }
-        });
-
-        GetPopularPeopleService getPopularPeopleService = RetrofitFactory.createService(GetPopularPeopleService.class);
-        getPopularPeopleService.getPopularPeople(API_KEY, LANGUAGE, DEFAULT_PAGE ).enqueue(new Callback<MainPeopleObject>() {
-            @Override
-            public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
-                for (PeopleModel peopleModel : response.body().getResults()) {
-                    Log.d("test popular ppl:",peopleModel.toString());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<MainPeopleObject> call, Throwable t) {
-
-            }
-        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

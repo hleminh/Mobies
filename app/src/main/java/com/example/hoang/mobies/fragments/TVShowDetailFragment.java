@@ -28,6 +28,7 @@ import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
+import com.example.hoang.mobies.network.get_cast.GetCastTvService;
 import com.example.hoang.mobies.network.get_cast.MainCastObject;
 import com.example.hoang.mobies.network.get_tv.GetRecommendTvService;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
@@ -167,17 +168,16 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     }
 
     private void loadCasts() {
-        GetCastOfAMovieService getCastOfAMovieService = RetrofitFactory.getInstance().createService(GetCastOfAMovieService.class);
-        getCastOfAMovieService.getCastOfAMovie(tvModel.getId(), API_KEY).enqueue(new Callback<MainCastObject>() {
+        GetCastTvService getCastTvService = RetrofitFactory.getInstance().createService(GetCastTvService.class);
+        getCastTvService.getCastOfAMovie(tvModel.getId(), API_KEY).enqueue(new Callback<MainCastObject>() {
             @Override
             public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                MainCastObject mainCastObject = response.body();
-                List<CastModel> castModels = mainCastObject.getCast();
-                for (CastModel castModel : castModels) {
+                for (CastModel castModel : response.body().getCast()) {
                     if (castModelList.size() < 5)
                         castModelList.add(castModel);
                 }
                 castsAdapter.notifyDataSetChanged();
+
             }
 
             @Override
