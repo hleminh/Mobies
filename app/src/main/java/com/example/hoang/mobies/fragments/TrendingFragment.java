@@ -66,14 +66,14 @@ public class TrendingFragment extends Fragment {
     private void loadData(View view) {
         ButterKnife.bind(this, view);
         if (movieModel != null) {
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).into(ivTrendingImage);
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).fit().into(ivTrendingImage);
             tvTrendingName.setText(movieModel.getTitle());
             tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
             rbTrending.setRating(movieModel.getVote_average() / 2);
         }
 
         if (tvModel != null) {
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).into(ivTrendingImage);
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).fit().into(ivTrendingImage);
             tvTrendingName.setText(tvModel.getName());
             tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
             rbTrending.setRating(tvModel.getVote_average() / 2);
