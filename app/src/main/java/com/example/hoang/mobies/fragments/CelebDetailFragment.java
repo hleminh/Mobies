@@ -105,8 +105,10 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         tvCelebGender.setText(gender);
         String knownAs = "";
         for (String aka : celebModel.getAlso_known_as()) {
+            System.out.println(aka);
             knownAs += aka;
-            knownAs += '\n';
+            if (!aka.equals(celebModel.getAlso_known_as().get(celebModel.getAlso_known_as().size()-1)))
+                knownAs += '\n';
         }
         tvAKA.setText(knownAs);
 

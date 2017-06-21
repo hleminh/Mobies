@@ -90,6 +90,14 @@ public class TrendingFragment extends Fragment {
                     movieDetailFragment.setArguments(bundle);
                     ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
                 }
+                if (v.getTag() instanceof TV_Model) {
+                    TV_Model tv_model = (TV_Model) v.getTag();
+                    TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("TVDetail", tv_model);
+                    tvShowDetailFragment.setArguments(bundle);
+                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), tvShowDetailFragment, R.id.fl_container, true, false);
+                }
             }
         });
     }

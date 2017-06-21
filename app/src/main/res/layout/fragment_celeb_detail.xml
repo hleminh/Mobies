@@ -162,7 +162,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textAlignment="viewStart"/>
 
             <TextView
                 android:layout_width="match_parent"
