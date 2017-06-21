@@ -64,7 +64,6 @@ public class KnownForObject {
     }
 
 
-
     public String getTitle() {
         return title;
     }

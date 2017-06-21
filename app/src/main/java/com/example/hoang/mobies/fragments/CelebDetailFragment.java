@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,11 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.adapters.KnownForAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
+import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_people.GetDetailPeopleService;
+import com.example.hoang.mobies.network.get_people.KnownForObject;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -36,7 +41,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CelebDetailFragment extends Fragment implements View.OnClickListener{
+public class CelebDetailFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.iv_poster_celeb_detail)
     ImageView ivPoster;
     @BindView(R.id.tv_celeb_name_celeb_detail)
@@ -87,9 +92,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     private void setupUI() {
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getBackdrop_path()).into(ivBackDrop);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + peopleModel.getKnown_for().get(0).getBackdrop_path()).into(ivBackDrop);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).into(ivPoster);
         tvCelebName.setText(celebModel.getName());
         tvCelebDoB.setText(celebModel.getBirthday());
@@ -97,14 +101,21 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         tvCelebPoB.setText(celebModel.getPlace_of_birth());
         tvGenre.setText(celebModel.getBiography());
 
-        String gender = celebModel.getGender()==1 ? "Female" : "Male";
+        String gender = celebModel.getGender() == 1 ? "Female" : "Male";
         tvCelebGender.setText(gender);
         String knownAs = "";
-        for (String aka: celebModel.getAlso_known_as()) {
+        for (String aka : celebModel.getAlso_known_as()) {
             knownAs += aka;
             knownAs += '\n';
         }
         tvAKA.setText(knownAs);
+
+        KnownForAdapter knownForAdapter = new KnownForAdapter(peopleModel.getKnown_for(), getContext());
+        rvCasts.setAdapter(knownForAdapter);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), GridLayoutManager.HORIZONTAL, false);
+        rvCasts.setLayoutManager(manager);
+        knownForAdapter.setOnItemClickListener(this);
     }
 
     private void loadData() {
@@ -146,6 +157,15 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if (v.getTag() instanceof MovieModel) {
+            MovieModel movieModel = (MovieModel) v.getTag();
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("MovieDetail", movieModel);
+            movieDetailFragment.setArguments(bundle);
+            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+        }
+
         if (v.getTag() instanceof TV_Model) {
             TV_Model tvModel = (TV_Model) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
