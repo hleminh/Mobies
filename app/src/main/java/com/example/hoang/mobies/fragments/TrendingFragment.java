@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.squareup.picasso.Picasso;
@@ -78,6 +79,18 @@ public class TrendingFragment extends Fragment {
             tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
             rbTrending.setRating(tvModel.getVote_average() / 2);
         }
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getTag() instanceof MovieModel) {
+                    MovieModel movieModel = (MovieModel) v.getTag();
+                    MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("MovieDetail", movieModel);
+                    movieDetailFragment.setArguments(bundle);
+                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+                }
+            }
+        });
     }
 }

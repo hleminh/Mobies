@@ -145,6 +145,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         rvTopRated.setLayoutManager(linearLayoutManager2);
         rvInCinemas.setLayoutManager(linearLayoutManager3);
         rvComingSoon.setLayoutManager(linearLayoutManager4);
+
     }
 
     private void loadData() {
