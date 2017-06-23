@@ -31,7 +31,7 @@ public class SplashActivitiy extends AppCompatActivity {
         ButterKnife.bind(this);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvLogo);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvSplash);
-        CountDownTimer countDownTimer = new CountDownTimer(5000,1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(4000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
