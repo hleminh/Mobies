@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
-    <ImageView
+    <pl.droidsonroids.gif.GifTextView
         android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
+        android:layout_width="192dp"
+        android:layout_height="220dp"
+        android:background="@drawable/logo_m_gif"
         android:layout_centerVertical="true"/>
 
 
@@ -35,5 +35,15 @@
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/pb_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorTextPrimary"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="5dp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

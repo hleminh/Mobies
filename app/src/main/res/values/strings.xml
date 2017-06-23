@@ -29,9 +29,9 @@
 
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
-    <string name="plot">Plot Synopsis</string>
+    <string name="plot">Storyline</string>
 
-    <string name="cast">Featured Casts</string>
+    <string name="cast">Featured Cast</string>
 
     <string name="genre">Genres</string>
 
@@ -47,7 +47,7 @@
 
     <string name="aka">Also Known As</string>
 
-    <string name="splash">Movies on mobile</string>
+    <string name="splash">Movies On Mobile</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
