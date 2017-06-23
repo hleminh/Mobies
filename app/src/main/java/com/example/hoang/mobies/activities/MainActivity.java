@@ -33,6 +33,7 @@ import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MediaModel;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.NewsModel;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
@@ -53,6 +54,8 @@ import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.example.hoang.mobies.fragments.MoviesFragment;
 import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
 import com.example.hoang.mobies.network.get_movies.TrailerObject;
+import com.example.hoang.mobies.network.get_news.GetNewService;
+import com.example.hoang.mobies.network.get_news.MainNewsObject;
 import com.example.hoang.mobies.network.get_people.GetDetailPeopleService;
 import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
 import com.example.hoang.mobies.network.get_people.MainPeopleObject;
@@ -222,6 +225,21 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
+        GetNewService getNewService= RetrofitFactory.getInstance().createService(GetNewService.class);
+        getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
+            @Override
+            public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
+                for(NewsModel newsModel: response.body().getArticles())
+                {
+                    Log.d("test news:",newsModel.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainNewsObject> call, Throwable t) {
+
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

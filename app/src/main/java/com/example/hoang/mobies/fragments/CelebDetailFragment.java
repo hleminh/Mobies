@@ -93,8 +93,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
 
     private void setupUI() {
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + peopleModel.getKnown_for().get(0).getBackdrop_path()).into(ivBackDrop);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).into(ivPoster);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + peopleModel.getKnown_for().get(0).getBackdrop_path()).fit().into(ivBackDrop);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).fit().into(ivPoster);
         tvCelebName.setText(celebModel.getName());
         tvCelebDoB.setText(celebModel.getBirthday());
         tvCelebDoD.setText(celebModel.getDeathday());
