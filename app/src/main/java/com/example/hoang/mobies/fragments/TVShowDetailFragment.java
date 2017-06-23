@@ -130,6 +130,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         rvRecommended.setLayoutManager(linearLayoutManager1);
         rvCasts.setLayoutManager(linearLayoutManager2);
 
+        rvRecommended.setNestedScrollingEnabled(false);
+        rvCasts.setNestedScrollingEnabled(false);
+
         tbDetail.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         tbDetail.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

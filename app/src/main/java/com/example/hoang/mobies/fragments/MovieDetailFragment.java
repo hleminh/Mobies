@@ -128,6 +128,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         rvRecommended.setLayoutManager(linearLayoutManager1);
         rvCasts.setLayoutManager(linearLayoutManager2);
 
+        rvCasts.setNestedScrollingEnabled(false);
+        rvRecommended.setNestedScrollingEnabled(false);
+
         tbDetail.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         tbDetail.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

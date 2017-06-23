@@ -114,6 +114,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
         KnownForAdapter knownForAdapter = new KnownForAdapter(peopleModel.getKnown_for(), getContext());
         rvCasts.setAdapter(knownForAdapter);
+        rvCasts.setNestedScrollingEnabled(false);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), GridLayoutManager.HORIZONTAL, false);
         rvCasts.setLayoutManager(manager);
