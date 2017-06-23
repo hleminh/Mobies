@@ -180,6 +180,16 @@
                     android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
 
                 <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_full_cast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/full_cast"
+                    android:layout_gravity="end"
+                    android:textColor="@color/colorRatingBarYellow"
+                    android:textSize="12sp"/>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
