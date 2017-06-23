@@ -2,28 +2,34 @@ package com.example.hoang.mobies.models;
 
 import com.example.hoang.mobies.network.get_people.KnownForObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by Hoang on 6/9/2017.
+ * Created by Inpriron on 6/19/2017.
  */
 
-public class MovieModel implements Serializable {
-    private String poster_path;
-    private boolean adult;
-    private String overview;
-    private String release_date;
-    private List<Integer> genre_ids;
-    private int id;
-    private String original_title;
-    private String original_language;
-    private String title;
-    private String backdrop_path;
-    private float popularity;
-    private int vote_count;
-    private boolean video;
-    private float vote_average;
+public class MultiSearchModel {
+    String poster_path;
+    boolean adult;
+    String overview;
+    String release_date;
+    String original_title;
+    List<Integer> genre_ids;
+    int id;
+    String media_type;
+    String original_language;
+    String title;
+    String backdrop_path;
+    float popularity;
+    int vote_count;
+    boolean video;
+    float vote_average;
+    String first_air_date;
+    List<String> origin_country;
+    String name;
+    String original_name;
+    String profile_path;
+    List<KnownForObject> known_for;
 
     public String getPoster_path() {
         return poster_path;
@@ -57,6 +63,14 @@ public class MovieModel implements Serializable {
         this.release_date = release_date;
     }
 
+    public String getOriginal_title() {
+        return original_title;
+    }
+
+    public void setOriginal_title(String original_title) {
+        this.original_title = original_title;
+    }
+
     public List<Integer> getGenre_ids() {
         return genre_ids;
     }
@@ -73,12 +87,12 @@ public class MovieModel implements Serializable {
         this.id = id;
     }
 
-    public String getOriginal_title() {
-        return original_title;
+    public String getMedia_type() {
+        return media_type;
     }
 
-    public void setOriginal_title(String original_title) {
-        this.original_title = original_title;
+    public void setMedia_type(String media_type) {
+        this.media_type = media_type;
     }
 
     public String getOriginal_language() {
@@ -137,26 +151,56 @@ public class MovieModel implements Serializable {
         this.vote_average = vote_average;
     }
 
-    @Override
-    public String toString() {
-        return String.format("ID:%s-title:%s", id, title);
+    public String getFirst_air_date() {
+        return first_air_date;
     }
 
-    public MovieModel(KnownForObject knownForObject) {
+    public void setFirst_air_date(String first_air_date) {
+        this.first_air_date = first_air_date;
+    }
 
-        poster_path= knownForObject.getPoster_path();
-        overview= knownForObject.getOverview();
-        adult= knownForObject.isAdult();
-        release_date=knownForObject.getRelease_date();
-        genre_ids=knownForObject.getGenre_ids();
-        id=knownForObject.getId();
-        original_language=knownForObject.getOriginal_language();
-        original_title=knownForObject.getOriginal_title();
-        title=knownForObject.getTitle();
-        backdrop_path=knownForObject.getBackdrop_path();
-        popularity=knownForObject.getPopularity();
-        vote_count=knownForObject.getVote_count();
-        vote_average=knownForObject.getVote_average();
-        video=knownForObject.isVideo();
+    public List<String> getOrigin_country() {
+        return origin_country;
+    }
+
+    public void setOrigin_country(List<String> origin_country) {
+        this.origin_country = origin_country;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOriginal_name() {
+        return original_name;
+    }
+
+    public void setOriginal_name(String original_name) {
+        this.original_name = original_name;
+    }
+
+    public String getProfile_path() {
+        return profile_path;
+    }
+
+    public void setProfile_path(String profile_path) {
+        this.profile_path = profile_path;
+    }
+
+    public List<KnownForObject> getKnown_for() {
+        return known_for;
+    }
+
+    public void setKnown_for(List<KnownForObject> known_for) {
+        this.known_for = known_for;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("media_type: %s",media_type);
     }
 }

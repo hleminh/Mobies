@@ -1,6 +1,6 @@
 package com.example.hoang.mobies.network.get_search;
 
-import com.example.hoang.mobies.models.MediaModel;
+import com.example.hoang.mobies.models.MultiSearchModel;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 
 public class MainSearchModel {
-    List<MediaModel> results;
+    List<MultiSearchModel> results;
 
-    public List<MediaModel> getResults() {
+    public List<MultiSearchModel> getResults() {
         return results;
     }
 
-    public void setResults(List<MediaModel> results) {
+    public void setResults(List<MultiSearchModel> results) {
         this.results = results;
     }
 }

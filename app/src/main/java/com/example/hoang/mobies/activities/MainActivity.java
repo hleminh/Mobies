@@ -1,15 +1,15 @@
 package com.example.hoang.mobies.activities;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.util.Log;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,34 +21,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.fragments.CelebFragment;
-import com.example.hoang.mobies.fragments.MovieDetailFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
-import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
-import com.example.hoang.mobies.models.MediaModel;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.NewsModel;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
-import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
-import com.example.hoang.mobies.network.get_cast.GetCastTvService;
-import com.example.hoang.mobies.network.get_cast.MainCastObject;
-import com.example.hoang.mobies.network.get_genres.GetGenresService;
-import com.example.hoang.mobies.network.get_genres.MainGenresObject;
-import com.example.hoang.mobies.network.get_movies.GetComingSoonService;
-import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
-import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
-import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
-import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrailerService;
-import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
@@ -56,19 +42,12 @@ import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
 import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_news.GetNewService;
 import com.example.hoang.mobies.network.get_news.MainNewsObject;
-import com.example.hoang.mobies.network.get_people.GetDetailPeopleService;
-import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
 import com.example.hoang.mobies.network.get_people.MainPeopleObject;
 import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
 import com.example.hoang.mobies.network.get_search.GetSearchMoviesService;
 import com.example.hoang.mobies.network.get_search.GetSearchPeopleService;
 import com.example.hoang.mobies.network.get_search.GetSearchTvService;
 import com.example.hoang.mobies.network.get_search.MainSearchModel;
-import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
-import com.example.hoang.mobies.network.get_tv.GetRecommendTvService;
-import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
-import com.example.hoang.mobies.network.get_tv.GetTvAiringToday;
-import com.example.hoang.mobies.network.get_tv.GetTvOnTheAir;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
@@ -83,7 +62,6 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.GET;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
@@ -91,9 +69,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID_PREFERENCE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.MyPREFERENCES;
-import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
 import static com.example.hoang.mobies.network.RetrofitFactory.SHAREED_PREFERENCES;
-import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -116,21 +92,7 @@ public class MainActivity extends AppCompatActivity
         SHAREED_PREFERENCES = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
 
-        GetMultiSearchService getMultiSearchService = RetrofitFactory.getInstance().createService(GetMultiSearchService.class);
-        getMultiSearchService.getMultiSearch("now you", API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainSearchModel>() {
-            @Override
-            public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
-                MainSearchModel mainSearchModel = response.body();
-                for (MediaModel mediaModel : mainSearchModel.getResults()) {
-                    Log.d("test search:", mediaModel.toString());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<MainSearchModel> call, Throwable t) {
-
-            }
-        });
 
         GetSearchMoviesService getSearchMoviesService = RetrofitFactory.getInstance().createService(GetSearchMoviesService.class);
         getSearchMoviesService.getMovieSearch("now you", API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainObject>() {
@@ -191,39 +153,39 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
-        if (GUEST_ID == null) {
-            CreateGuestSessionService createGuestSessionService = RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
-            createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
-                @Override
-                public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
-                    GUEST_ID = response.body().getGuest_session_id();
-                    Log.d("test guest id 1: ", "" + GUEST_ID);
-                    SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
-                    editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
-                    editor.commit();
-                }
-
-                @Override
-                public void onFailure(Call<GuestObject> call, Throwable t) {
-
-                }
-            });
-        }
-        if (GUEST_ID != null) {
-            RateMoviesService rateMoviesService = RetrofitFactory.getInstance().createService(RateMoviesService.class);
-            rateMoviesService.rateMovie(75656, new RateMovieRequest((float) 8.5), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
-                @Override
-                public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
-                    Log.d("test rate:", response.body().getStatus_message());
-                }
-
-                @Override
-                public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-
-                }
-            });
-        }
+//        GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
+//        if (GUEST_ID == null) {
+//            CreateGuestSessionService createGuestSessionService = RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
+//            createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
+//                @Override
+//                public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
+//                    GUEST_ID = response.body().getGuest_session_id();
+//                    Log.d("test guest id 1: ", "" + GUEST_ID);
+//                    SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
+//                    editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
+//                    editor.commit();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<GuestObject> call, Throwable t) {
+//
+//                }
+//            });
+//        }
+//        if (GUEST_ID != null) {
+//            RateMoviesService rateMoviesService = RetrofitFactory.getInstance().createService(RateMoviesService.class);
+//            rateMoviesService.rateMovie(75656, new RateMovieRequest((float) 8.5), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
+//                @Override
+//                public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
+//                    Log.d("test rate:", response.body().getStatus_message());
+//                }
+//
+//                @Override
+//                public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
+//
+//                }
+//            });
+//        }
 
         GetNewService getNewService= RetrofitFactory.getInstance().createService(GetNewService.class);
         getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
@@ -272,7 +234,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.search, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
         return true;
     }
 
@@ -284,9 +252,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

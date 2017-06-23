@@ -110,6 +110,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
                 for (PeopleModel peopleModel : response.body().getResults()) {
+
                     popularList.add(peopleModel);
                 }
                 loading = true;
