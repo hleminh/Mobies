@@ -101,7 +101,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
     @Override
@@ -164,7 +165,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(),movieModel.getId());
+                RateDialog rateDialog = new RateDialog(getContext(), movieModel.getId());
                 rateDialog.show();
             }
         });
@@ -180,11 +181,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             }
         });
 
-        for(MovieModel model: RATED_MOVIE_LIST)
-        {
-            if(model.getId()==this.movieModel.getId())
-            {
-                tvRate.setText("Your rating: "+ model.getRating()+"/10");
+        for (MovieModel model : RATED_MOVIE_LIST) {
+            if (model.getId() == this.movieModel.getId()) {
+                tvRate.setText("Your rating: " + model.getRating() + "/10");
                 ivRate.setImageResource(R.drawable.ic_star_black_24dp);
                 break;
             }
@@ -270,12 +269,12 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-   @Subscribe
-   public void onEvent(Float rating){
-       // your implementation
+    @Subscribe
+    public void onEvent(Float rating) {
+        // your implementation
 
-       tvRate.setText("Your rating: "+ rating+"/10");
-       ivRate.setImageResource(R.drawable.ic_star_black_24dp);
-   }
+        tvRate.setText("Your rating: " + rating + "/10");
+        ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+    }
 
 }

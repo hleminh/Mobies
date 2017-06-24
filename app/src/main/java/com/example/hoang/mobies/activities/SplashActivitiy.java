@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class SplashActivitiy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/modern M.ttf");
+        tvSplash.setTypeface(typeface);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvLogo);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvSplash);
         CountDownTimer countDownTimer = new CountDownTimer(4000,1000) {
