@@ -68,7 +68,7 @@ public class PopularCelebAdapter extends RecyclerView.Adapter<PopularCelebAdapte
         }
 
         public void setData(PeopleModel peopleModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).fit().into(ivCbpImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).into(ivCbpImage);
             tvCbpName.setText(peopleModel.getName());
             view.setTag(peopleModel);
         }
