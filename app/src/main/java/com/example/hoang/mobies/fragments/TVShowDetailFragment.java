@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.TVShowByCategoriesAdapter;
+import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
@@ -73,6 +75,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     RecyclerView rvRecommended;
     @BindView(R.id.toolbar)
     Toolbar tbDetail;
+    @BindView(R.id.ll_rate)
+    LinearLayout llRate;
+    @BindView(R.id.tv_full_cast)
+    TextView tvFullCast;
     private TV_Model tvModel;
     private List<CastModel> castModelList;
     private List<TV_Model> tv_modelList;
@@ -100,7 +106,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getPoster_path()).fit().into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).fit().into(ivBackDrop);
         tvTvShowName.setText(tvModel.getName());
-        tvRatingDetail.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
+        tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);
         tvTvShowReleaseDate.setText(tvModel.getFirst_air_date());
         tvPlot.setText(tvModel.getOverview());
@@ -141,7 +147,26 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             }
         });
 
+        llRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RateDialog rateDialog = new RateDialog(getContext());
+                rateDialog.show();
+            }
+        });
+
+        tvFullCast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FullCastFragment fullCastFragment = new FullCastFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("TVDetail", tvModel);
+                fullCastFragment.setArguments(bundle);
+                ScreenManager.openFragment(getFragmentManager(), fullCastFragment, R.id.fl_container, true, false);
+            }
+        });
     }
+
 
     private void loadData() {
         castModelList = new ArrayList<>();

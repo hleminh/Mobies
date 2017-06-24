@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
+import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
@@ -72,6 +74,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     RecyclerView rvRecommended;
     @BindView(R.id.toolbar)
     Toolbar tbDetail;
+    @BindView(R.id.ll_rate)
+    LinearLayout llRate;
+    @BindView(R.id.tv_full_cast)
+    TextView tvFullCast;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -98,7 +104,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).fit().into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).fit().into(ivBackDrop);
         tvMovieName.setText(movieModel.getTitle());
-        tvRatingDetail.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
+        tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count()) + " Ratings");
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
         tvMovieReleaseDate.setText(movieModel.getRelease_date());
         tvPlot.setText(movieModel.getOverview());
@@ -139,6 +145,24 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             }
         });
 
+        llRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RateDialog rateDialog = new RateDialog(getContext());
+                rateDialog.show();
+            }
+        });
+
+        tvFullCast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FullCastFragment fullCastFragment = new FullCastFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("MovieDetail", movieModel);
+                fullCastFragment.setArguments(bundle);
+                ScreenManager.openFragment(getFragmentManager(), fullCastFragment, R.id.fl_container, true, false);
+            }
+        });
     }
 
     private void loadData() {

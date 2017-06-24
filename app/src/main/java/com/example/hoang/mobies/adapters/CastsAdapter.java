@@ -50,8 +50,10 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
 
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         holder.setData(castModelList.get(position));
-        if (position % 2 == 0) holder.bgCast.setBackgroundColor(context.getResources().getColor(R.color.colorCastBackground));
+        if (position % 2 == 0)
+            holder.bgCast.setBackgroundColor(context.getResources().getColor(R.color.colorCastBackground));
     }
 
     @Override

@@ -49,7 +49,15 @@
 
     <string name="splash">Movies On Mobile</string>
 
-    <string name="full_cast">See full cast</string>
+    <string name="full_cast">See Full Cast</string>
+
+    <string name="rate_this">Rate This</string>
+
+    <string name="add_watch_list">Add To Watch List</string>
+
+    <string name="btn_confirm">Confirm</string>
+
+    <string name="btn_cancel">Cancel</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

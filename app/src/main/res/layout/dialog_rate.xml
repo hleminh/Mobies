@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="370dp"
+    android:layout_height="150dp"
+    android:background="@color/colorStatusBar"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingRight="45dp">
+
+    <LinearLayout
+        android:id="@+id/ll_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <RatingBar
+            android:id="@+id/rb_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:indeterminate="false"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:theme="@style/RatingBar"
+            android:scaleX="1"
+            android:scaleY="1"/>
+
+        <TextView
+            android:id="@+id/tv_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="0.0"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="40sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_dialog"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorStatusBar"
+            android:text="@string/btn_confirm"
+            android:textAllCaps="true"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginRight="15dp"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorStatusBar"
+            android:text="@string/btn_cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginLeft="15dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
