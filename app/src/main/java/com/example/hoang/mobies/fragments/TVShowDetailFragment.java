@@ -150,7 +150,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext());
+                RateDialog rateDialog = new RateDialog(getContext(),tvModel.getId());
                 rateDialog.show();
             }
         });

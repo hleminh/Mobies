@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
+import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.dialogs.RateDialog;
@@ -34,6 +36,9 @@ import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.LOCATION_SERVICE;
+import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
@@ -78,6 +85,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     LinearLayout llRate;
     @BindView(R.id.tv_full_cast)
     TextView tvFullCast;
+    @BindView(R.id.tv_rate)
+    TextView tvRate;
+    @BindView(R.id.iv_rate)
+    ImageView ivRate;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -87,6 +98,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,7 +164,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext());
+                RateDialog rateDialog = new RateDialog(getContext(),movieModel.getId());
                 rateDialog.show();
             }
         });
@@ -163,6 +179,16 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 ScreenManager.openFragment(getFragmentManager(), fullCastFragment, R.id.fl_container, true, false);
             }
         });
+
+        for(MovieModel model: RATED_MOVIE_LIST)
+        {
+            if(model.getId()==this.movieModel.getId())
+            {
+                tvRate.setText("Your rating: "+ model.getRating()+"/10");
+                ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+                break;
+            }
+        }
     }
 
     private void loadData() {
@@ -243,4 +269,13 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
         }
     }
+
+   @Subscribe
+   public void onEvent(Float rating){
+       // your implementation
+
+       tvRate.setText("Your rating: "+ rating+"/10");
+       ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+   }
+
 }

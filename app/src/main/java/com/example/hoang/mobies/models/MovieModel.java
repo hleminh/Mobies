@@ -25,6 +25,22 @@ public class MovieModel implements Serializable {
     private boolean video;
     private float vote_average;
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    float rating;
+
+
+    public MovieModel(int id,float rating) {
+        this.id = id;
+        this.rating=rating;
+    }
+
     public String getPoster_path() {
         return poster_path;
     }

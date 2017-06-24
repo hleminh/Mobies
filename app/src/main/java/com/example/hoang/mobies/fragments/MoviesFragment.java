@@ -177,7 +177,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

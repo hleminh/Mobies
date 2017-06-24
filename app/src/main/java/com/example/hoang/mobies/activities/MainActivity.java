@@ -22,40 +22,34 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
+
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.NewsModel;
-import com.example.hoang.mobies.models.PeopleModel;
-import com.example.hoang.mobies.models.TV_Model;
+
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_movies.GetTrailerService;
-import com.example.hoang.mobies.network.get_movies.MainObject;
+
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
 import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_news.GetNewService;
 import com.example.hoang.mobies.network.get_news.MainNewsObject;
-import com.example.hoang.mobies.network.get_people.MainPeopleObject;
-import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
-import com.example.hoang.mobies.network.get_search.GetSearchMoviesService;
-import com.example.hoang.mobies.network.get_search.GetSearchPeopleService;
-import com.example.hoang.mobies.network.get_search.GetSearchTvService;
-import com.example.hoang.mobies.network.get_search.MainSearchModel;
-import com.example.hoang.mobies.network.get_tv.MainTvObject;
+
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
-import com.example.hoang.mobies.network.rate.RateMovieRequest;
-import com.example.hoang.mobies.network.rate.RateMoviesResponse;
-import com.example.hoang.mobies.network.rate.RateMoviesService;
+import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,18 +58,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
-import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
+
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID_PREFERENCE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.MyPREFERENCES;
 import static com.example.hoang.mobies.network.RetrofitFactory.SHAREED_PREFERENCES;
+import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static List<GenresModel> genresModelList;
-
+    public static List<MovieModel> RATED_MOVIE_LIST;
 
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
@@ -90,17 +85,33 @@ public class MainActivity extends AppCompatActivity
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
         SHAREED_PREFERENCES = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
+        if (GUEST_ID == null) {
+            CreateGuestSessionService createGuestSessionService = RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
+            createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
+                @Override
+                public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
+                    GUEST_ID = response.body().getGuest_session_id();
+                    Log.d("test guest id 1: ", "" + GUEST_ID);
+                    SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
+                    editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
+                    editor.commit();
+                }
 
+                @Override
+                public void onFailure(Call<GuestObject> call, Throwable t) {
 
-
-
-        GetSearchMoviesService getSearchMoviesService = RetrofitFactory.getInstance().createService(GetSearchMoviesService.class);
-        getSearchMoviesService.getMovieSearch("now you", API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainObject>() {
+                }
+            });
+        }
+        RATED_MOVIE_LIST = new ArrayList<>();
+        GetRatedMoviesService getRatedMoviesService = retrofitFactory.getInstance().createService(GetRatedMoviesService.class);
+        getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
-                MainObject mainObject = response.body();
-                for (MovieModel movieModel : mainObject.getResults()) {
-                    Log.d("test search movie:", movieModel.toString());
+                for (MovieModel movieModel : response.body().getResults()) {
+                    Log.d("rated movies", movieModel.toString());
+                    RATED_MOVIE_LIST.add(movieModel);
                 }
             }
 
@@ -110,33 +121,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        GetSearchTvService getSearchTvService = RetrofitFactory.getInstance().createService(GetSearchTvService.class);
-        getSearchTvService.getTVSearch("now you", API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                for (TV_Model tv_model : response.body().getResults())
-                    Log.d("test serach tv:", tv_model.toString());
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
-
-        GetSearchPeopleService getSearchPeopleService = RetrofitFactory.getInstance().createService(GetSearchPeopleService.class);
-        getSearchPeopleService.getPersonSearch("gal gadot", API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainPeopleObject>() {
-            @Override
-            public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
-                for (PeopleModel peopleModel : response.body().getResults())
-                    Log.d("test search ppl:", peopleModel.toString());
-            }
-
-            @Override
-            public void onFailure(Call<MainPeopleObject> call, Throwable t) {
-
-            }
-        });
 
         GetTrailerService getTrailerService = RetrofitFactory.getInstance().createService(GetTrailerService.class);
         getTrailerService.getMovieTrailer(291805, API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
@@ -153,47 +137,14 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-//        GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
-//        if (GUEST_ID == null) {
-//            CreateGuestSessionService createGuestSessionService = RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
-//            createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
-//                @Override
-//                public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
-//                    GUEST_ID = response.body().getGuest_session_id();
-//                    Log.d("test guest id 1: ", "" + GUEST_ID);
-//                    SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
-//                    editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
-//                    editor.commit();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<GuestObject> call, Throwable t) {
-//
-//                }
-//            });
-//        }
-//        if (GUEST_ID != null) {
-//            RateMoviesService rateMoviesService = RetrofitFactory.getInstance().createService(RateMoviesService.class);
-//            rateMoviesService.rateMovie(75656, new RateMovieRequest((float) 8.5), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
-//                @Override
-//                public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
-//                    Log.d("test rate:", response.body().getStatus_message());
-//                }
-//
-//                @Override
-//                public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-//
-//                }
-//            });
-//        }
 
-        GetNewService getNewService= RetrofitFactory.getInstance().createService(GetNewService.class);
+
+        GetNewService getNewService = RetrofitFactory.getInstance().createService(GetNewService.class);
         getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
             @Override
             public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
-                for(NewsModel newsModel: response.body().getArticles())
-                {
-                    Log.d("test news:",newsModel.toString());
+                for (NewsModel newsModel : response.body().getArticles()) {
+                    Log.d("test news:", newsModel.toString());
                 }
             }
 
