@@ -17,7 +17,7 @@
         android:id="@+id/iv_logo"
         android:layout_width="192dp"
         android:layout_height="220dp"
-        android:background="@drawable/logo_m_gif"
+        android:background="@drawable/logo_gif"
         android:layout_centerVertical="true"/>
 
 
@@ -31,10 +31,10 @@
         android:layout_height="wrap_content"
         android:text="@string/splash"
         android:textColor="@color/colorTextPrimary"
-        android:fontFamily="sans-serif-smallcaps"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textAllCaps="true"/>
 
     <ProgressBar
         android:id="@+id/pb_splash"
