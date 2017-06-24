@@ -71,7 +71,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                tvDialog.setText((int)rating*2+"");
+                tvDialog.setText((int)(rating*2)+"");
                 RateDialog.this.rating = rating*2;
             }
         });
