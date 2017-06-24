@@ -79,7 +79,13 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
         }
 
         public void setData(CastModel castModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).into(ivCastImage);
+            if (castModel.getGender() == 1)
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_f_final).into(ivCastImage);
+            else if (castModel.getGender() == 2)
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_m_final).into(ivCastImage);
+            else
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final_2).into(ivCastImage);
+
             tvCastName.setText(castModel.getName());
             tvCharacterName.setText(castModel.getCharacter());
             view.setTag(castModel);

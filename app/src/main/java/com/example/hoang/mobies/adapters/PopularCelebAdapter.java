@@ -68,7 +68,13 @@ public class PopularCelebAdapter extends RecyclerView.Adapter<PopularCelebAdapte
         }
 
         public void setData(PeopleModel peopleModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).into(ivCbpImage);
+            if (peopleModel.getGender() == 1)
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).placeholder(R.drawable.no_image_person_f_final).into(ivCbpImage);
+            else if (peopleModel.getGender() == 2)
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).placeholder(R.drawable.no_image_person_m_final).into(ivCbpImage);
+            else
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + peopleModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final_2).into(ivCbpImage);
+
             tvCbpName.setText(peopleModel.getName());
             view.setTag(peopleModel);
         }
