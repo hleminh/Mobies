@@ -2,6 +2,7 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.app.ActionBar;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class FullCastFragment extends Fragment {
 
     @BindView(R.id.rv_full_cast)
     RecyclerView rvFullCast;
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     public FullCastFragment() {
@@ -75,15 +77,15 @@ public class FullCastFragment extends Fragment {
         rvFullCast.setAdapter(castsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvFullCast.setLayoutManager(linearLayoutManager);
-//        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-//        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ScreenManager.backFragment(getFragmentManager());
-//            }
-//        });
-//        toolbar.setTitle("Full cast");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ScreenManager.backFragment(getFragmentManager());
+            }
+        });
+        toolbar.setTitle("Full cast");
+        toolbar.setTitleTextColor(Color.WHITE);
     }
 
     private void loadCasts() {

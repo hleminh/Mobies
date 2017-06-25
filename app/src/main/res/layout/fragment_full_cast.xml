@@ -1,14 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.hoang.mobies.fragments.FullCastFragment"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context="com.example.hoang.mobies.fragments.FullCastFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolBar"
+        android:titleTextColor="@color/colorTextPrimary">
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_full_cast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:layout_margin="5dp"></android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</RelativeLayout>
