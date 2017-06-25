@@ -72,19 +72,15 @@ public class MultiSearchAdapter extends RecyclerView.Adapter<MultiSearchAdapter.
 
         public void setData(MultiSearchModel multiSearchModel) {
             tvMediaType.setText(multiSearchModel.getMedia_type());
-            if (multiSearchModel.getMedia_type().equals("person"))
-
-            {
+            if (multiSearchModel.getMedia_type().equals("person")) {
                 Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" +
-                        multiSearchModel.getProfile_path()).fit().into(ivSearchImage);
+                        multiSearchModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final).fit().into(ivSearchImage);
                 tvSearchName.setText(multiSearchModel.getName());
 
-            }
-            else
-            {
+            } else {
                 Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" +
-                        multiSearchModel.getPoster_path()).fit().into(ivSearchImage);
-                if(multiSearchModel.getMedia_type().equals("tv"))
+                        multiSearchModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivSearchImage);
+                if (multiSearchModel.getMedia_type().equals("tv"))
                     tvSearchName.setText(multiSearchModel.getOriginal_name());
                 else
                     tvSearchName.setText(multiSearchModel.getTitle());

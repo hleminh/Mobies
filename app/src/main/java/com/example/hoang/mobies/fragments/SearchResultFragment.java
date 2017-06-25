@@ -63,10 +63,9 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-    private void setUpUI(View view)
-    {
+    private void setUpUI(View view) {
         ButterKnife.bind(this, view);
-        multiSearchAdapter= new MultiSearchAdapter(getContext(),resultList);
+        multiSearchAdapter = new MultiSearchAdapter(getContext(), resultList);
         multiSearchAdapter.setOnItemClickListener(this);
         rvSearchResult.setAdapter(multiSearchAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -82,7 +81,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private void loadData() {
         resultList = new ArrayList<>();
         GetMultiSearchService getMultiSearchService = RetrofitFactory.getInstance().createService(GetMultiSearchService.class);
-        getMultiSearchService.getMultiSearch( query, API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainSearchModel>() {
+        getMultiSearchService.getMultiSearch(query, API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainSearchModel>() {
             @Override
             public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
                 MainSearchModel mainSearchModel = response.body();

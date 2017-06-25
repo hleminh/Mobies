@@ -17,6 +17,8 @@
 
     <string name="movies">Movies</string>
 
+    <string name="tv_shows">TV Shows</string>
+
     <string name="celeb">Celebrities</string>
 
     <string name="news">News</string>
@@ -58,6 +60,8 @@
     <string name="btn_confirm">Confirm</string>
 
     <string name="btn_cancel">Cancel</string>
+
+    <string name="watch_list">Watch list</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

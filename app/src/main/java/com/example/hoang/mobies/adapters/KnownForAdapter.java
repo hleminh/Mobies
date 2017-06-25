@@ -80,7 +80,7 @@ public class KnownForAdapter extends RecyclerView.Adapter<KnownForAdapter.KnownF
                 tvName.setText(knownForObject.getName());
             }
             tvVote.setText(knownForObject.getVote_average() + "");
-            tvRating.setText(String.format("%,d",knownForObject.getVote_count()) + " Ratings");
+            tvRating.setText(String.format("%,d", knownForObject.getVote_count()) + " Ratings");
             if (knownForObject.getMedia_type().equals("movie")) {
                 MovieModel movieModel = new MovieModel(knownForObject);
                 view.setTag(movieModel);
