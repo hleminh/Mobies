@@ -304,7 +304,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             Bundle bundle = new Bundle();
             bundle.putSerializable("MovieDetail", movieModel);
             movieDetailFragment.setArguments(bundle);
-            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
         }
     }
 }

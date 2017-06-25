@@ -137,7 +137,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
             Bundle bundle = new Bundle();
             bundle.putSerializable("CelebDetail", peopleModel);
             celebDetailFragment.setArguments(bundle);
-            ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.fl_container, true, false);
+            ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
         }
     }
 }

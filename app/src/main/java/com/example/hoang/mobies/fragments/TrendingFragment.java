@@ -88,7 +88,7 @@ public class TrendingFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("MovieDetail", movieModel);
                     movieDetailFragment.setArguments(bundle);
-                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
                 }
                 if (v.getTag() instanceof TV_Model) {
                     TV_Model tv_model = (TV_Model) v.getTag();
@@ -96,7 +96,7 @@ public class TrendingFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("TVDetail", tv_model);
                     tvShowDetailFragment.setArguments(bundle);
-                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), tvShowDetailFragment, R.id.fl_container, true, false);
+                    ScreenManager.openFragment(getActivity().getSupportFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
                 }
             }
         });

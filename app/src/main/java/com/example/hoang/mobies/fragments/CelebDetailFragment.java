@@ -155,7 +155,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
         }
@@ -164,7 +164,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
@@ -178,7 +178,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
             Bundle bundle = new Bundle();
             bundle.putSerializable("MovieDetail", movieModel);
             movieDetailFragment.setArguments(bundle);
-            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.fl_container, true, false);
+            ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
         }
 
         if (v.getTag() instanceof TV_Model) {
@@ -187,7 +187,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);
             tvShowDetailFragment.setArguments(bundle);
-            ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.fl_container, true, false);
+            ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
     }
 

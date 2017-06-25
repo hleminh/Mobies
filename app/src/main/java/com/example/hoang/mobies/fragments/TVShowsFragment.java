@@ -210,7 +210,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);
             tvShowDetailFragment.setArguments(bundle);
-            ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.fl_container, true, false);
+            ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
     }
 }
