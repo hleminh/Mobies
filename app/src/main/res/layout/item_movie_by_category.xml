@@ -15,8 +15,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@id/iv_mbc_image"
-        android:background="@drawable/custom_gradient_trending_image">
+        android:layout_alignBottom="@id/iv_mbc_image">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/custom_gradient_trending_image"/>
 
         <TextView
             android:id="@+id/tv_mbc_name"
@@ -30,7 +35,9 @@
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/tv_mbc_vote"
@@ -79,6 +86,7 @@
             android:text="Test"
             android:textColor="@color/colorRatingBarGrey"
             android:textSize="11sp" />
+
 
 
     </RelativeLayout>

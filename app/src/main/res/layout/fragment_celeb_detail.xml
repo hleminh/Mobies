@@ -23,14 +23,26 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/iv_back_drop_celeb_detail"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:focusableInTouchMode="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_back_drop_celeb_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:focusableInTouchMode="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/custom_gradient_backdrop" />
+
+            </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -48,8 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:behavior_overlapTop="50dp">
+        app:behavior_overlapTop="50dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +80,6 @@
                     android:layout_width="110dp"
                     android:layout_height="160dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorRed"
                     android:scaleType="centerCrop" />
 
                 <RelativeLayout
@@ -101,11 +112,11 @@
                             android:id="@+id/tv_celeb_dob_celeb_detail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
-                            android:textStyle="normal"
-                            android:layout_marginRight="5dp"/>
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/tv_celeb_dod_celeb_detail"
@@ -161,9 +172,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textAlignment="viewStart"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="14sp"
-                android:textAlignment="viewStart"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
