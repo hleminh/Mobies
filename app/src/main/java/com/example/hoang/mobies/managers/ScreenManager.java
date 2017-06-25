@@ -25,6 +25,6 @@ public class ScreenManager {
     }
 
     public static void backFragment(FragmentManager fragmentManager) {
-        fragmentManager.popBackStackImmediate();
+        fragmentManager.popBackStack();
     }
 }

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.example.hoang.mobies.models.PeopleModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_people.GetPopularPeopleService;
 import com.example.hoang.mobies.network.get_people.MainPeopleObject;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,8 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
         rvPopularCeleb.setAdapter(popularCelebAdapter);
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvPopularCeleb.setLayoutManager(manager);
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
+        snapHelper.attachToRecyclerView(rvPopularCeleb);
 
         rvPopularCeleb.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

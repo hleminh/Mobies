@@ -22,8 +22,6 @@ public class SplashActivitiy extends AppCompatActivity {
     TextView tvLogo;
     @BindView(R.id.tv_splash)
     TextView tvSplash;
-    @BindView(R.id.pb_splash)
-    ProgressBar pbSplash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public class SplashActivitiy extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                pbSplash.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(SplashActivitiy.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
                 startActivity(intent);
