@@ -93,21 +93,28 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
 
     private void setupUI() {
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + peopleModel.getKnown_for().get(0).getBackdrop_path()).fit().into(ivBackDrop);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).fit().into(ivPoster);
+        String gender = celebModel.getGender() == 1 ? "Female" : celebModel.getGender() == 2 ? "Male" : "Unspecified";
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + peopleModel.getKnown_for().get(0).getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
+        if (gender.equals("Male"))
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).placeholder(R.drawable.no_image_person_m_final).fit().into(ivPoster);
+        else if (gender.equals("Female"))
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).placeholder(R.drawable.no_image_person_f_final).fit().into(ivPoster);
+        else
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + celebModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final_2).fit().into(ivPoster);
+
         tvCelebName.setText(celebModel.getName());
         tvCelebDoB.setText(celebModel.getBirthday());
         tvCelebDoD.setText(celebModel.getDeathday());
         tvCelebPoB.setText(celebModel.getPlace_of_birth());
         tvGenre.setText(celebModel.getBiography());
 
-        String gender = celebModel.getGender() == 1 ? "Female" : "Male";
+
         tvCelebGender.setText(gender);
         String knownAs = "";
         for (String aka : celebModel.getAlso_known_as()) {
             System.out.println(aka);
             knownAs += aka;
-            if (!aka.equals(celebModel.getAlso_known_as().get(celebModel.getAlso_known_as().size()-1)))
+            if (!aka.equals(celebModel.getAlso_known_as().get(celebModel.getAlso_known_as().size() - 1)))
                 knownAs += '\n';
         }
         tvAKA.setText(knownAs);

@@ -103,8 +103,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getPoster_path()).fit().into(ivPoster);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).fit().into(ivBackDrop);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivPoster);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvTvShowName.setText(tvModel.getName());
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);

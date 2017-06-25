@@ -118,8 +118,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).fit().into(ivPoster);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).fit().into(ivBackDrop);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivPoster);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvMovieName.setText(movieModel.getTitle());
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count()) + " Ratings");
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
