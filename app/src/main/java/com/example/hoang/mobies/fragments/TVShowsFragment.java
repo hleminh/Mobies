@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
 import com.example.hoang.mobies.network.get_tv.GetTvAiringToday;
 import com.example.hoang.mobies.network.get_tv.GetTvOnTheAir;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +102,14 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         rvTopRated.setLayoutManager(linearLayoutManager1);
         rvOnAir.setLayoutManager(linearLayoutManager2);
         rvAiringToday.setLayoutManager(linearLayoutManager3);
+
+        SnapHelper snapHelper1 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper2 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper3 = new GravitySnapHelper(Gravity.START);
+
+        snapHelper1.attachToRecyclerView(rvTopRated);
+        snapHelper2.attachToRecyclerView(rvOnAir);
+        snapHelper3.attachToRecyclerView(rvAiringToday);
     }
 
     private void loadData() {

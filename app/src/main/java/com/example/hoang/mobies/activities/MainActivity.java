@@ -85,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
+
         SHAREED_PREFERENCES = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
+
         if (GUEST_ID == null) {
             CreateGuestSessionService createGuestSessionService = RetrofitFactory.getInstance().createService(CreateGuestSessionService.class);
             createGuestSessionService.getNewGuest(API_KEY).enqueue(new Callback<GuestObject>() {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         }
+
         RATED_MOVIE_LIST = new ArrayList<>();
         GetRatedMoviesService getRatedMoviesService = retrofitFactory.getInstance().createService(GetRatedMoviesService.class);
         getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {

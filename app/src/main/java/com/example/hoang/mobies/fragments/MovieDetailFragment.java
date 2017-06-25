@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
 import com.example.hoang.mobies.network.get_cast.MainCastObject;
 import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -153,6 +156,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         rvCasts.setNestedScrollingEnabled(false);
         rvRecommended.setNestedScrollingEnabled(false);
+
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+        snapHelper.attachToRecyclerView(rvRecommended);
 
         tbDetail.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         tbDetail.setNavigationOnClickListener(new View.OnClickListener() {

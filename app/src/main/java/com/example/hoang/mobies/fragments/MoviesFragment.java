@@ -6,7 +6,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,8 @@ import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
 import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
+import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +150,16 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         rvTopRated.setLayoutManager(linearLayoutManager2);
         rvInCinemas.setLayoutManager(linearLayoutManager3);
         rvComingSoon.setLayoutManager(linearLayoutManager4);
+
+        SnapHelper snapHelper1 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper2 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper3 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper4 = new GravitySnapHelper(Gravity.START);
+
+        snapHelper1.attachToRecyclerView(rvMovies);
+        snapHelper2.attachToRecyclerView(rvTopRated);
+        snapHelper3.attachToRecyclerView(rvInCinemas);
+        snapHelper4.attachToRecyclerView(rvComingSoon);
 
     }
 
