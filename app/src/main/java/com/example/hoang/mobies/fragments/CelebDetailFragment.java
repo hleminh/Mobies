@@ -67,6 +67,10 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     TextView tvGenre;
     @BindView(R.id.toolbar)
     Toolbar tbDetail;
+    @BindView(R.id.tv_celeb_dob_slash)
+    TextView tvDoBSlash;
+    @BindView(R.id.tv_no_known_for)
+    TextView tvNoKnownFor;
     private PeopleModel peopleModel;
     private PeopleModel celebModel;
 
@@ -107,9 +111,16 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
         tvCelebName.setText(celebModel.getName());
         tvCelebDoB.setText(celebModel.getBirthday());
-        tvCelebDoD.setText(celebModel.getDeathday());
+        if (celebModel.getDeathday() != null) {
+            tvCelebDoD.setText(celebModel.getDeathday());
+            tvDoBSlash.setVisibility(View.VISIBLE);
+        }
         tvCelebPoB.setText(celebModel.getPlace_of_birth());
-        tvGenre.setText(celebModel.getBiography());
+        if (celebModel.getBiography() != null) {
+            tvGenre.setText(celebModel.getBiography());
+        } else {
+            tvGenre.setText("We don't have a biography for " + celebModel.getName());
+        }
 
 
         tvCelebGender.setText(gender);
@@ -120,7 +131,10 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
             if (!aka.equals(celebModel.getAlso_known_as().get(celebModel.getAlso_known_as().size() - 1)))
                 knownAs += '\n';
         }
-        tvAKA.setText(knownAs);
+        if (knownAs.trim().equals("")) {
+            tvAKA.setText("-");
+        } else
+            tvAKA.setText(knownAs);
 
         KnownForAdapter knownForAdapter = new KnownForAdapter(peopleModel.getKnown_for(), getContext());
         rvCasts.setAdapter(knownForAdapter);
@@ -131,6 +145,11 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), GridLayoutManager.HORIZONTAL, false);
         rvCasts.setLayoutManager(manager);
         knownForAdapter.setOnItemClickListener(this);
+
+        if (peopleModel.getKnown_for().size() == 0) {
+            tvNoKnownFor.setVisibility(View.VISIBLE);
+            rvCasts.setVisibility(View.GONE);
+        }
     }
 
     private void loadData() {

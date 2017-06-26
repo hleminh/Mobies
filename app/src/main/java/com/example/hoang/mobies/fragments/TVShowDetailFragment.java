@@ -82,6 +82,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     LinearLayout llRate;
     @BindView(R.id.tv_full_cast)
     TextView tvFullCast;
+    @BindView(R.id.tv_no_cast)
+    TextView tvNoCast;
+    @BindView(R.id.tv_no_recommended)
+    TextView tvNoRecommended;
     private TV_Model tvModel;
     private List<CastModel> castModelList;
     private List<TV_Model> tv_modelList;
@@ -112,7 +116,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);
         tvTvShowReleaseDate.setText(tvModel.getFirst_air_date());
-        tvPlot.setText(tvModel.getOverview());
+        if (tvModel.getOverview() != null) {
+            tvPlot.setText(tvModel.getOverview());
+        } else {
+            tvPlot.setText("-");
+        }
 
         String genres = "";
         for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
@@ -124,10 +132,14 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 }
             }
         }
-        tvGenre.setText(genres);
+        if (genres.trim().equals("")) {
+            tvGenre.setText("-");
+        } else
+            tvGenre.setText(genres);
 
         castsAdapter = new CastsAdapter(castModelList, getContext());
         rvCasts.setAdapter(castsAdapter);
+
 
         tvShowByCategoriesAdapter = new TVShowByCategoriesAdapter(tv_modelList, getContext());
         tvShowByCategoriesAdapter.setOnItemClickListener(this);
@@ -156,7 +168,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(),tvModel.getId());
+                RateDialog rateDialog = new RateDialog(getContext(), tvModel.getId());
                 rateDialog.show();
             }
         });
@@ -191,6 +203,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                     tv_modelList.add(tv_model);
                 }
                 tvShowByCategoriesAdapter.notifyDataSetChanged();
+                if (tv_modelList.size() == 0) {
+                    tvNoRecommended.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -211,7 +226,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                         castModelList.add(castModel);
                 }
                 castsAdapter.notifyDataSetChanged();
-
+                if (castModelList.size() == 0) {
+                    tvFullCast.setVisibility(View.GONE);
+                    tvNoCast.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

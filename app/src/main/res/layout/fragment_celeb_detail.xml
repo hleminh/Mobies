@@ -103,26 +103,35 @@
 
                     <LinearLayout
                         android:id="@+id/ll_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_celeb_name_celeb_detail"
                         android:layout_marginBottom="5dp">
 
                         <TextView
                             android:id="@+id/tv_celeb_dob_celeb_detail"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="1"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
                             android:textStyle="normal" />
 
                         <TextView
-                            android:id="@+id/tv_celeb_dod_celeb_detail"
-                            android:layout_width="0dp"
+                            android:id="@+id/tv_celeb_dob_slash"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                            android:text="/"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_celeb_dod_celeb_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
                             android:textStyle="normal" />
@@ -213,6 +222,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorRatingBarGrey" />
+
+            <TextView
+                android:id="@+id/tv_no_known_for"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="-"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_casts"

@@ -92,6 +92,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     TextView tvRate;
     @BindView(R.id.iv_rate)
     ImageView ivRate;
+    @BindView(R.id.tv_no_cast)
+    TextView tvNoCast;
+    @BindView(R.id.tv_no_recommended)
+    TextView tvNoRecommended;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -127,7 +131,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count()) + " Ratings");
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
         tvMovieReleaseDate.setText(movieModel.getRelease_date());
-        tvPlot.setText(movieModel.getOverview());
+        if (movieModel.getOverview() != null) {
+            tvPlot.setText(movieModel.getOverview());
+        } else {
+            tvPlot.setText("-");
+        }
 
         String genres = "";
         for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
@@ -139,10 +147,14 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 }
             }
         }
-        tvGenre.setText(genres);
+        if (genres.trim().equals("")) {
+            tvGenre.setText("-");
+        } else
+            tvGenre.setText(genres);
 
         castsAdapter = new CastsAdapter(castModelList, getContext());
         rvCasts.setAdapter(castsAdapter);
+
 
         moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(movieModelList, getContext());
         moviesByCategoriesAdapter.setOnItemClickListener(this);
@@ -212,6 +224,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                     movieModelList.add(movieModel);
                 }
                 moviesByCategoriesAdapter.notifyDataSetChanged();
+                if (movieModelList.size() == 0) {
+                    tvNoRecommended.setVisibility(View.VISIBLE);
+                    rvRecommended.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -234,6 +250,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                         castModelList.add(castModel);
                 }
                 castsAdapter.notifyDataSetChanged();
+
+                if (castModelList.size() == 0) {
+                    tvFullCast.setVisibility(View.GONE);
+                    tvNoCast.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
