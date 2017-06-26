@@ -20,7 +20,7 @@ public class ScreenManager {
 //            transaction.setCustomAnimations(R.anim.enter_from_bot, 0, 0, R.anim.exit_to_bot);
 //        }
 
-        transaction.add(layoutID, fragment);
+        transaction.replace(layoutID, fragment);
         transaction.commit();
     }
 
