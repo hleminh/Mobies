@@ -160,6 +160,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
                 if (failConnection == 4) {
                     pbLoading.setVisibility(View.GONE);
                     tvNoConnection.setVisibility(View.VISIBLE);
