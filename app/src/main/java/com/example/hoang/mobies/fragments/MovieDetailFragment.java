@@ -302,6 +302,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         tvRate.setText("Your rating: " + rating + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+        tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count()+1) + " Ratings");
     }
 
 }

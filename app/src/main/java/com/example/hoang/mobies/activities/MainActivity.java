@@ -127,37 +127,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        GetTrailerService getTrailerService = RetrofitFactory.getInstance().createService(GetTrailerService.class);
-        getTrailerService.getMovieTrailer(291805, API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
-            @Override
-            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-                Log.d("test trailer", response.body().getId() + "");
-                for (TrailerObject trailerObject : response.body().getResults())
-                    Log.d("test trailer:", trailerObject.toString());
+//        GetTrailerService getTrailerService = RetrofitFactory.getInstance().createService(GetTrailerService.class);
+//        getTrailerService.getMovieTrailer(291805, API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+//            @Override
+//            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+//                Log.d("test trailer", response.body().getId() + "");
+//                for (TrailerObject trailerObject : response.body().getResults())
+//                    Log.d("test trailer:", trailerObject.toString());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
+//
+//            }
+//        });
 
-            }
 
-            @Override
-            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
-
-            }
-        });
-
-
-        GetNewService getNewService = RetrofitFactory.getInstance().createService(GetNewService.class);
-        getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
-            @Override
-            public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
-                for (NewsModel newsModel : response.body().getArticles()) {
-                    Log.d("test news:", newsModel.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainNewsObject> call, Throwable t) {
-
-            }
-        });
+//        GetNewService getNewService = RetrofitFactory.getInstance().createService(GetNewService.class);
+//        getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
+//            @Override
+//            public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
+//                for (NewsModel newsModel : response.body().getArticles()) {
+//                    Log.d("test news:", newsModel.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MainNewsObject> call, Throwable t) {
+//
+//            }
+//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

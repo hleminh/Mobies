@@ -105,7 +105,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
                 }
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
-
+                    Toast.makeText(getContext(),"Rate failed. Check your connection",Toast.LENGTH_SHORT);
                 }
             });
 
@@ -127,7 +127,8 @@ public class RateDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-
+                Log.d("failed","failed");
+                Toast.makeText(getContext(),"Rate Failed. Check your connection",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -17,6 +17,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
+
 /**
  * Created by Hoang on 6/9/2017.
  */
@@ -75,6 +77,12 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
             tvMbcName.setText(movieModel.getTitle());
             tvMbcVote.setText(movieModel.getVote_average() + "");
             tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
+            for (MovieModel model : RATED_MOVIE_LIST) {
+                if (model.getId() == movieModel.getId()) {
+                    tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");
+                    break;
+                }
+            }
             view.setTag(movieModel);
         }
     }

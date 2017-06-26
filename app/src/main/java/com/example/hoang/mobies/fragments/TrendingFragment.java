@@ -21,6 +21,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
+
 /**
  * Created by Hoang on 6/9/2017.
  */
@@ -69,8 +71,14 @@ public class TrendingFragment extends Fragment {
         if (movieModel != null) {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
             tvTrendingName.setText(movieModel.getTitle());
-            tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
             rbTrending.setRating(movieModel.getVote_average() / 2);
+            tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
+            for (MovieModel model : RATED_MOVIE_LIST) {
+                if (model.getId() == movieModel.getId()) {
+                    tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");
+                    break;
+                }
+            }
         }
 
         if (tvModel != null) {
