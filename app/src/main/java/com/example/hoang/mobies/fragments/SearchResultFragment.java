@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -43,8 +44,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
-
-
+    @BindView(R.id.no_result)
+    TextView tvNoResult;
     public SearchResultFragment() {
         // Required empty public constructor
 
@@ -85,14 +86,23 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
                 MainSearchModel mainSearchModel = response.body();
-                for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
-                    resultList.add(searchModel);
+                if(mainSearchModel.getResults().size()==0||mainSearchModel.getResults()==null)
+                {
+                    tvNoResult.setVisibility(View.VISIBLE);
                 }
+                else
+                {
+                    for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
+                        resultList.add(searchModel);
+                    }
+                }
+
                 multiSearchAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<MainSearchModel> call, Throwable t) {
+                tvNoResult.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
             }
         });

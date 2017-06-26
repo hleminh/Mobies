@@ -2,6 +2,8 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -76,12 +78,40 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private MoviesByCategoriesAdapter topRatedAdapter;
     private MoviesByCategoriesAdapter comingSoonAdapter;
     private MoviesByCategoriesAdapter inCinemasAdapter;
-
+    Parcelable state;
 
     public MoviesFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+        trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList, null);
+        vpTrending.setAdapter(trendingPagerAdapter);
+        moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(moviesByCategoryList, getContext());
+        topRatedAdapter = new MoviesByCategoriesAdapter(topRatedMoviesList, getContext());
+        comingSoonAdapter = new MoviesByCategoriesAdapter(comingSoonMoviesList, getContext());
+        inCinemasAdapter = new MoviesByCategoriesAdapter(inCinemasMoviesList, getContext());
+
+        moviesByCategoriesAdapter.setOnItemClickListener(this);
+        topRatedAdapter.setOnItemClickListener(this);
+        comingSoonAdapter.setOnItemClickListener(this);
+        inCinemasAdapter.setOnItemClickListener(this);
+
+        rvMovies.setHasFixedSize(true);
+        rvMovies.setAdapter(moviesByCategoriesAdapter);
+        rvComingSoon.setAdapter(comingSoonAdapter);
+        rvInCinemas.setAdapter(inCinemasAdapter);
+        rvTopRated.setAdapter(topRatedAdapter);
+    }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,8 +131,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList, null);
-        vpTrending.setAdapter(trendingPagerAdapter);
+
         vpTrending.setOffscreenPageLimit(3);
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -130,21 +159,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(moviesByCategoryList, getContext());
-        topRatedAdapter = new MoviesByCategoriesAdapter(topRatedMoviesList, getContext());
-        comingSoonAdapter = new MoviesByCategoriesAdapter(comingSoonMoviesList, getContext());
-        inCinemasAdapter = new MoviesByCategoriesAdapter(inCinemasMoviesList, getContext());
 
-        moviesByCategoriesAdapter.setOnItemClickListener(this);
-        topRatedAdapter.setOnItemClickListener(this);
-        comingSoonAdapter.setOnItemClickListener(this);
-        inCinemasAdapter.setOnItemClickListener(this);
-
-        rvMovies.setHasFixedSize(true);
-        rvMovies.setAdapter(moviesByCategoriesAdapter);
-        rvComingSoon.setAdapter(comingSoonAdapter);
-        rvInCinemas.setAdapter(inCinemasAdapter);
-        rvTopRated.setAdapter(topRatedAdapter);
 
         rvMovies.setLayoutManager(linearLayoutManager1);
         rvTopRated.setLayoutManager(linearLayoutManager2);
