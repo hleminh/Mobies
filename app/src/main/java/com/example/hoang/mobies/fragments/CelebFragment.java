@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -42,6 +44,10 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 public class CelebFragment extends Fragment implements View.OnClickListener{
     @BindView(R.id.rv_popular_celeb_content)
     RecyclerView rvPopularCeleb;
+    @BindView(R.id.pb_loading)
+    ProgressBar pbLoading;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
     private List<PeopleModel> popularList;
     private PopularCelebAdapter popularCelebAdapter;
     private boolean loading = true;
@@ -115,16 +121,19 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
                 for (PeopleModel peopleModel : response.body().getResults()) {
-
                     popularList.add(peopleModel);
                 }
                 loading = true;
                 popularCelebAdapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.GONE);
+                rvPopularCeleb.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<MainPeopleObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                pbLoading.setVisibility(View.GONE);
+                tvNoConnection.setVisibility(View.VISIBLE);
             }
         });
     }

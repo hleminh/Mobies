@@ -23,10 +23,30 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/tv_popular_celeb_header"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/tv_no_connection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="14sp"
+            android:text="No Connection"
+            android:layout_below="@id/tv_popular_celeb_header"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_popular_celeb_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_below="@id/tv_popular_celeb_header"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"

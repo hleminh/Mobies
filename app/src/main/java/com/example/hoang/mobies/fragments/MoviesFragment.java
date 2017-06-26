@@ -13,6 +13,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -64,6 +66,16 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     RecyclerView rvInCinemas;
     @BindView(R.id.rv_top_rated)
     RecyclerView rvTopRated;
+    @BindView(R.id.tv_coming_soon)
+    TextView tvComingSoon;
+    @BindView(R.id.tv_top_rated)
+    TextView tvTopRated;
+    @BindView(R.id.tv_in_cinemas)
+    TextView tvInCinemas;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
+    @BindView(R.id.pb_loading)
+    ProgressBar pbLoading;
 
     private List<MovieModel> topRatedMoviesList;
     private List<MovieModel> comingSoonMoviesList;
@@ -76,6 +88,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private MoviesByCategoriesAdapter topRatedAdapter;
     private MoviesByCategoriesAdapter comingSoonAdapter;
     private MoviesByCategoriesAdapter inCinemasAdapter;
+    private int failConnection;
 
 
     public MoviesFragment() {
@@ -88,6 +101,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        failConnection = 0;
         loadData();
         setupUI(view);
         return view;
@@ -183,6 +197,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getTopRatedMoviesService.getTopRatedMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                tvTopRated.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     topRatedMoviesList.add(movieModel);
@@ -192,7 +207,12 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-
+                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+                if (failConnection == 5) {
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -202,6 +222,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getInCinemasMoviesService.getInCinemaMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                tvInCinemas.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     inCinemasMoviesList.add(movieModel);
@@ -212,6 +233,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
@@ -221,6 +244,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getComingSoonService.getComingSoonMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                tvComingSoon.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     comingSoonMoviesList.add(movieModel);
@@ -231,6 +255,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
@@ -251,6 +277,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
@@ -272,6 +300,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainGenresObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
@@ -281,6 +311,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getTrendingMoviesService.getTrendingMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                pbLoading.setVisibility(View.GONE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     trendingMoviesList.add(movieModel);
@@ -291,6 +322,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }

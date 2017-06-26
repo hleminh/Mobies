@@ -248,7 +248,14 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
 
+                <ProgressBar
+                    android:id="@+id/pb_progress_cast"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
                 <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/rv_casts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -261,6 +268,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="5dp"
                     android:text="@string/full_cast"
+                    android:visibility="gone"
                     android:textColor="@color/colorRatingBarYellow"
                     android:textSize="12sp" />
 
@@ -312,8 +320,15 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
 
+                <ProgressBar
+                    android:id="@+id/pb_progress_recommended"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="30dp" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_recommended"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>

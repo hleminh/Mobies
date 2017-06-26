@@ -162,10 +162,12 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_also_known_as"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/aka"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="15sp"
@@ -186,10 +188,12 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_biography"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/biography"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="15sp"
@@ -209,9 +213,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_known_for"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:text="@string/known_for"
                 android:textAllCaps="true"
                 android:textColor="@color/colorTextPrimary"

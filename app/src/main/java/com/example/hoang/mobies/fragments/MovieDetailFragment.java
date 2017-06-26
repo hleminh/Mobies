@@ -4,12 +4,10 @@ package com.example.hoang.mobies.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +15,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
-import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.dialogs.RateDialog;
@@ -51,7 +49,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.Context.LOCATION_SERVICE;
 import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
@@ -96,6 +93,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     TextView tvNoCast;
     @BindView(R.id.tv_no_recommended)
     TextView tvNoRecommended;
+    @BindView(R.id.pb_progress_cast)
+    ProgressBar pbProgressCast;
+    @BindView(R.id.pb_progress_recommended)
+    ProgressBar pbProgressRecommended;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -224,6 +225,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                     movieModelList.add(movieModel);
                 }
                 moviesByCategoriesAdapter.notifyDataSetChanged();
+                pbProgressRecommended.setVisibility(View.GONE);
+                rvRecommended.setVisibility(View.VISIBLE);
                 if (movieModelList.size() == 0) {
                     tvNoRecommended.setVisibility(View.VISIBLE);
                     rvRecommended.setVisibility(View.GONE);
@@ -233,7 +236,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                pbProgressRecommended.setVisibility(View.GONE);
+                tvNoRecommended.setVisibility(View.VISIBLE);
+                tvNoRecommended.setText("No connection");
             }
         });
     }
@@ -250,8 +255,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                         castModelList.add(castModel);
                 }
                 castsAdapter.notifyDataSetChanged();
-
+                tvFullCast.setVisibility(View.VISIBLE);
+                pbProgressCast.setVisibility(View.GONE);
+                rvCasts.setVisibility(View.VISIBLE);
                 if (castModelList.size() == 0) {
+                    rvCasts.setVisibility(View.GONE);
                     tvFullCast.setVisibility(View.GONE);
                     tvNoCast.setVisibility(View.VISIBLE);
                 }
@@ -260,7 +268,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             @Override
             public void onFailure(Call<MainCastObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                pbProgressCast.setVisibility(View.GONE);
+                tvNoCast.setVisibility(View.VISIBLE);
+                tvFullCast.setVisibility(View.GONE);
+                tvNoCast.setText("No connection");
             }
         });
     }

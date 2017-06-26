@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +87,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     TextView tvNoCast;
     @BindView(R.id.tv_no_recommended)
     TextView tvNoRecommended;
+    @BindView(R.id.pb_progress_cast)
+    ProgressBar pbProgressCast;
+    @BindView(R.id.pb_progress_recommended)
+    ProgressBar pbProgressRecommended;
     private TV_Model tvModel;
     private List<CastModel> castModelList;
     private List<TV_Model> tv_modelList;
@@ -203,7 +208,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                     tv_modelList.add(tv_model);
                 }
                 tvShowByCategoriesAdapter.notifyDataSetChanged();
+                pbProgressRecommended.setVisibility(View.GONE);
+                rvRecommended.setVisibility(View.VISIBLE);
                 if (tv_modelList.size() == 0) {
+                    rvRecommended.setVisibility(View.GONE);
                     tvNoRecommended.setVisibility(View.VISIBLE);
                 }
             }
@@ -211,7 +219,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                pbProgressRecommended.setVisibility(View.GONE);
+                tvNoRecommended.setVisibility(View.VISIBLE);
+                tvNoRecommended.setText("No connection");
             }
         });
     }
@@ -226,15 +236,23 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                         castModelList.add(castModel);
                 }
                 castsAdapter.notifyDataSetChanged();
+                tvFullCast.setVisibility(View.VISIBLE);
+                pbProgressCast.setVisibility(View.GONE);
+                rvCasts.setVisibility(View.VISIBLE);
                 if (castModelList.size() == 0) {
                     tvFullCast.setVisibility(View.GONE);
                     tvNoCast.setVisibility(View.VISIBLE);
+                    rvCasts.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<MainCastObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                pbProgressCast.setVisibility(View.GONE);
+                tvFullCast.setVisibility(View.GONE);
+                tvNoCast.setVisibility(View.VISIBLE);
+                tvNoCast.setText("No connection");
 
             }
         });

@@ -71,6 +71,12 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     TextView tvDoBSlash;
     @BindView(R.id.tv_no_known_for)
     TextView tvNoKnownFor;
+    @BindView(R.id.tv_known_for)
+    TextView tvKnownFor;
+    @BindView(R.id.tv_also_known_as)
+    TextView tvAlsoKA;
+    @BindView(R.id.tv_biography)
+    TextView tvBiography;
     private PeopleModel peopleModel;
     private PeopleModel celebModel;
 
@@ -157,6 +163,9 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         getDetailPeopleService.getDetailPeople(peopleModel.getId(), API_KEY).enqueue(new Callback<PeopleModel>() {
             @Override
             public void onResponse(Call<PeopleModel> call, Response<PeopleModel> response) {
+                tvAlsoKA.setVisibility(View.VISIBLE);
+                tvKnownFor.setVisibility(View.VISIBLE);
+                tvBiography.setVisibility(View.VISIBLE);
                 celebModel = response.body();
                 setupUI();
 

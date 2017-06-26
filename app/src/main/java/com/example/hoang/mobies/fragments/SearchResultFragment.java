@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -40,6 +42,10 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 public class SearchResultFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.rv_search_result)
     RecyclerView rvSearchResult;
+    @BindView(R.id.pb_search)
+    ProgressBar pbSearch;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
@@ -89,11 +95,20 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                     resultList.add(searchModel);
                 }
                 multiSearchAdapter.notifyDataSetChanged();
+                pbSearch.setVisibility(View.GONE);
+                rvSearchResult.setVisibility(View.VISIBLE);
+                if (resultList.size() == 0) {
+                    rvSearchResult.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
+                    tvNoConnection.setText("No result found");
+                }
             }
 
             @Override
             public void onFailure(Call<MainSearchModel> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                pbSearch.setVisibility(View.GONE);
+                tvNoConnection.setVisibility(View.VISIBLE);
             }
         });
 

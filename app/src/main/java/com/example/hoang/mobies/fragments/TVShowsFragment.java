@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -52,6 +54,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     RecyclerView rvAiringToday;
     @BindView(R.id.rv_top_rated)
     RecyclerView rvTopRated;
+    @BindView(R.id.tv_top_rated)
+    TextView tvTopRated;
+    @BindView(R.id.tv_on_air)
+    TextView tvOnAir;
+    @BindView(R.id.tv_airing_today)
+    TextView tvAiringToday;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
+    @BindView(R.id.pb_loading)
+    ProgressBar pbLoading;
     private List<TV_Model> tvShowTopRateList;
     private List<TV_Model> tvShowTrendingList;
     private List<TV_Model> tvShowOnAirList;
@@ -60,6 +72,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     private TVShowByCategoriesAdapter onAirAdapter;
     private TVShowByCategoriesAdapter airingTodayAdapter;
     private TrendingPagerAdapter trendingPagerAdapter;
+
+    private int failConnection;
+
 
     public TVShowsFragment() {
         // Required empty public constructor
@@ -71,6 +86,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tvshows, container, false);
+        failConnection = 0;
         loadData();
         setupUI(view);
         return view;
@@ -129,6 +145,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         getTvOnTheAir.getTvOnTheAir(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                tvOnAir.setVisibility(View.VISIBLE);
                 MainTvObject mainTvObject = response.body();
                 for (TV_Model tv_model : mainTvObject.getResults()) {
                     tvShowOnAirList.add(tv_model);
@@ -139,6 +156,10 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (failConnection == 4) {
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -148,6 +169,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         getTvAiringToday.getTvAiringToday(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                tvAiringToday.setVisibility(View.VISIBLE);
                 MainTvObject mainTvObject = response.body();
                 for (TV_Model tv_model : mainTvObject.getResults()) {
                     tvShowAiringTodayList.add(tv_model);
@@ -158,6 +180,8 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
@@ -167,6 +191,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         getPopularTvService.getPopularTV(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                pbLoading.setVisibility(View.GONE);
                 MainTvObject mainObject = response.body();
                 for (TV_Model tv_model : mainObject.getResults()) {
                     tvShowTrendingList.add(tv_model);
@@ -177,6 +202,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
 
             }
         });
@@ -187,6 +213,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         getTopRatedTVService.getTopRatedTv(API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                tvTopRated.setVisibility(View.VISIBLE);
                 MainTvObject mainObject = response.body();
                 for (TV_Model tv_model : mainObject.getResults()) {
                     tvShowTopRateList.add(tv_model);
@@ -197,6 +224,8 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                failConnection++;
+
             }
         });
     }
