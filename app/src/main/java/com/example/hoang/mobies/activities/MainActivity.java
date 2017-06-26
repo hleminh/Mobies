@@ -239,13 +239,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_celeb) {
             ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
-            getSupportActionBar().setTitle(R.string.celeb);
+//            getSupportActionBar().setTitle(R.string.celeb);
         } else if (id == R.id.nav_tvshow) {
             ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
-            getSupportActionBar().setTitle(R.string.tv_shows);
+//            getSupportActionBar().setTitle(R.string.tv_shows);
         } else if (id == R.id.nav_movie) {
             ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
-            getSupportActionBar().setTitle(R.string.movies);
+//            getSupportActionBar().setTitle(R.string.movies);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

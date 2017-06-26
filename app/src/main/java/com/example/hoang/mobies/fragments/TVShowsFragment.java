@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -110,6 +111,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         snapHelper1.attachToRecyclerView(rvTopRated);
         snapHelper2.attachToRecyclerView(rvOnAir);
         snapHelper3.attachToRecyclerView(rvAiringToday);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.tv_shows);
+
     }
 
     private void loadData() {

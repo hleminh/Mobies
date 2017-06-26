@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -175,6 +176,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         snapHelper2.attachToRecyclerView(rvTopRated);
         snapHelper3.attachToRecyclerView(rvInCinemas);
         snapHelper4.attachToRecyclerView(rvComingSoon);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.movies);
+
 
     }
 
