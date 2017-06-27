@@ -23,5 +23,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 
 public class Utils {
     public static List<GenresModel> genresModelList;
-
+    public static String capitalize(String s){
+         return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
 }

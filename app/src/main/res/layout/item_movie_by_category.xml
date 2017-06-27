@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="140dp"
-    android:layout_height="200dp"
+    android:layout_width="139dp"
+    android:layout_height="199dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:orientation="vertical">
@@ -35,9 +35,9 @@
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_mbc_vote"

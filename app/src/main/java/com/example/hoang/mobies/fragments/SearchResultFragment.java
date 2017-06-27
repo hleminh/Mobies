@@ -75,10 +75,10 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         multiSearchAdapter.setOnItemClickListener(this);
         rvSearchResult.setAdapter(multiSearchAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSearchResult.getContext(),
-                manager.getOrientation());
-
-        rvSearchResult.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvSearchResult.getContext(),
+//                manager.getOrientation());
+//
+//        rvSearchResult.addItemDecoration(dividerItemDecoration);
         rvSearchResult.setLayoutManager(manager);
 
     }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.PeopleModel;
 import com.squareup.picasso.Picasso;
@@ -71,19 +72,22 @@ public class MultiSearchAdapter extends RecyclerView.Adapter<MultiSearchAdapter.
         }
 
         public void setData(MultiSearchModel multiSearchModel) {
-            tvMediaType.setText(multiSearchModel.getMedia_type());
             if (multiSearchModel.getMedia_type().equals("person")) {
                 Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" +
                         multiSearchModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final).fit().into(ivSearchImage);
-                tvSearchName.setText(multiSearchModel.getName());
-
+                tvSearchName.setText(Utils.capitalize(multiSearchModel.getName()));
+                tvMediaType.setText("Person");
             } else {
                 Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" +
                         multiSearchModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivSearchImage);
-                if (multiSearchModel.getMedia_type().equals("tv"))
-                    tvSearchName.setText(multiSearchModel.getOriginal_name());
-                else
-                    tvSearchName.setText(multiSearchModel.getTitle());
+                if (multiSearchModel.getMedia_type().equals("tv")) {
+                    tvSearchName.setText(Utils.capitalize(multiSearchModel.getOriginal_name()));
+                    tvMediaType.setText("TV Show");
+                }
+                else {
+                    tvSearchName.setText(Utils.capitalize(multiSearchModel.getTitle()));
+                    tvMediaType.setText("Movie");
+                }
             }
             view.setTag(multiSearchModel);
         }

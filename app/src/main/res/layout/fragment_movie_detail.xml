@@ -62,7 +62,6 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             app:behavior_overlapTop="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -187,7 +186,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dp"
-                            app:srcCompat="@drawable/ic_playlist_add_white_24dp" />
+                            app:srcCompat="@drawable/bookmark_plus" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -331,7 +330,9 @@
                     android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="-5dp"></android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 

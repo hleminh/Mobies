@@ -109,7 +109,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.celeb);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.popular_celeb);
         MainActivity.navigationView.setCheckedItem(R.id.nav_celeb);
     }
 

@@ -19,7 +19,7 @@
 
     <string name="tv_shows">TV Shows</string>
 
-    <string name="celeb">Celebrities</string>
+    <string name="celeb">Person</string>
 
     <string name="news">News</string>
 
@@ -62,6 +62,8 @@
     <string name="btn_cancel">Cancel</string>
 
     <string name="watch_list">Watch list</string>
+
+    <string name="read_more">Read more >></string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

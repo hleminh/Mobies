@@ -2,31 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:paddingTop="5dp"
-    android:layout_marginBottom="2.5dp"
-    android:layout_marginTop="2.5dp">
+    android:paddingTop="5dp">
 
     <ImageView
-        android:id="@+id/iv_search_image"
+        android:id="@+id/iv_item_image"
         android:layout_width="70dp"
         android:layout_height="100dp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/iv_search_image"
+        android:layout_toEndOf="@+id/iv_item_image"
         android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="40dp">
 
         <TextView
-            android:id="@+id/tv_search_name"
+            android:id="@+id/tv_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -36,12 +36,24 @@
             android:layout_marginBottom="2dp"/>
 
         <TextView
-            android:id="@+id/tv_media_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Media type"
-            android:textColor="@color/colorTextSecondary"/>
+            android:text="Release Date"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginBottom="2dp"/>
 
+        <TextView
+            android:id="@+id/tv_item_genre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Genres"
+            android:textColor="@color/colorTextSecondary" />
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/bookmark_remove"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"/>
 </RelativeLayout>
