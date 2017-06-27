@@ -1,15 +1,19 @@
 package com.example.hoang.mobies.managers;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import com.example.hoang.mobies.fragments.CelebFragment;
+import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.fragments.TVShowsFragment;
 
 /**
  * Created by tonto on 6/18/2017.
  */
 
 public class ScreenManager {
-
     public static void openFragment(FragmentManager fragmentManager, Fragment fragment, int layoutID, boolean addToBackStack, boolean haveAnimation) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (addToBackStack) {
@@ -20,7 +24,18 @@ public class ScreenManager {
 //            transaction.setCustomAnimations(R.anim.enter_from_bot, 0, 0, R.anim.exit_to_bot);
 //        }
 
-        transaction.replace(layoutID, fragment);
+        if (fragment instanceof CelebFragment){
+            transaction.replace(layoutID, fragment, "CelebFragment");
+        }
+        else if (fragment instanceof MoviesFragment){
+            transaction.replace(layoutID, fragment, "MoviesFragment");
+        }
+        else if (fragment instanceof TVShowsFragment){
+            transaction.replace(layoutID, fragment, "TVShowsFragment");
+        }
+        else {
+            transaction.replace(layoutID, fragment);
+        }
         transaction.commit();
     }
 

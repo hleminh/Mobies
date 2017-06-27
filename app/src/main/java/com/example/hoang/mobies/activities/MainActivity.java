@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -77,11 +79,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
+    public static NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         displayStartScreen();
     }
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.mMenu=menu;
+        this.mMenu = menu;
         getMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -238,14 +241,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_celeb) {
-            ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
-//            getSupportActionBar().setTitle(R.string.celeb);
+            CelebFragment celebFragment = (CelebFragment) getSupportFragmentManager().findFragmentByTag("CelebFragment");
+            if (celebFragment != null) {
+                if (!celebFragment.isVisible())
+                    ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
+            }
+            if (celebFragment == null){
+                ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
+            }
         } else if (id == R.id.nav_tvshow) {
-            ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
-//            getSupportActionBar().setTitle(R.string.tv_shows);
+            TVShowsFragment tvShowsFragment = (TVShowsFragment) getSupportFragmentManager().findFragmentByTag("TVShowsFragment");
+            if (tvShowsFragment != null) {
+                if (!tvShowsFragment.isVisible())
+                    ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
+            }
+            if (tvShowsFragment == null) {
+                ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
+            }
         } else if (id == R.id.nav_movie) {
-            ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
-//            getSupportActionBar().setTitle(R.string.movies);
+            MoviesFragment moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentByTag("MoviesFragment");
+            if (moviesFragment != null) {
+                if (!moviesFragment.isVisible())
+                    ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
+            }
+            if (moviesFragment == null) {
+                ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

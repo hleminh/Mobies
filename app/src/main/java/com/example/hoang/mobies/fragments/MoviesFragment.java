@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
+import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -177,6 +178,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         snapHelper4.attachToRecyclerView(rvComingSoon);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.movies);
+        MainActivity.navigationView.setCheckedItem(R.id.nav_movie);
 
     }
 

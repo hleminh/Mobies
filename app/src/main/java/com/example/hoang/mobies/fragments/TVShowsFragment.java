@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.TVShowByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -129,6 +130,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         snapHelper3.attachToRecyclerView(rvAiringToday);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.tv_shows);
+        MainActivity.navigationView.setCheckedItem(R.id.nav_tvshow);
 
     }
 

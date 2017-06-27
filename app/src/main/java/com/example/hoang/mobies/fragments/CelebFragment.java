@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.PopularCelebAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.PeopleModel;
@@ -109,6 +110,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
             }
         });
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.celeb);
+        MainActivity.navigationView.setCheckedItem(R.id.nav_celeb);
     }
 
     private void loadData() {
