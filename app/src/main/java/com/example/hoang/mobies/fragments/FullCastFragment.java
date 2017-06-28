@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
@@ -48,6 +50,10 @@ public class FullCastFragment extends Fragment {
     RecyclerView rvFullCast;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.pb_loading)
+    ProgressBar pbLoading;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
 
     public FullCastFragment() {
         // Required empty public constructor
@@ -99,12 +105,15 @@ public class FullCastFragment extends Fragment {
                     for (CastModel castModel : castModels)
                         castModelList.add(castModel);
                     castsAdapter.notifyDataSetChanged();
+                    pbLoading.setVisibility(View.GONE);
+                    rvFullCast.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onFailure(Call<MainCastObject> call, Throwable t) {
                     Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -117,12 +126,15 @@ public class FullCastFragment extends Fragment {
                     for (CastModel castModel : response.body().getCast())
                         castModelList.add(castModel);
                     castsAdapter.notifyDataSetChanged();
+                    pbLoading.setVisibility(View.GONE);
+                    rvFullCast.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onFailure(Call<MainCastObject> call, Throwable t) {
                     Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
                 }
             });
         }
