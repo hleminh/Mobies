@@ -1,8 +1,11 @@
 package com.example.hoang.mobies.fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +36,10 @@ import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
 import com.example.hoang.mobies.network.get_cast.MainCastObject;
 import com.example.hoang.mobies.network.get_movies.GetRecommendMovieService;
+import com.example.hoang.mobies.network.get_movies.GetTrailerService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
+import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
+import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 
@@ -97,10 +103,13 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     ProgressBar pbProgressCast;
     @BindView(R.id.pb_progress_recommended)
     ProgressBar pbProgressRecommended;
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
     private CastsAdapter castsAdapter;
+    private String key;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -119,13 +128,13 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
+        ButterKnife.bind(this, view);
         loadData();
         setupUI(view);
         return view;
     }
 
     private void setupUI(View view) {
-        ButterKnife.bind(this, view);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvMovieName.setText(movieModel.getTitle());
@@ -207,6 +216,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 break;
             }
         }
+
     }
 
     private void loadData() {
@@ -214,6 +224,41 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         movieModelList = new ArrayList<>();
         loadCasts();
         loadRecommended();
+        loadTrailer();
+        if (movieModel.isVideo()) {
+        }
+    }
+
+    private void loadTrailer() {
+        GetTrailerService getTrailerService = RetrofitFactory.getInstance().createService(GetTrailerService.class);
+        getTrailerService.getMovieTrailer(movieModel.getId(), API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+            @Override
+            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+                key = response.body().getResults().get(0).getKey();
+                floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key));
+                        intent.putExtra("force_fullscreen", true);
+                        startActivity(intent);
+                    }
+                });
+//                for (TrailerObject trailerObject : response.body().getResults()) {
+//
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
+                floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+
+                    }
+                });
+            }
+        });
     }
 
     private void loadRecommended() {
@@ -313,7 +358,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         tvRate.setText("Your rating: " + rating + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);
-        tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count()+1) + " Ratings");
+        tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
     }
 
 }

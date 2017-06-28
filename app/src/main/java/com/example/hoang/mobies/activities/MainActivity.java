@@ -131,21 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-//        GetTrailerService getTrailerService = RetrofitFactory.getInstance().createService(GetTrailerService.class);
-//        getTrailerService.getMovieTrailer(291805, API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
-//            @Override
-//            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-//                Log.d("test trailer", response.body().getId() + "");
-//                for (TrailerObject trailerObject : response.body().getResults())
-//                    Log.d("test trailer:", trailerObject.toString());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
-//
-//            }
-//        });
 
 
 
