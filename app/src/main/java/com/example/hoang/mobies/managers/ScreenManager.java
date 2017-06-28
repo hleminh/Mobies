@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 
 /**
@@ -32,6 +33,8 @@ public class ScreenManager {
         }
         else if (fragment instanceof TVShowsFragment){
             transaction.replace(layoutID, fragment, "TVShowsFragment");
+        } else if (fragment instanceof NewsFragment) {
+            transaction.replace(layoutID, fragment, "NewsFragment");
         }
         else {
             transaction.replace(layoutID, fragment);

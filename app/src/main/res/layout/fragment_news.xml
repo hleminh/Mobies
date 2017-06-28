@@ -5,7 +5,28 @@
     tools:context="com.example.hoang.mobies.fragments.NewsFragment"
     android:background="@color/colorBackground">
 
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/tv_no_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="14sp"
+        android:text="No Connection"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_news"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"

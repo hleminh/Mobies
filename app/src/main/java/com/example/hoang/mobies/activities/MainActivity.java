@@ -29,6 +29,7 @@ import android.widget.FrameLayout;
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.fragments.CelebFragment;
+import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
@@ -147,20 +148,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
 
 
-//        GetNewService getNewService = RetrofitFactory.getInstance().createService(GetNewService.class);
-//        getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
-//            @Override
-//            public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
-//                for (NewsModel newsModel : response.body().getArticles()) {
-//                    Log.d("test news:", newsModel.toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MainNewsObject> call, Throwable t) {
-//
-//            }
-//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -266,6 +253,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             if (moviesFragment == null) {
                 ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
+            }
+        } else if (id == R.id.nav_new) {
+            NewsFragment newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag("NewsFragment");
+            if (newsFragment != null) {
+                if (!newsFragment.isVisible()) {
+                    ScreenManager.openFragment(getSupportFragmentManager(), new NewsFragment(), R.id.fl_container, true, false);
+                }
+            }
+            if (newsFragment == null) {
+                ScreenManager.openFragment(getSupportFragmentManager(), new NewsFragment(), R.id.fl_container, true, false);
             }
         }
 
