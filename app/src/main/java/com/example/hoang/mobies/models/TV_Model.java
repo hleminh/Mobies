@@ -98,4 +98,20 @@ public class TV_Model implements Serializable{
         overview=knownForObject.getOverview();
         origin_country=knownForObject.getOrigin_country();
     }
+    public TV_Model(MultiSearchModel multiSearchModel)
+    {
+        original_name=multiSearchModel.getOriginal_name();
+        id=multiSearchModel.getId();
+        name=multiSearchModel.getName();
+        vote_average=multiSearchModel.getVote_average();
+        vote_count=multiSearchModel.getVote_count();
+        poster_path=multiSearchModel.getPoster_path();
+        first_air_date= multiSearchModel.getFirst_air_date();
+        popularity=multiSearchModel.getPopularity();
+        genre_ids=multiSearchModel.getGenre_ids();
+        original_language=multiSearchModel.getOriginal_language();
+        backdrop_path=multiSearchModel.getBackdrop_path();
+        overview=multiSearchModel.getOverview();
+        origin_country=multiSearchModel.getOrigin_country();
+    }
 }

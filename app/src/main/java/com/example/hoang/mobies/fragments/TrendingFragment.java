@@ -72,12 +72,18 @@ public class TrendingFragment extends Fragment {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
             tvTrendingName.setText(movieModel.getTitle());
             rbTrending.setRating(movieModel.getVote_average() / 2);
-            tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
+            boolean check=true;
+
             for (MovieModel model : RATED_MOVIE_LIST) {
                 if (model.getId() == movieModel.getId()) {
                     tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");
+                    check=false;
                     break;
                 }
+            }
+            if(check)
+            {
+                tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
             }
         }
 

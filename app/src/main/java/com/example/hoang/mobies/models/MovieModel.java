@@ -175,4 +175,21 @@ public class MovieModel implements Serializable {
         vote_average=knownForObject.getVote_average();
         video=knownForObject.isVideo();
     }
+    public MovieModel(MultiSearchModel multiSearchModel)
+    {
+        poster_path= multiSearchModel.getPoster_path();
+        overview= multiSearchModel.getOverview();
+        adult= multiSearchModel.isAdult();
+        release_date=multiSearchModel.getRelease_date();
+        genre_ids=multiSearchModel.getGenre_ids();
+        id=multiSearchModel.getId();
+        original_language=multiSearchModel.getOriginal_language();
+        original_title=multiSearchModel.getOriginal_title();
+        title=multiSearchModel.getTitle();
+        backdrop_path=multiSearchModel.getBackdrop_path();
+        popularity=multiSearchModel.getPopularity();
+        vote_count=multiSearchModel.getVote_count();
+        vote_average=multiSearchModel.getVote_average();
+        video=multiSearchModel.isVideo();
+    }
 }

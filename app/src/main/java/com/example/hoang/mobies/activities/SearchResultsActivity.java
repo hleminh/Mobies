@@ -20,13 +20,13 @@ import com.example.hoang.mobies.fragments.SearchResultFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 
 
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends MainActivity {
     SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_results);
+        setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));

@@ -90,6 +90,7 @@ public class MultiSearchAdapter extends RecyclerView.Adapter<MultiSearchAdapter.
                 }
             }
             view.setTag(multiSearchModel);
+
         }
     }
 }

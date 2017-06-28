@@ -76,10 +76,10 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivMbcImage);
             tvMbcName.setText(movieModel.getTitle());
             tvMbcVote.setText(movieModel.getVote_average() + "");
-            tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()) + " Ratings");
+            tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()));
             for (MovieModel model : RATED_MOVIE_LIST) {
                 if (model.getId() == movieModel.getId()) {
-                    tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");
+                    tvMbcRating.setText(String.format("%,d",movieModel.getVote_count()+1));
                     break;
                 }
             }

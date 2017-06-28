@@ -211,8 +211,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         for (MovieModel model : RATED_MOVIE_LIST) {
             if (model.getId() == this.movieModel.getId()) {
-                tvRate.setText("Your rating: " + model.getRating() + "/10");
+
+                tvRate.setText("Your rating: " + (int)model.getRating() + "/10");
                 ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+                tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
                 break;
             }
         }
@@ -355,8 +357,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     @Subscribe
     public void onEvent(Float rating) {
         // your implementation
-
-        tvRate.setText("Your rating: " + rating + "/10");
+        float x=rating;
+        tvRate.setText("Your rating: " + (int)x + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
     }

@@ -18,7 +18,11 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.MultiSearchAdapter;
+import com.example.hoang.mobies.managers.ScreenManager;
+import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.MultiSearchModel;
+import com.example.hoang.mobies.models.PeopleModel;
+import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
 import com.example.hoang.mobies.network.get_search.MainSearchModel;
@@ -118,6 +122,32 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
+        if (v.getTag() instanceof MultiSearchModel) {
+            MultiSearchModel multiSearchModel = (MultiSearchModel) v.getTag();
+            if (multiSearchModel.getMedia_type().equals("movie")) {
+                MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("MovieDetail", new MovieModel(multiSearchModel));
+                movieDetailFragment.setArguments(bundle);
+                ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
+            }
+            else if(multiSearchModel.getMedia_type().equals("tv"))
+            {
+                TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("TVDetail", new TV_Model(multiSearchModel));
+                tvShowDetailFragment.setArguments(bundle);
+                ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
+            }
+            else {
+                CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("CelebDetail", new PeopleModel(multiSearchModel));
+                celebDetailFragment.setArguments(bundle);
+                ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
+            }
+
+        }
     }
 }
 

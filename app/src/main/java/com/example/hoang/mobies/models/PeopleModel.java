@@ -27,6 +27,17 @@ public class PeopleModel implements Serializable {
     String place_of_birth;
     String profile_path;
 
+    public PeopleModel(MultiSearchModel multiSearchModel) {
+        popularity = multiSearchModel.getPopularity();
+        id = multiSearchModel.getId();
+        name = multiSearchModel.getName();
+        known_for = multiSearchModel.getKnown_for();
+        backdrop_path = multiSearchModel.getBackdrop_path();
+        adult = multiSearchModel.isAdult();
+        profile_path = multiSearchModel.getProfile_path();
+    }
+
+
     public List<String> getAlso_known_as() {
         return also_known_as;
     }
