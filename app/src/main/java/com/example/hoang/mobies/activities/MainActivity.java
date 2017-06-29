@@ -39,6 +39,7 @@ import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.NewsModel;
 
 import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.get_movies.GetDetailMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrailerService;
 
 
@@ -131,7 +132,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+//        GetTrailerService getTrailerService= retrofitFactory.getInstance().createService(GetTrailerService.class);
+//        getTrailerService.getTVTrailer(60059,API_KEY,LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+//            @Override
+//            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+//                for(TrailerObject trailerObject: response.body().getResults())
+//                {
+//                    Log.d("id trailer:",""+trailerObject.getId());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
+//
+//            }
+//        });
+//        GetDetailMoviesService getDetailMoviesService= retrofitFactory.getInstance().createService(GetDetailMoviesService.class);
+//        getDetailMoviesService.getDetailMovie(297762,API_KEY,LANGUAGE).enqueue(new Callback<MovieModel>() {
+//            @Override
+//            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+//                Log.d("detail",response.body().toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MovieModel> call, Throwable t) {
+//
+//            }
+//        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.movies);

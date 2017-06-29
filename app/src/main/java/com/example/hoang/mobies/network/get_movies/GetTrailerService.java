@@ -14,4 +14,7 @@ public interface GetTrailerService {
     Call<MainTrailerObject> getMovieTrailer(@Path("movie_id") int movie_id, @Query("api_key")
             String api_key, @Query("language") String language);
 
+    @GET("tv/{tv_id}/videos")
+    Call<MainTrailerObject> getTVTrailer(@Path("tv_id") int tv_id, @Query("api_key")
+            String api_key, @Query("language") String language);
 }
