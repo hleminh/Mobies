@@ -41,6 +41,10 @@ import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
 import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,6 +55,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,7 +115,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     private List<GenresModel> genresModelList = new ArrayList<>();
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
     private CastsAdapter castsAdapter;
-    private String key;
+    private List<String> keys = new ArrayList<>();
+    private YouTubePlayer player;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -130,10 +136,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
         ButterKnife.bind(this, view);
-        if (Utils.genresModelList.size() != 0) {
+        if (Utils.genresModelList.size() != 0 && Utils.genresModelList.size() != genresModelList.size()) {
             genresModelList.addAll(Utils.genresModelList);
         }
-        System.out.println("reload");
         loadData();
         setupUI(view);
         return view;
@@ -239,19 +244,35 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         getTrailerService.getMovieTrailer(movieModel.getId(), API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
             @Override
             public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-                key = response.body().getResults().get(0).getKey();
+                for (TrailerObject trailerObject : response.body().getResults()) {
+                    keys.add(trailerObject.getKey());
+                }
+
+
                 floatingActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key));
-                        intent.putExtra("force_fullscreen", true);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(intent);
+                        YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
+                        youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
+                            @Override
+                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                    player = youTubePlayer;
+                                    player.setFullscreen(false);
+                                    player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
+                                    player.loadVideos(keys);
+                                    player.play();
+                            }
+
+                            @Override
+                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                            }
+                        });
+                        ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
+
                     }
                 });
-//                for (TrailerObject trailerObject : response.body().getResults()) {
-//
-//                }
+
             }
 
             @Override

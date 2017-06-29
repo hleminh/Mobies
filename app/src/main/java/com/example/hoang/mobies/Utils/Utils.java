@@ -23,6 +23,12 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 
 public class Utils {
     public static List<GenresModel> genresModelList;
+    private static String YOUTUBE_KEY = "AIzaSyB9zrN4FoPatH4HyoHf2SS8PND57t3Z8rk";
+
+    public static String getYoutubeKey() {
+        return YOUTUBE_KEY;
+    }
+
     public static String capitalize(String s){
          return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
