@@ -52,19 +52,42 @@
                     android:layout_height="wrap_content"
                     app:tabIndicatorHeight="0dp"
                     app:tabSelectedTextColor="@color/colorTextPrimary"
-                    app:tabTextColor="@color/colorTextSecondary"></android.support.design.widget.TabLayout>
+                    app:tabTextColor="@color/colorTextSecondary">
+
+                </android.support.design.widget.TabLayout>
 
             </HorizontalScrollView>
+
+            <ProgressBar
+                android:id="@+id/pb_category_loading"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/tl_container"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"/>
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_category_no_connection"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/colorTextSecondary"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="No Connection"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginTop="10dp"/>-->
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_movies_by_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tl_container"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/tl_container"
+                android:layout_alignStart="@+id/rv_coming_soon">
 
             </android.support.v7.widget.RecyclerView>
 

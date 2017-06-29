@@ -78,6 +78,10 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     TextView tvNoConnection;
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
+    @BindView(R.id.pb_category_loading)
+    ProgressBar pbCategory;
+//    @BindView(R.id.tv_category_no_connection)
+//    TextView tvCategoryNoConnect;
 
     private List<MovieModel> topRatedMoviesList;
     private List<MovieModel> comingSoonMoviesList;
@@ -131,6 +135,10 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             public void onTabSelected(TabLayout.Tab tab) {
                 rvMovies.stopScroll();
                 rvMovies.removeAllViews();
+                pbCategory.setVisibility(View.VISIBLE);
+//                if (tvCategoryNoConnect.getVisibility() == View.VISIBLE) {
+//                    tvCategoryNoConnect.setVisibility(View.GONE);
+//                }
                 loadMoviesByCaterogy((genresModelList.get(tab.getPosition()).getId() + ""));
                 rvMovies.getLayoutManager().scrollToPosition(0);
             }
@@ -277,13 +285,15 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                     moviesByCategoryList.add(movieModel);
                 }
                 moviesByCategoriesAdapter.notifyDataSetChanged();
+                pbCategory.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
                 failConnection++;
-
+                pbCategory.setVisibility(View.GONE);
+//                tvCategoryNoConnect.setVisibility(View.VISIBLE);
             }
         });
     }
