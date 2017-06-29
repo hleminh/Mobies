@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -132,21 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-//        GetTrailerService getTrailerService= retrofitFactory.getInstance().createService(GetTrailerService.class);
-//        getTrailerService.getTVTrailer(60059,API_KEY,LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
-//            @Override
-//            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-//                for(TrailerObject trailerObject: response.body().getResults())
-//                {
-//                    Log.d("id trailer:",""+trailerObject.getId());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
-//
-//            }
-//        });
+
 //        GetDetailMoviesService getDetailMoviesService= retrofitFactory.getInstance().createService(GetDetailMoviesService.class);
 //        getDetailMoviesService.getDetailMovie(297762,API_KEY,LANGUAGE).enqueue(new Callback<MovieModel>() {
 //            @Override
@@ -173,6 +160,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         if (Utils.genresModelList == null)
             displayStartScreen();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
     }
 
     private void displayStartScreen() {

@@ -3,6 +3,7 @@ package com.example.hoang.mobies.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,9 +36,15 @@ import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
 import com.example.hoang.mobies.network.get_cast.GetCastTvService;
 import com.example.hoang.mobies.network.get_cast.MainCastObject;
+import com.example.hoang.mobies.network.get_movies.GetTrailerService;
+import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
+import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_tv.GetRecommendTvService;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -52,6 +59,8 @@ import retrofit2.Response;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
+import static com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,11 +100,15 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     ProgressBar pbProgressCast;
     @BindView(R.id.pb_progress_recommended)
     ProgressBar pbProgressRecommended;
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
     private TV_Model tvModel;
     private List<CastModel> castModelList;
     private List<TV_Model> tv_modelList;
     private TVShowByCategoriesAdapter tvShowByCategoriesAdapter;
     private CastsAdapter castsAdapter;
+    private List<String> keys = new ArrayList<>();
+    private YouTubePlayer player;
 
     public TVShowDetailFragment() {
         // Required empty public constructor
@@ -137,10 +150,15 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 }
             }
         }
+        System.out.println("|" + genres + "|");
         if (genres.trim().equals("")) {
             tvGenre.setText("-");
-        } else
-            tvGenre.setText(genres);
+        } else {
+            if (genres.trim().charAt(genres.trim().length() - 1) == ',') {
+                tvGenre.setText(genres.trim().substring(0, genres.length() - 2));
+            } else
+                tvGenre.setText(genres);
+        }
 
         castsAdapter = new CastsAdapter(castModelList, getContext());
         rvCasts.setAdapter(castsAdapter);
@@ -196,6 +214,59 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tv_modelList = new ArrayList<>();
         loadCasts();
         loadRecommended();
+        loadTrailer();
+    }
+
+    private void loadTrailer() {
+        GetTrailerService getTrailerService = retrofitFactory.getInstance().createService(GetTrailerService.class);
+        getTrailerService.getTVTrailer(tvModel.getId(), API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
+            @Override
+            public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
+                for (TrailerObject trailerObject : response.body().getResults()) {
+                    keys.add(trailerObject.getKey());
+                }
+
+                floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        YoutubePlayFragment youTubePlayerFragment = new YoutubePlayFragment();
+//                        Bundle bundle = new Bundle();
+//                        ArrayList<String> urls = new ArrayList<String>();
+//                        urls.addAll(keys);
+//                        bundle.putStringArrayList("keys", urls);
+//                        youTubePlayerFragment.setArguments(bundle);
+                        YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
+                        youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
+                            @Override
+                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                player = youTubePlayer;
+                                player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                                player.loadVideos(keys);
+                                player.play();
+                            }
+
+                            @Override
+                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                            }
+                        });
+                        ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<MainTrailerObject> call, Throwable t) {
+                floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+
+                    }
+                });
+            }
+        });
     }
 
     private void loadRecommended() {

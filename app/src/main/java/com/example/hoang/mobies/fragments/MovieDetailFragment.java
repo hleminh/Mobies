@@ -64,6 +64,7 @@ import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+import static com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -252,15 +253,20 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 floatingActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+//                        YoutubePlayFragment youTubePlayerFragment = new YoutubePlayFragment();
+//                        Bundle bundle = new Bundle();
+//                        ArrayList<String> urls = new ArrayList<String>();
+//                        urls.addAll(keys);
+//                        bundle.putStringArrayList("keys", urls);
+//                        youTubePlayerFragment.setArguments(bundle);
                         YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
                         youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
                             @Override
                             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                                    player = youTubePlayer;
-                                    player.setFullscreen(false);
-                                    player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
-                                    player.loadVideos(keys);
-                                    player.play();
+                                player = youTubePlayer;
+                                player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                                player.loadVideos(keys);
+                                player.play();
                             }
 
                             @Override

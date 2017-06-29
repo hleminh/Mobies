@@ -5,9 +5,11 @@
     tools:context="com.example.hoang.mobies.fragments.YoutubePlayFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <com.google.android.youtube.player.YouTubePlayerView
+       android:id="@+id/youtube"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </com.google.android.youtube.player.YouTubePlayerView>
 
 </FrameLayout>
