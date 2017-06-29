@@ -207,7 +207,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(), movieModel.getId());
+                RateDialog rateDialog = new RateDialog(getContext(), movieModel.getId(),true);
                 rateDialog.show();
             }
         });
@@ -391,7 +391,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
     @Subscribe
     public void onEvent(Float rating) {
-        // your implementation
         float x = rating;
         tvRate.setText("Your rating: " + (int) x + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);

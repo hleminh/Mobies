@@ -15,12 +15,14 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
 import com.example.hoang.mobies.network.rate.RateMovieRequest;
 import com.example.hoang.mobies.network.rate.RateMoviesResponse;
 import com.example.hoang.mobies.network.rate.RateMoviesService;
+import com.example.hoang.mobies.network.rate.RateTVService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,9 +53,11 @@ public class RateDialog extends Dialog implements View.OnClickListener {
     TextView tvDialog;
     float rating;
     int movieID;
-    public RateDialog(@NonNull Context context, int movieID) {
+    boolean isMovie;
+    public RateDialog(@NonNull Context context, int movieID, boolean isMovie) {
         super(context);
         this.movieID=movieID;
+        this.isMovie=isMovie;
     }
 
 
@@ -101,7 +105,10 @@ public class RateDialog extends Dialog implements View.OnClickListener {
                     SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
                     editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
                     editor.commit();
-                    RateDialog.this.rate();
+                    if(isMovie)
+                        RateDialog.this.rate();
+                    else
+                        RateDialog.this.rateTV();
                 }
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
@@ -111,7 +118,10 @@ public class RateDialog extends Dialog implements View.OnClickListener {
 
         }
         else {
-            rate();
+            if(isMovie)
+                rate();
+            else
+                rateTV();
         }
     }
 
@@ -127,10 +137,27 @@ public class RateDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-                Log.d("failed","failed");
                 Toast.makeText(getContext(),"Rate Failed. Check your connection",Toast.LENGTH_SHORT).show();
             }
         });
     }
+    private void rateTV()
+    {
+        RateTVService rateTVService= RetrofitFactory.getInstance().createService(RateTVService.class);
+        rateTVService.rateTV(movieID, new RateMovieRequest(rating),API_KEY,GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
+            @Override
+            public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
+                Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new Float(rating));
+                RATED_TV_LIST.add(new TV_Model(movieID,rating));
+            }
+
+            @Override
+            public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
+                Toast.makeText(getContext(),"Rate Failed. Check your connection",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

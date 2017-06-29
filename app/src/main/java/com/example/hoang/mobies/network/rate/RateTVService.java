@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 public interface RateTVService {
     @Headers("Content-Type: application/json;charset=utf-8")
     @POST("tv/{tv_id}/rating")
-    Call<RateMoviesResponse> rateMovie(@Path("tv_id") int tv_id, @Body RateMovieRequest rateMovieRequest, @Query("api_key")
+    Call<RateMoviesResponse> rateTV(@Path("tv_id") int tv_id, @Body RateMovieRequest rateMovieRequest, @Query("api_key")
             String api_key, @Query("guest_session_id") String guest_session_id);
 }
 
