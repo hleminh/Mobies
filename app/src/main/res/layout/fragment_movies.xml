@@ -17,39 +17,46 @@
 
             <ProgressBar
                 android:id="@+id/pb_loading"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/tv_no_connection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="No Connection"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="14sp"
-                android:text="No Connection"
-                android:visibility="gone"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:visibility="gone" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_trending"
                 android:layout_width="match_parent"
                 android:layout_height="199dp"
-                android:layout_margin="10dp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false" />
 
             <HorizontalScrollView
                 android:id="@+id/tl_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vp_trending"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:clipToPadding="false"
                 android:scrollbars="none">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tl_category"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:tabIndicatorHeight="0dp"
                     app:tabSelectedTextColor="@color/colorTextPrimary"
                     app:tabTextColor="@color/colorTextSecondary">
@@ -60,34 +67,34 @@
 
             <ProgressBar
                 android:id="@+id/pb_category_loading"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/tl_container"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="30dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_below="@id/tl_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_category_no_connection"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/colorTextSecondary"-->
-                <!--android:textSize="14sp"-->
-                <!--android:text="No Connection"-->
-                <!--android:visibility="gone"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_marginTop="10dp"/>-->
+            <!--android:id="@+id/tv_category_no_connection"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/colorTextSecondary"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="No Connection"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"/>-->
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_movies_by_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_below="@+id/tl_container"
-                android:layout_alignStart="@+id/rv_coming_soon">
+                android:layout_below="@+id/pb_category_loading"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -96,14 +103,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rv_movies_by_categories"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/coming_soon"
-                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
 
@@ -111,23 +118,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_coming_soon"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
 
             <TextView
                 android:id="@+id/tv_in_cinemas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rv_coming_soon"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/in_cinemas"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_in_cinemas"
@@ -135,33 +143,35 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tv_in_cinemas"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
 
             <TextView
                 android:id="@+id/tv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rv_in_cinemas"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/top_rated"
-                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_top_rated"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
 
 
         </RelativeLayout>

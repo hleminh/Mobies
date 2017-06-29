@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.example.hoang.mobies.models.NewsModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_news.GetNewService;
 import com.example.hoang.mobies.network.get_news.MainNewsObject;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +70,8 @@ public class NewsFragment extends Fragment {
         rvNews.setAdapter(newsAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvNews.setLayoutManager(manager);
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
+        snapHelper.attachToRecyclerView(rvNews);
     }
 
     private void loadData() {

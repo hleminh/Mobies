@@ -5,7 +5,7 @@
     android:background="@color/colorStatusBar"
     android:orientation="vertical"
     android:gravity="center"
-    android:paddingRight="45dp">
+    android:paddingRight="44dp">
 
     <LinearLayout
         android:id="@+id/ll_dialog"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center">
 
         <RatingBar
@@ -58,7 +58,7 @@
             android:text="@string/btn_confirm"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="16dp"/>
 
         <Button
             android:id="@+id/btn_cancel"
@@ -68,7 +68,7 @@
             android:text="@string/btn_cancel"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="16dp"/>
 
     </LinearLayout>
 

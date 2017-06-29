@@ -7,8 +7,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="139dp"
         android:layout_height="199dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:cardBackgroundColor="@color/colorBackground">
 
         <RelativeLayout

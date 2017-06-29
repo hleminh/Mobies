@@ -32,7 +32,7 @@ public class SplashActivitiy extends AppCompatActivity {
         tvSplash.setTypeface(typeface);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvLogo);
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvSplash);
-        CountDownTimer countDownTimer = new CountDownTimer(4000,1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(3000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

@@ -10,14 +10,14 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/transparent"
-        android:layout_margin="5dp">
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@android:color/transparent">
 
         <ImageView
             android:id="@+id/iv_cast_picture"
             android:layout_width="50dp"
             android:layout_height="70dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
     </android.support.v7.widget.CardView>
 
@@ -26,8 +26,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:text="Test"
         android:textColor="@color/colorTextSecondary"
@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:text="Test"
         android:textColor="@color/colorTextSecondary"
