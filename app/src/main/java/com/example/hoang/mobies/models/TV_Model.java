@@ -24,7 +24,21 @@ public class TV_Model implements Serializable{
     private String backdrop_path;
     private String overview;
     private List<String> origin_country;
+    float rating;
 
+    public TV_Model(int id, float rating) {
+        this.id = id;
+        this.rating = rating;
+    }
+
+    public float getRating() {
+
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public String getOriginal_name() {
         return original_name;

@@ -48,6 +48,9 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +106,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     ProgressBar pbProgressRecommended;
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
+    @BindView(R.id.tv_rate)
+    TextView tvRate;
+    @BindView(R.id.iv_rate)
+    ImageView ivRate;
     private TV_Model tvModel;
     private List<CastModel> castModelList;
     private List<TV_Model> tv_modelList;
@@ -115,6 +122,12 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -194,7 +207,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(), tvModel.getId());
+                RateDialog rateDialog = new RateDialog(getContext(), tvModel.getId(),false);
                 rateDialog.show();
             }
         });
@@ -361,4 +374,13 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
     }
+    @Subscribe
+    public void onEvent(Float rating) {
+        Log.d("receive","receive");
+        float x = rating;
+        tvRate.setText("Your rating: " + (int) x + "/10");
+        ivRate.setImageResource(R.drawable.ic_star_black_24dp);
+        tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
+    }
+
 }
