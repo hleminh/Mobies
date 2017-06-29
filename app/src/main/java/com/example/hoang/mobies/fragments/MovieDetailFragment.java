@@ -2,6 +2,7 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -134,6 +135,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
         ButterKnife.bind(this, view);

@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.fragments;
 
 
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -119,6 +120,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_tvshow_detail, container, false);
         tvModel = (TV_Model) getArguments().getSerializable("TVDetail");
         loadData();
