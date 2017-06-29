@@ -41,6 +41,7 @@ public class NewsDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitle(R.string.news_detail);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorTextPrimary));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

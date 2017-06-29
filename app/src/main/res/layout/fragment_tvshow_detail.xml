@@ -74,12 +74,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_poster_tvshow_detail"
-                    android:layout_width="110dp"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="centerCrop" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorBackground">
+
+                    <ImageView
+                        android:id="@+id/iv_poster_tvshow_detail"
+                        android:layout_width="110dp"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop" />
+
+                </android.support.v7.widget.CardView>
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -236,26 +242,26 @@
 
             <TextView
                 android:id="@+id/tv_no_cast"
-                android:text="-"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="-"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/pb_progress_cast"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_casts"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginTop="10dp"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/tv_full_cast"
@@ -264,9 +270,9 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="5dp"
                 android:text="@string/full_cast"
-                android:visibility="gone"
                 android:textColor="@color/colorRatingBarYellow"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -308,10 +314,10 @@
 
             <TextView
                 android:id="@+id/tv_no_recommended"
-                android:text="-"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="-"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="14sp"
                 android:visibility="gone" />
@@ -319,17 +325,17 @@
             <ProgressBar
                 android:id="@+id/pb_progress_recommended"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recommended"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="-5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"></android.support.v7.widget.RecyclerView>
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

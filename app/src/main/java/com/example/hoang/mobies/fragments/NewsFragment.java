@@ -54,7 +54,6 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        //TODO: Replace news detail fragment's layout in R.id.drawer_layout -> News detail fragment has its own Toolbar.
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.news);
         MainActivity.navigationView.setCheckedItem(R.id.nav_new);
         loadData();

@@ -80,10 +80,30 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void setData(final NewsModel newsModel) {
-            tvDescription.setText(newsModel.getDescription());
-            tvDate.setText(newsModel.getPublishedAt());
-            tvPublisher.setText(newsModel.getAuthor());
-            tvTitle.setText(newsModel.getTitle());
+            if (newsModel.getDescription() == null || newsModel.getDescription().equals(""))
+                tvDescription.setVisibility(View.GONE);
+            else {
+                System.out.printf("Description: " + newsModel.getDescription());
+                tvDescription.setText(newsModel.getDescription());
+            }
+            if (newsModel.getPublishedAt() == null || newsModel.getPublishedAt().equals(""))
+                tvDate.setVisibility(View.GONE);
+            else {
+                System.out.printf("Date: " + newsModel.getPublishedAt());
+                tvDate.setText(newsModel.getPublishedAt());
+            }
+            if (newsModel.getAuthor() == null || newsModel.getAuthor().equals(""))
+                tvPublisher.setVisibility(View.GONE);
+            else {
+                System.out.printf("Author: " + newsModel.getAuthor());
+                tvPublisher.setText(newsModel.getAuthor());
+            }
+            if (newsModel.getTitle() == null || newsModel.getTitle().equals(""))
+                tvTitle.setVisibility(View.GONE);
+            else {
+                System.out.printf("Title: " + newsModel.getTitle());
+                tvTitle.setText(newsModel.getTitle());
+            }
             tvReadMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

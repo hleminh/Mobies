@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.hoang.mobies.fragments.YoutubePlayFragment">
 
-    <!-- TODO: Update blank fragment layout -->
    <com.google.android.youtube.player.YouTubePlayerView
        android:id="@+id/youtube"
        android:layout_width="match_parent"
