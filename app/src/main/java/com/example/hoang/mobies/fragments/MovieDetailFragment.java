@@ -107,6 +107,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     FloatingActionButton floatingActionButton;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
+    private List<GenresModel> genresModelList = new ArrayList<>();
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
     private CastsAdapter castsAdapter;
     private String key;
@@ -129,6 +130,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
         ButterKnife.bind(this, view);
+        if (Utils.genresModelList.size() != 0) {
+            genresModelList.addAll(Utils.genresModelList);
+        }
+        System.out.println("reload");
         loadData();
         setupUI(view);
         return view;
@@ -149,7 +154,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         String genres = "";
         for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
-            for (GenresModel genreModel : Utils.genresModelList) {
+            for (GenresModel genreModel : genresModelList) {
                 if (genreModel.getId() == movieModel.getGenre_ids().get(i).intValue()) {
                     if (i == movieModel.getGenre_ids().size() - 1) {
                         genres += genreModel.getName();
@@ -212,7 +217,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         for (MovieModel model : RATED_MOVIE_LIST) {
             if (model.getId() == this.movieModel.getId()) {
 
-                tvRate.setText("Your rating: " + (int)model.getRating() + "/10");
+                tvRate.setText("Your rating: " + (int) model.getRating() + "/10");
                 ivRate.setImageResource(R.drawable.ic_star_black_24dp);
                 tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
                 break;
@@ -227,8 +232,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         loadCasts();
         loadRecommended();
         loadTrailer();
-        if (movieModel.isVideo()) {
-        }
     }
 
     private void loadTrailer() {
@@ -242,6 +245,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key));
                         intent.putExtra("force_fullscreen", true);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
                     }
                 });
@@ -264,6 +268,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void loadRecommended() {
+        System.out.println(movieModel.getId());
         GetRecommendMovieService getRecommendMovieService = RetrofitFactory.getInstance().createService(GetRecommendMovieService.class);
         getRecommendMovieService.getRecommendMovies(movieModel.getId(), API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainObject>() {
             @Override
@@ -357,8 +362,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     @Subscribe
     public void onEvent(Float rating) {
         // your implementation
-        float x=rating;
-        tvRate.setText("Your rating: " + (int)x + "/10");
+        float x = rating;
+        tvRate.setText("Your rating: " + (int) x + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
     }

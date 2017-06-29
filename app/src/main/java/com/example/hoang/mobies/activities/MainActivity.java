@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 
 import com.example.hoang.mobies.R;
 
+import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
@@ -131,9 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.movies);
@@ -146,7 +144,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        displayStartScreen();
+        if (Utils.genresModelList == null)
+            displayStartScreen();
     }
 
     private void displayStartScreen() {
@@ -218,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!celebFragment.isVisible())
                     ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
             }
-            if (celebFragment == null){
+            if (celebFragment == null) {
                 ScreenManager.openFragment(getSupportFragmentManager(), new CelebFragment(), R.id.fl_container, true, false);
             }
         } else if (id == R.id.nav_tvshow) {
