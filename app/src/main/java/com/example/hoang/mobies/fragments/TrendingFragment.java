@@ -3,6 +3,7 @@ package com.example.hoang.mobies.fragments;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class TrendingFragment extends Fragment {
             tvTrendingName.setText(movieModel.getTitle());
             rbTrending.setRating(movieModel.getVote_average() / 2);
             boolean check=true;
-
+            Log.d("add","size"+RATED_MOVIE_LIST.size());
             for (MovieModel model : RATED_MOVIE_LIST) {
                 if (model.getId() == movieModel.getId()) {
                     tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");

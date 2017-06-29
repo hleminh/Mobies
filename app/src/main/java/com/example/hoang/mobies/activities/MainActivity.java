@@ -39,6 +39,7 @@ import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.NewsModel;
 
+import com.example.hoang.mobies.models.TV_Model;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_movies.GetDetailMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrailerService;
@@ -78,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Menu mMenu;
     private static List<GenresModel> genresModelList;
-    public static List<MovieModel> RATED_MOVIE_LIST;
-
+    public static List<MovieModel> RATED_MOVIE_LIST= new ArrayList<>();
+    public static List<TV_Model> RATED_TV_LIST= new ArrayList<>();
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -103,10 +104,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onResponse(Call<GuestObject> call, Response<GuestObject> response) {
                     GUEST_ID = response.body().getGuest_session_id();
-                    Log.d("test guest id 1: ", "" + GUEST_ID);
                     SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
                     editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
                     editor.commit();
+                    if (Utils.genresModelList == null)
+                        displayStartScreen();
                 }
 
                 @Override
@@ -114,24 +116,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             });
+        } else {
+            loadRatedList();
         }
-
-        RATED_MOVIE_LIST = new ArrayList<>();
-        GetRatedMoviesService getRatedMoviesService = retrofitFactory.getInstance().createService(GetRatedMoviesService.class);
-        getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {
-            @Override
-            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
-                for (MovieModel movieModel : response.body().getResults()) {
-                    Log.d("rated movies", movieModel.toString());
-                    RATED_MOVIE_LIST.add(movieModel);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainObject> call, Throwable t) {
-
-            }
-        });
 
 
 //        GetDetailMoviesService getDetailMoviesService= retrofitFactory.getInstance().createService(GetDetailMoviesService.class);
@@ -158,8 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if (Utils.genresModelList == null)
-            displayStartScreen();
+
     }
 
     @Override
@@ -274,6 +260,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadRatedList() {
+        GetRatedMoviesService getRatedMoviesService = retrofitFactory.getInstance().createService(GetRatedMoviesService.class);
+        getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                for (MovieModel movieModel : response.body().getResults()) {
+                    Log.d("rated movies", movieModel.toString());
+                    RATED_MOVIE_LIST.add(movieModel);
+
+                }
+                if (Utils.genresModelList == null)
+                    displayStartScreen();
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+
+            }
+        });
+
+
+
     }
 
 }
