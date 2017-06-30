@@ -52,9 +52,11 @@ import com.example.hoang.mobies.network.get_movies.TrailerObject;
 import com.example.hoang.mobies.network.get_news.GetNewService;
 import com.example.hoang.mobies.network.get_news.MainNewsObject;
 
+import com.example.hoang.mobies.network.get_tv.MainTvObject;
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
 import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
+import com.example.hoang.mobies.network.rate.GetRatedTVService;
 
 
 import java.util.ArrayList;
@@ -79,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Menu mMenu;
     private static List<GenresModel> genresModelList;
-    public static List<MovieModel> RATED_MOVIE_LIST= new ArrayList<>();
-    public static List<TV_Model> RATED_TV_LIST= new ArrayList<>();
+    public static List<MovieModel> RATED_MOVIE_LIST = new ArrayList<>();
+    public static List<TV_Model> RATED_TV_LIST = new ArrayList<>();
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -268,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 for (MovieModel movieModel : response.body().getResults()) {
-                    Log.d("rated movies", movieModel.toString());
                     RATED_MOVIE_LIST.add(movieModel);
 
                 }
@@ -281,8 +282,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+        GetRatedTVService getRatedTVService = retrofitFactory.getInstance().createService(GetRatedTVService.class);
+        getRatedTVService.getRatedTV(GUEST_ID, API_KEY).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                for (TV_Model tv_model : response.body().getResults()) {
+                    RATED_TV_LIST.add(tv_model);
 
+                }
+            }
 
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+
+            }
+        });
 
     }
 

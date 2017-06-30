@@ -1,6 +1,7 @@
 package com.example.hoang.mobies.network.rate;
 
 import com.example.hoang.mobies.network.get_movies.MainObject;
+import com.example.hoang.mobies.network.get_tv.MainTvObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,6 +14,6 @@ import retrofit2.http.Query;
 
 public interface GetRatedTVService {
     @GET("guest_session/{guest_session_id}/rated/tv")
-    Call<MainObject> getRatedMovies(@Path("guest_session_id") String guess_session_id, @Query("api_key")
+    Call<MainTvObject> getRatedTV(@Path("guest_session_id") String guess_session_id, @Query("api_key")
             String api_key);
 }

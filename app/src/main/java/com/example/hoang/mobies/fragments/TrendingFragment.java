@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
+import static com.example.hoang.mobies.activities.MainActivity.RATED_TV_LIST;
 
 /**
  * Created by Hoang on 6/9/2017.
@@ -74,7 +75,6 @@ public class TrendingFragment extends Fragment {
             tvTrendingName.setText(movieModel.getTitle());
             rbTrending.setRating(movieModel.getVote_average() / 2);
             boolean check=true;
-            Log.d("add","size"+RATED_MOVIE_LIST.size());
             for (MovieModel model : RATED_MOVIE_LIST) {
                 if (model.getId() == movieModel.getId()) {
                     tvTrendingRating.setText(String.format("%,d",movieModel.getVote_count()+1) + " Ratings");
@@ -92,6 +92,12 @@ public class TrendingFragment extends Fragment {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
             tvTrendingName.setText(tvModel.getName());
             tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
+            for (TV_Model model : RATED_TV_LIST) {
+                if (model.getId() == tvModel.getId()) {
+                    tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()+1) + " Ratings");
+                    break;
+                }
+            }
             rbTrending.setRating(tvModel.getVote_average() / 2);
         }
         view.setOnClickListener(new View.OnClickListener() {
