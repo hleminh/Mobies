@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TV_Model;
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +17,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
+import static com.example.hoang.mobies.activities.MainActivity.RATED_TV_LIST;
 
 /**
  * Created by tonto on 6/19/2017.
@@ -75,6 +79,12 @@ public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCate
             tvTvbcName.setText(tv_model.getName());
             tvTVbcVote.setText(tv_model.getVote_average() + "");
             tvTvbcRating.setText(tv_model.getVote_count() + " Ratings");
+            for (TV_Model model : RATED_TV_LIST) {
+                if (model.getId() == tv_model.getId()) {
+                    tvTvbcRating.setText(String.format("%,d",tv_model.getVote_count()+1) + " Ratings");
+                    break;
+                }
+            }
             view.setTag(tv_model);
         }
     }

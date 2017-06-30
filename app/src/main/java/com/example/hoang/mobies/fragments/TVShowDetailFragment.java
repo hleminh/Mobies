@@ -60,6 +60,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.hoang.mobies.activities.MainActivity.RATED_TV_LIST;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
@@ -148,6 +149,12 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvTvShowName.setText(tvModel.getName());
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
+        for (TV_Model model : RATED_TV_LIST) {
+            if (model.getId() == tvModel.getId()) {
+                tvRatingDetail.setText(String.format("%,d",tvModel.getVote_count()+1) + " Ratings");
+                break;
+            }
+        }
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);
         tvTvShowReleaseDate.setText(tvModel.getFirst_air_date());
         if (tvModel.getOverview() != null) {
