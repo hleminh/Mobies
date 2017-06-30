@@ -71,7 +71,8 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -337,13 +338,12 @@
                     android:id="@+id/rv_recommended"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="-16dp"
                     android:layout_marginRight="-16dp"
                     android:layout_marginTop="16dp"
                     android:clipToPadding="false"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
                     android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             </LinearLayout>

@@ -37,8 +37,7 @@
             android:screenOrientation="portrait"
             android:name=".activities.SearchResultsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="Search Results"
-            >
+            android:label="Search Results">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

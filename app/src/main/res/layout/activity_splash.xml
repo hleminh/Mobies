@@ -4,37 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorStatusBar"
     tools:context="com.example.hoang.mobies.activities.SplashActivitiy">
 
 
-    <ImageView
-        android:id="@+id/iv_splash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/icon_round" />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_splash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@mipmap/icon_round" />-->
 
-    <TextView
-        android:id="@+id/tv_splash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/iv_splash"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/splash"
-        android:textAllCaps="true"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <pl.droidsonroids.gif.GifTextView
-        android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/logo_gif" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_splash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/iv_splash"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:text="@string/splash"-->
+        <!--android:textAllCaps="true"-->
+        <!--android:textColor="@color/colorRatingBarYellow"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
 
 </RelativeLayout>
