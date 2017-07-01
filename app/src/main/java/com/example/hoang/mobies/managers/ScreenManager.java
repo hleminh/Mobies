@@ -9,6 +9,7 @@ import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.MoviesFragment;
 import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
+import com.example.hoang.mobies.fragments.SearchResultFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.fragments.WatchListFragment;
 
@@ -39,6 +40,8 @@ public class ScreenManager {
             transaction.replace(layoutID, fragment, "WatchListFragment");
         } else if (fragment instanceof NewsDetailFragment) {
             transaction.replace(layoutID, fragment, "NewsDetailFragment");
+        }else if(fragment instanceof SearchResultFragment){
+            transaction.replace(layoutID, fragment, "SearchResultFragment");
         } else {
             transaction.replace(layoutID, fragment);
         }

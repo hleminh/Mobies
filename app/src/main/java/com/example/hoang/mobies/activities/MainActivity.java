@@ -37,6 +37,7 @@ import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
+import com.example.hoang.mobies.fragments.SearchResultFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.fragments.WatchListFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -188,14 +189,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NewsDetailFragment newsDetailFragment = (NewsDetailFragment) getSupportFragmentManager().findFragmentByTag("NewsDetailFragment");
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            System.out.println("Close drawer");
             drawer.closeDrawer(GravityCompat.START);
         } else if (newsDetailFragment != null) {
             if (newsDetailFragment.getToolbar().getVisibility() == View.GONE) {
+                System.out.println("Restore toolbar");
                 newsDetailFragment.getToolbar().setVisibility(View.VISIBLE);
             } else super.onBackPressed();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            finish();
-            System.exit(0);
+            SearchResultFragment searchResultFragment = (SearchResultFragment) getSupportFragmentManager().findFragmentByTag("SearchResultFragment");
+            if (searchResultFragment != null) {
+                if (!searchResultFragment.isVisible()) {
+                    System.out.println("Exit");
+                    finish();
+                    System.exit(0);
+                } else super.onBackPressed();
+            } else {
+                System.out.println("Exit");
+                finish();
+                System.exit(0);
+            }
         } else super.onBackPressed();
     }
 

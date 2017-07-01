@@ -80,6 +80,7 @@ public class SearchResultsActivity extends MainActivity {
     public void onBackPressed() {
         if (!searchView.isIconified())
             searchView.setIconified(true);
+        System.out.println("SearchResult: onBackPressed");
         super.onBackPressed();
     }
 }
