@@ -70,9 +70,9 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="vertical"
+                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
+                android:paddingRight="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,14 +82,14 @@
                     <android.support.v7.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        app:cardBackgroundColor="@android:color/transparent">
 
                         <ImageView
                             android:id="@+id/iv_poster_movie_detail"
                             android:layout_width="110dp"
                             android:layout_height="160dp"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop" />
 
                     </android.support.v7.widget.CardView>
 
@@ -102,7 +102,7 @@
 
                         <TextView
                             android:id="@+id/tv_movie_name_movie_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_marginBottom="8dp"
@@ -115,12 +115,11 @@
 
                         <TextView
                             android:id="@+id/tv_movie_release_date_movie_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_below="@+id/tv_movie_name_movie_detail"
                             android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="50dp"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
                             android:textStyle="normal" />
@@ -140,11 +139,10 @@
 
                         <TextView
                             android:id="@+id/tv_rating_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/rb_movie_detail"
                             android:layout_below="@id/tv_movie_release_date_movie_detail"
-                            android:layout_marginEnd="50dp"
                             android:layout_toEndOf="@id/rb_movie_detail"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"

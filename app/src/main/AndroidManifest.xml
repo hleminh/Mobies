@@ -15,8 +15,6 @@
             android:screenOrientation="portrait"
             android:name=".activities.SplashActivitiy"
             android:theme="@style/Theme.Splash">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,5 +45,4 @@
                 android:value=".activities.SearchResultsActivity" />
         </activity>
     </application>
-
 </manifest>

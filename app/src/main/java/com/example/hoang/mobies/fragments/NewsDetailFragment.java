@@ -43,6 +43,7 @@ public class NewsDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news_detail, container, false);
         ButterKnife.bind(this, view);
+        newsModel = (NewsModel) getArguments().getSerializable("NewsDetail");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorTextPrimary));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,8 @@ public class NewsDetailFragment extends Fragment {
                 ScreenManager.backFragment(getFragmentManager());
             }
         });
-        newsModel = (NewsModel) getArguments().getSerializable("NewsDetail");
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorTextSecondary));
+        toolbar.setSubtitle(newsModel.getUrl());
         WebSettings webSettings = wvNewsDetail.getSettings();
         webSettings.setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

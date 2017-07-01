@@ -103,7 +103,7 @@
 
                         <TextView
                             android:id="@+id/tv_celeb_name_celeb_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_marginBottom="8dp"
@@ -115,7 +115,7 @@
 
                         <LinearLayout
                             android:id="@+id/ll_date"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_celeb_name_celeb_detail"
                             android:layout_marginBottom="8dp">
@@ -152,7 +152,7 @@
 
                         <TextView
                             android:id="@+id/tv_celeb_pob_celeb_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/ll_date"
                             android:layout_marginBottom="8dp"
@@ -162,7 +162,7 @@
 
                         <TextView
                             android:id="@+id/tv_celeb_gender_celeb_detail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_celeb_pob_celeb_detail"
                             android:textColor="@color/colorTextSecondary"

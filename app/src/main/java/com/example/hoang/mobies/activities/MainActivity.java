@@ -193,6 +193,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (newsDetailFragment.getToolbar().getVisibility() == View.GONE) {
                 newsDetailFragment.getToolbar().setVisibility(View.VISIBLE);
             } else super.onBackPressed();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            finish();
+            System.exit(0);
         } else super.onBackPressed();
     }
 
