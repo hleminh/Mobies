@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.MoviesFragment;
+import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
+import com.example.hoang.mobies.fragments.WatchListFragment;
 
 /**
  * Created by tonto on 6/18/2017.
@@ -25,18 +27,19 @@ public class ScreenManager {
 //            transaction.setCustomAnimations(R.anim.enter_from_bot, 0, 0, R.anim.exit_to_bot);
 //        }
 
-        if (fragment instanceof CelebFragment){
+        if (fragment instanceof CelebFragment) {
             transaction.replace(layoutID, fragment, "CelebFragment");
-        }
-        else if (fragment instanceof MoviesFragment){
+        } else if (fragment instanceof MoviesFragment) {
             transaction.replace(layoutID, fragment, "MoviesFragment");
-        }
-        else if (fragment instanceof TVShowsFragment){
+        } else if (fragment instanceof TVShowsFragment) {
             transaction.replace(layoutID, fragment, "TVShowsFragment");
         } else if (fragment instanceof NewsFragment) {
             transaction.replace(layoutID, fragment, "NewsFragment");
-        }
-        else {
+        } else if (fragment instanceof WatchListFragment) {
+            transaction.replace(layoutID, fragment, "WatchListFragment");
+        } else if (fragment instanceof NewsDetailFragment) {
+            transaction.replace(layoutID, fragment, "NewsDetailFragment");
+        } else {
             transaction.replace(layoutID, fragment);
         }
         transaction.commit();

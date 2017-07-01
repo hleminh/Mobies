@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -23,16 +24,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 
 
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.fragments.CelebFragment;
+import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
+import com.example.hoang.mobies.fragments.WatchListFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
 
@@ -103,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpGuestID();
 
 
-
 //        GetDetailMoviesService getDetailMoviesService= retrofitFactory.getInstance().createService(GetDetailMoviesService.class);
 //        getDetailMoviesService.getDetailMovie(297762,API_KEY,LANGUAGE).enqueue(new Callback<MovieModel>() {
 //            @Override
@@ -120,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getTvDetailService.getDetailTv(57243, API_KEY, LANGUAGE).enqueue(new Callback<TV_Model>() {
             @Override
             public void onResponse(Call<TV_Model> call, Response<TV_Model> response) {
-                Log.d("detail",response.body().toString());
+                Log.d("detail", response.body().toString());
             }
 
             @Override
@@ -181,11 +186,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NewsDetailFragment newsDetailFragment = (NewsDetailFragment) getSupportFragmentManager().findFragmentByTag("NewsDetailFragment");
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        } else if (newsDetailFragment != null) {
+            if (newsDetailFragment.getToolbar().getVisibility() == View.GONE) {
+                newsDetailFragment.getToolbar().setVisibility(View.VISIBLE);
+            } else super.onBackPressed();
+        } else super.onBackPressed();
     }
 
     @Override
@@ -273,6 +281,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             if (newsFragment == null) {
                 ScreenManager.openFragment(getSupportFragmentManager(), new NewsFragment(), R.id.fl_container, true, false);
+            }
+        } else if (id == R.id.nav_watch_list) {
+            WatchListFragment watchListFragment = (WatchListFragment) getSupportFragmentManager().findFragmentByTag("WatchListFragment");
+            if (watchListFragment != null) {
+                if (!watchListFragment.isVisible()) {
+                    ScreenManager.openFragment(getSupportFragmentManager(), new WatchListFragment(), R.id.fl_container, true, false);
+                }
+            }
+            if (watchListFragment == null) {
+                ScreenManager.openFragment(getSupportFragmentManager(), new WatchListFragment(), R.id.fl_container, true, false);
             }
         }
 

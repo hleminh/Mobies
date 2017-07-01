@@ -61,11 +61,11 @@
 
     <string name="btn_cancel">Cancel</string>
 
-    <string name="watch_list">Watch list</string>
+    <string name="watch_list">Watch List</string>
 
-    <string name="read_more">Read more</string>
+    <string name="read_more">Read More</string>
 
-    <string name="news_detail">News detail</string>
+    <string name="news_detail">News Detail</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
