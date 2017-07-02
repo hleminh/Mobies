@@ -70,7 +70,7 @@ public class NewsFragment extends Fragment {
         rvNews.setAdapter(newsAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvNews.setLayoutManager(manager);
-        SnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.BOTTOM);
         snapHelper.attachToRecyclerView(rvNews);
     }
 
