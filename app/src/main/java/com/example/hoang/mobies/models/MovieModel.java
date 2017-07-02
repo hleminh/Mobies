@@ -2,9 +2,12 @@ package com.example.hoang.mobies.models;
 
 import com.example.hoang.mobies.network.get_people.KnownForObject;
 
+import org.parceler.Parcel;
+
 import java.io.Serializable;
 import java.util.List;
 
+import io.realm.MovieModelRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -12,7 +15,6 @@ import io.realm.annotations.Ignore;
 /**
  * Created by Hoang on 6/9/2017.
  */
-
 public class MovieModel extends RealmObject implements Serializable {
     private String poster_path;
     private boolean adult;

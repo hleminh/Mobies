@@ -266,15 +266,4 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-    }
 }

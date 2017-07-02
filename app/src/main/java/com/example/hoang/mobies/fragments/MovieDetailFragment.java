@@ -133,8 +133,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
     }
 
     @Override
@@ -144,7 +142,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         getActivity().setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        if (getArguments() != null)
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         ButterKnife.bind(this, view);
         loadData();
         setupUI(view);
@@ -436,6 +437,13 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         tvRate.setText("Your rating: " + (int) x + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
+    }
+
+    @Subscribe (sticky = true )
+    public void onReceiveMovieModel(MovieModel movieModel){
+        if (this.movieModel == null){
+            this.movieModel = movieModel;
+        }
     }
 
 }

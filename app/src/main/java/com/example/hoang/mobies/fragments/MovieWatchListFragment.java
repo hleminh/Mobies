@@ -16,6 +16,8 @@ import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenreIDs;
 import com.example.hoang.mobies.models.MovieModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,9 +59,10 @@ public class MovieWatchListFragment extends Fragment implements View.OnClickList
         if (v.getTag() instanceof MovieModel) {
             MovieModel movieModel = (MovieModel) v.getTag();
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("MovieDetail", movieModel);
-            movieDetailFragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("MovieDetail", movieModel);
+//            movieDetailFragment.setArguments(bundle);
+            EventBus.getDefault().postSticky(movieModel);
             ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
         }
     }

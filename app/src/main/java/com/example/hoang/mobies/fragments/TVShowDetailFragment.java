@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -32,6 +33,7 @@ import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
+import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_cast.GetCastTvService;
@@ -129,8 +131,6 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onStart() {
         super.onStart();
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
     }
 
     @Override
@@ -140,7 +140,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         getActivity().setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_tvshow_detail, container, false);
-        tvModel = (TVModel) getArguments().getSerializable("TVDetail");
+        if (getArguments() != null) {
+            tvModel = (TVModel) getArguments().getSerializable("TVDetail");
+        }
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         loadData();
         setupUI(view);
         return view;
@@ -390,6 +394,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
     }
 
     @Override
@@ -399,6 +405,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     @Override
@@ -422,4 +429,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
     }
 
+    @Subscribe (sticky = true )
+    public void onReceiveMovieModel(TVModel tvModel){
+        if (this.tvModel == null){
+            this.tvModel = tvModel;
+        }
+    }
+    
 }

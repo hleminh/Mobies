@@ -15,6 +15,8 @@ import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.TVModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,9 +56,10 @@ public class TVWatchListFragment extends Fragment implements View.OnClickListene
         if (v.getTag() instanceof TVModel) {
             TVModel tvModel = (TVModel) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("TVDetail", tvModel);
-            tvShowDetailFragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("TVDetail", tvModel);
+//            tvShowDetailFragment.setArguments(bundle);
+            EventBus.getDefault().postSticky(tvModel);
             ScreenManager.openFragment(getActivity().getSupportFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
     }
