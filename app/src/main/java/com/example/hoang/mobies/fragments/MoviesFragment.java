@@ -23,6 +23,7 @@ import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
+import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
@@ -87,7 +88,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private List<MovieModel> comingSoonMoviesList;
     private List<MovieModel> inCinemasMoviesList;
     private List<MovieModel> trendingMoviesList;
-    private List<MovieModel> moviesByCategoryList;
+    private List<MovieModel> moviesByCategoryList = new ArrayList<>();
     private List<GenresModel> genresModelList;
     private TrendingPagerAdapter trendingPagerAdapter;
     private MoviesByCategoriesAdapter moviesByCategoriesAdapter;
@@ -108,6 +109,30 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         failConnection = 0;
+        ButterKnife.bind(this, view);
+        genresModelList = new ArrayList<>();
+        if (RealmHandle.getInstance().getListGenresModel().size() == 0) {
+            loadGenres();
+            System.out.println("load online");
+        } else {
+            failConnection++;
+            if (Utils.genresModelList == null) {
+                System.out.println("add to utils");
+                Utils.genresModelList = new ArrayList<>();
+                for (GenresModel genresModel : RealmHandle.getInstance().getListGenresModel()) {
+                    genresModelList.add(genresModel);
+                    Utils.genresModelList.add(genresModel);
+                    tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
+                }
+            } else {
+                System.out.println("load offline");
+                for (GenresModel genresModel : RealmHandle.getInstance().getListGenresModel()) {
+                    genresModelList.add(genresModel);
+                    tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
+                }
+            }
+            loadMoviesByCaterogy((genresModelList.get(0)).getId() + "");
+        }
         loadData();
         setupUI(view);
         return view;
@@ -120,7 +145,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setupUI(View view) {
-        ButterKnife.bind(this, view);
         trendingPagerAdapter = new TrendingPagerAdapter(getChildFragmentManager(), trendingMoviesList, null);
         vpTrending.setAdapter(trendingPagerAdapter);
         vpTrending.setOffscreenPageLimit(3);
@@ -185,21 +209,20 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         snapHelper3.attachToRecyclerView(rvInCinemas);
         snapHelper4.attachToRecyclerView(rvComingSoon);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.movies);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.movies);
         MainActivity.navigationView.setCheckedItem(R.id.nav_movie);
 
     }
 
     private void loadData() {
         trendingMoviesList = new ArrayList<>();
-        genresModelList = new ArrayList<>();
         moviesByCategoryList = new ArrayList<>();
         inCinemasMoviesList = new ArrayList<>();
         topRatedMoviesList = new ArrayList<>();
         comingSoonMoviesList = new ArrayList<>();
 
+
         loadTrendingMovies();
-        loadGenres();
         loadComingSoon();
         loadInCinemas();
         loadTopRated();
@@ -291,7 +314,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-                failConnection++;
                 pbCategory.setVisibility(View.GONE);
 //                tvCategoryNoConnect.setVisibility(View.VISIBLE);
             }
@@ -308,6 +330,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 for (GenresModel genresModel : mainGenresObject.getGenres()) {
                     genresModelList.add(genresModel);
                     Utils.genresModelList.add(genresModel);
+                    RealmHandle.getInstance().addGenresToRealm(genresModel);
                     tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
                 }
             }
@@ -327,6 +350,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 pbLoading.setVisibility(View.GONE);
+                tlCategory.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     trendingMoviesList.add(movieModel);

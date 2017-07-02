@@ -1,10 +1,12 @@
 package com.example.hoang.mobies.models;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Inpriron on 6/9/2017.
  */
 
-public class GenresModel {
+public class GenresModel extends RealmObject{
     private int id;
     private String name;
 

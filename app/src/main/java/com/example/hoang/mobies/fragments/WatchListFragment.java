@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.activities.MainActivity;
@@ -21,6 +23,11 @@ import butterknife.ButterKnife;
 public class WatchListFragment extends Fragment {
     @BindView(R.id.tl_watch_list)
     TabLayout tlWatchList;
+    @BindView(R.id.pb_watch_list)
+    ProgressBar pbWatchList;
+    @BindView(R.id.tv_no_connection)
+    TextView tvNoConnection;
+
 
 
     public WatchListFragment() {
