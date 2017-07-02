@@ -19,33 +19,33 @@
             app:tabTextColor="@color/colorTextSecondary"
             app:tabIndicatorColor="@color/colorRatingBarYellow"/>
 
-        <ProgressBar
-            android:id="@+id/pb_watch_list"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true" />
+        <!--<ProgressBar-->
+            <!--android:id="@+id/pb_watch_list"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_centerInParent="true" />-->
 
-        <TextView
-            android:id="@+id/tv_no_connection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="No Connection"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="14sp"
-            android:visibility="gone" />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_no_connection"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:text="No Connection"-->
+            <!--android:textColor="@color/colorTextSecondary"-->
+            <!--android:textSize="14sp"-->
+            <!--android:visibility="gone" />-->
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_watch_list"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_watch_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tl_watch_list"
             android:clipToPadding="false"
             android:paddingBottom="4dp"
             android:paddingTop="4dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </RelativeLayout>
 
 

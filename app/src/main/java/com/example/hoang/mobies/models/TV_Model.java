@@ -6,11 +6,15 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 /**
  * Created by Inpriron on 6/17/2017.
  */
 
-public class TV_Model implements Serializable{
+public class TV_Model extends RealmObject implements Serializable{
     private String original_name;
     private int id;
     private String name;
@@ -19,12 +23,35 @@ public class TV_Model implements Serializable{
     private String poster_path;
     private String first_air_date;
     private float popularity;
+    @Ignore
     private List<Integer> genre_ids;
     private String original_language;
     private String backdrop_path;
     private String overview;
+    @Ignore
     private List<String> origin_country;
     float rating;
+    private String belongTo;
+    private RealmList<GenreIDs> genreIDsRealmList = new RealmList<>();
+
+    public String getBelongTo() {
+        return belongTo;
+    }
+
+    public TV_Model() {
+    }
+
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
+    }
+
+    public void setBelongTo(String belongTo) {
+        this.belongTo = belongTo;
+    }
+
+    public RealmList<GenreIDs> getGenreIDsRealmList() {
+        return genreIDsRealmList;
+    }
 
     public TV_Model(int id, float rating) {
         this.id = id;

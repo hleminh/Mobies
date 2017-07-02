@@ -28,6 +28,7 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.TVShowByCategoriesAdapter;
+import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
@@ -71,6 +72,8 @@ import static com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CO
  * A simple {@link Fragment} subclass.
  */
 public class TVShowDetailFragment extends Fragment implements View.OnClickListener {
+    @BindView(R.id.tv_add_watch_list)
+    TextView tvAddWatchList;
     @BindView(R.id.iv_poster_tvshow_detail)
     ImageView ivPoster;
     @BindView(R.id.tv_tvshow_name_tvshow_detail)
@@ -145,6 +148,17 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
+        tvAddWatchList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RealmHandle.getInstance().isAdded(tvModel)) {
+                    Toast.makeText(getContext(), "This tv show is already added to watch list", Toast.LENGTH_SHORT).show();
+                } else {
+                    RealmHandle.getInstance().addToWatchList(tvModel);
+                    Toast.makeText(getContext(), "Added to watch list", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvTvShowName.setText(tvModel.getName());

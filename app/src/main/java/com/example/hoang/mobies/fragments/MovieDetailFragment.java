@@ -28,6 +28,7 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.adapters.MoviesByCategoriesAdapter;
+import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
@@ -71,6 +72,8 @@ import static com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CO
  * A simple {@link Fragment} subclass.
  */
 public class MovieDetailFragment extends Fragment implements View.OnClickListener {
+    @BindView(R.id.tv_add_watch_list)
+    TextView tvAddWatchList;
     @BindView(R.id.iv_poster_movie_detail)
     ImageView ivPoster;
     @BindView(R.id.tv_movie_name_movie_detail)
@@ -149,6 +152,17 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void setupUI(View view) {
+        tvAddWatchList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RealmHandle.getInstance().isAdded(movieModel)) {
+                    Toast.makeText(getContext(), "This movie is already added to watch list", Toast.LENGTH_SHORT).show();
+                } else {
+                    RealmHandle.getInstance().addToWatchList(movieModel);
+                    Toast.makeText(getContext(), "Added to watch list", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).fit().into(ivPoster);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvMovieName.setText(movieModel.getTitle());
@@ -207,7 +221,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(), movieModel.getId(),true);
+                RateDialog rateDialog = new RateDialog(getContext(), movieModel.getId(), true);
                 rateDialog.show();
             }
         });

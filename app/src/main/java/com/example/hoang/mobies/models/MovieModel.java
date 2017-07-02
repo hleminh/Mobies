@@ -5,15 +5,20 @@ import com.example.hoang.mobies.network.get_people.KnownForObject;
 import java.io.Serializable;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 /**
  * Created by Hoang on 6/9/2017.
  */
 
-public class MovieModel implements Serializable {
+public class MovieModel extends RealmObject implements Serializable {
     private String poster_path;
     private boolean adult;
     private String overview;
     private String release_date;
+    @Ignore
     private List<Integer> genre_ids;
     private int id;
     private String original_title;
@@ -24,6 +29,27 @@ public class MovieModel implements Serializable {
     private int vote_count;
     private boolean video;
     private float vote_average;
+    private RealmList<GenreIDs> genreIDsRealmList = new RealmList<>();
+    private String belongTo;
+
+    public void setGenreIDsRealmList(RealmList<GenreIDs> genreIDsRealmList) {
+        this.genreIDsRealmList = genreIDsRealmList;
+    }
+
+    public MovieModel() {
+    }
+
+    public String getBelongTo() {
+        return belongTo;
+    }
+
+    public void setBelongTo(String belongTo) {
+        this.belongTo = belongTo;
+    }
+
+    public RealmList<GenreIDs> getGenreIDsRealmList() {
+        return genreIDsRealmList;
+    }
 
     public float getRating() {
         return rating;
