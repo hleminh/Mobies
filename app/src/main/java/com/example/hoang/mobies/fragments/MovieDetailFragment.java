@@ -74,6 +74,8 @@ import static com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CO
 public class MovieDetailFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.tv_add_watch_list)
     TextView tvAddWatchList;
+    @BindView(R.id.iv_add_watch_list)
+    ImageView ivAddWatchList;
     @BindView(R.id.iv_poster_movie_detail)
     ImageView ivPoster;
     @BindView(R.id.tv_movie_name_movie_detail)
@@ -156,10 +158,12 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 if (RealmHandle.getInstance().isAdded(movieModel)) {
-                    Toast.makeText(getContext(), "This movie is already added to watch list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "This movie is already added to the Watch List", Toast.LENGTH_SHORT).show();
                 } else {
                     RealmHandle.getInstance().addToWatchList(movieModel);
-                    Toast.makeText(getContext(), "Added to watch list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Added to Watch List", Toast.LENGTH_SHORT).show();
+                    tvAddWatchList.setText("Added to Watch List");
+                    ivAddWatchList.setImageResource(R.drawable.bookmark_check);
                 }
             }
         });
@@ -245,6 +249,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
                 break;
             }
+        }
+
+        if (RealmHandle.getInstance().isAdded(movieModel)){
+            tvAddWatchList.setText("Added to Watch List");
+            ivAddWatchList.setImageResource(R.drawable.bookmark_check);
         }
 
     }

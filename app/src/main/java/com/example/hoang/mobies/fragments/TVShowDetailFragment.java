@@ -2,6 +2,7 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -78,6 +79,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     ImageView ivPoster;
     @BindView(R.id.tv_tvshow_name_tvshow_detail)
     TextView tvTvShowName;
+    @BindView(R.id.iv_add_watch_list)
+    ImageView ivAddWatchList;
     @BindView(R.id.tv_tvshow_release_date_tvshow_detail)
     TextView tvTvShowReleaseDate;
     @BindView(R.id.rb_tvshow_detail)
@@ -152,10 +155,12 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 if (RealmHandle.getInstance().isAdded(tvModel)) {
-                    Toast.makeText(getContext(), "This tv show is already added to watch list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "This tv show is already added to the Watch List", Toast.LENGTH_SHORT).show();
                 } else {
                     RealmHandle.getInstance().addToWatchList(tvModel);
-                    Toast.makeText(getContext(), "Added to watch list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Added to Watch list", Toast.LENGTH_SHORT).show();
+                    tvAddWatchList.setText("Added to Watch List");
+                    ivAddWatchList.setImageResource(R.drawable.bookmark_check);
                 }
             }
         });
@@ -168,6 +173,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 tvRatingDetail.setText(String.format("%,d",tvModel.getVote_count()+1) + " Ratings");
                 break;
             }
+        }
+        if (RealmHandle.getInstance().isAdded(tvModel)){
+            tvAddWatchList.setText("Added to Watch List");
+            ivAddWatchList.setImageResource(R.drawable.bookmark_check);
         }
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);
         tvTvShowReleaseDate.setText(tvModel.getFirst_air_date());
