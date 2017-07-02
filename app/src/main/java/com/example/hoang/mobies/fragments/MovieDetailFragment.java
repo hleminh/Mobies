@@ -143,7 +143,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         if (getArguments() != null)
-        movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
+            movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
         ButterKnife.bind(this, view);
@@ -173,7 +173,11 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         rbMovieDetail.setRating(movieModel.getVote_average() / 2);
         tvMovieReleaseDate.setText(movieModel.getRelease_date());
         if (movieModel.getOverview() != null) {
-            tvPlot.setText(movieModel.getOverview());
+            if (movieModel.getOverview().trim().equals("")) {
+                tvPlot.setText("-");
+            } else {
+                tvPlot.setText(movieModel.getOverview());
+            }
         } else {
             tvPlot.setText("-");
         }
@@ -299,6 +303,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                                     @Override
                                     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                                         player = youTubePlayer;
+                                        player.setFullscreen(true);
                                         player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
                                         player.loadVideos(keys);
                                         player.play();
@@ -439,9 +444,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");
     }
 
-    @Subscribe (sticky = true )
-    public void onReceiveMovieModel(MovieModel movieModel){
-        if (this.movieModel == null){
+    @Subscribe(sticky = true)
+    public void onReceiveMovieModel(MovieModel movieModel) {
+        if (this.movieModel == null) {
             this.movieModel = movieModel;
         }
     }

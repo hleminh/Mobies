@@ -182,7 +182,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         rbTvShowDetail.setRating(tvModel.getVote_average() / 2);
         tvTvShowReleaseDate.setText(tvModel.getFirst_air_date());
         if (tvModel.getOverview() != null) {
-            tvPlot.setText(tvModel.getOverview());
+            if (tvModel.getOverview().trim().equals("")) {
+                tvPlot.setText("-");
+            } else {
+                tvPlot.setText(tvModel.getOverview());
+            }
         } else {
             tvPlot.setText("-");
         }
@@ -206,7 +210,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 } else
                     tvGenre.setText(genres);
             }
-        } else  {
+        } else {
             if (tvModel.getGenresString().trim().equals("")) {
                 tvGenre.setText("-");
             } else {
@@ -280,38 +284,44 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         getTrailerService.getTVTrailer(tvModel.getId(), API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
             @Override
             public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-                for (TrailerObject trailerObject : response.body().getResults()) {
-                    keys.add(trailerObject.getKey());
-                }
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        for (TrailerObject trailerObject : response.body().getResults()) {
+                            keys.add(trailerObject.getKey());
+                        }
 
-                floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 //                        YoutubePlayFragment youTubePlayerFragment = new YoutubePlayFragment();
 //                        Bundle bundle = new Bundle();
 //                        ArrayList<String> urls = new ArrayList<String>();
 //                        urls.addAll(keys);
 //                        bundle.putStringArrayList("keys", urls);
 //                        youTubePlayerFragment.setArguments(bundle);
-                        YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
-                        youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
-                            @Override
-                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                                player = youTubePlayer;
-                                player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                                player.loadVideos(keys);
-                                player.play();
-                            }
+                                YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
+                                youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
+                                    @Override
+                                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                        player = youTubePlayer;
+                                        player.setFullscreen(true);
+                                        player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                                        player.loadVideos(keys);
+                                        player.play();
+                                    }
 
-                            @Override
-                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                                    @Override
+                                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+
+                                    }
+                                });
+                                ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
 
                             }
                         });
-                        ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
-
                     }
-                });
+                }
             }
 
             @Override
@@ -429,11 +439,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
     }
 
-    @Subscribe (sticky = true )
-    public void onReceiveMovieModel(TVModel tvModel){
-        if (this.tvModel == null){
+    @Subscribe(sticky = true)
+    public void onReceiveMovieModel(TVModel tvModel) {
+        if (this.tvModel == null) {
             this.tvModel = tvModel;
         }
     }
-    
+
 }
