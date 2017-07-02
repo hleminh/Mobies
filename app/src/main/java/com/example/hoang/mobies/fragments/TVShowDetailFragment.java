@@ -76,6 +76,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     TextView tvAddWatchList;
     @BindView(R.id.iv_poster_tvshow_detail)
     ImageView ivPoster;
+    @BindView(R.id.ll_add_watch_list)
+    LinearLayout llAddWatchList;
     @BindView(R.id.tv_tvshow_name_tvshow_detail)
     TextView tvTvShowName;
     @BindView(R.id.iv_add_watch_list)
@@ -123,6 +125,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     private CastsAdapter castsAdapter;
     private List<String> keys = new ArrayList<>();
     private YouTubePlayer player;
+    private Toast toast;
 
     public TVShowDetailFragment() {
         // Required empty public constructor
@@ -152,14 +155,18 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
     private void setupUI(View view) {
         ButterKnife.bind(this, view);
-        tvAddWatchList.setOnClickListener(new View.OnClickListener() {
+        llAddWatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (RealmHandle.getInstance().isAdded(tvModel)) {
-                    Toast.makeText(getContext(), "This tv show is already added to the Watch List", Toast.LENGTH_SHORT).show();
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(getContext(), "This tv show is already added to the Watch List", Toast.LENGTH_SHORT);
+                    toast.show();
                 } else {
                     RealmHandle.getInstance().addToWatchList(tvModel);
-                    Toast.makeText(getContext(), "Added to Watch list", Toast.LENGTH_SHORT).show();
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(getContext(), "Added to Watch list", Toast.LENGTH_SHORT);
+                    toast.show();
                     tvAddWatchList.setText("Added to Watch List");
                     ivAddWatchList.setImageResource(R.drawable.bookmark_check);
                 }
@@ -312,8 +319,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
                                     @Override
                                     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
-
+                                        if (toast != null) toast.cancel();
+                                        toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                                        toast.show();
                                     }
                                 });
                                 ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
@@ -329,8 +337,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 floatingActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
-
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 });
             }
@@ -357,7 +366,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 pbProgressRecommended.setVisibility(View.GONE);
                 tvNoRecommended.setVisibility(View.VISIBLE);
                 tvNoRecommended.setText("No connection");
@@ -387,7 +398,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onFailure(Call<MainCastObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 pbProgressCast.setVisibility(View.GONE);
                 tvFullCast.setVisibility(View.GONE);
                 tvNoCast.setVisibility(View.VISIBLE);

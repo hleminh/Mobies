@@ -77,6 +77,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     TextView tvAddWatchList;
     @BindView(R.id.iv_add_watch_list)
     ImageView ivAddWatchList;
+    @BindView(R.id.ll_add_watch_list)
+    LinearLayout llAddWatchList;
     @BindView(R.id.iv_poster_movie_detail)
     ImageView ivPoster;
     @BindView(R.id.tv_movie_name_movie_detail)
@@ -125,6 +127,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     private CastsAdapter castsAdapter;
     private List<String> keys = new ArrayList<>();
     private YouTubePlayer player;
+    private Toast toast;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -153,14 +156,18 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void setupUI(View view) {
-        tvAddWatchList.setOnClickListener(new View.OnClickListener() {
+        llAddWatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (RealmHandle.getInstance().isAdded(movieModel)) {
-                    Toast.makeText(getContext(), "This movie is already added to the Watch List", Toast.LENGTH_SHORT).show();
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(getContext(), "This movie is already added to the Watch List", Toast.LENGTH_SHORT);
+                    toast.show();
                 } else {
                     RealmHandle.getInstance().addToWatchList(movieModel);
-                    Toast.makeText(getContext(), "Added to Watch List", Toast.LENGTH_SHORT).show();
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(getContext(), "Added to Watch List", Toast.LENGTH_SHORT);
+                    toast.show();
                     tvAddWatchList.setText("Added to Watch List");
                     ivAddWatchList.setImageResource(R.drawable.bookmark_check);
                 }
@@ -328,7 +335,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 floatingActionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                        toast.show();
 
                     }
                 });
@@ -360,7 +369,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 pbProgressRecommended.setVisibility(View.GONE);
                 tvNoRecommended.setVisibility(View.VISIBLE);
                 tvNoRecommended.setText("No connection");
@@ -394,7 +405,9 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFailure(Call<MainCastObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 pbProgressCast.setVisibility(View.GONE);
                 tvNoCast.setVisibility(View.VISIBLE);
                 tvFullCast.setVisibility(View.GONE);

@@ -76,6 +76,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     TextView tvBiography;
     private PeopleModel peopleModel;
     private PeopleModel celebModel;
+    private Toast toast;
 
 
     public CelebDetailFragment() {
@@ -171,8 +172,9 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFailure(Call<PeopleModel> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
-
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }

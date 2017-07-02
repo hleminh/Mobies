@@ -96,6 +96,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private MoviesByCategoriesAdapter comingSoonAdapter;
     private MoviesByCategoriesAdapter inCinemasAdapter;
     private int failConnection;
+    private Toast toast;
 
 
     public MoviesFragment() {
@@ -243,7 +244,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
                 if (failConnection == 5) {
                     pbLoading.setVisibility(View.GONE);
@@ -268,7 +271,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }
@@ -290,7 +295,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }
@@ -313,7 +320,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 pbCategory.setVisibility(View.GONE);
 //                tvCategoryNoConnect.setVisibility(View.VISIBLE);
             }
@@ -337,7 +346,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainGenresObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }
@@ -360,7 +371,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }

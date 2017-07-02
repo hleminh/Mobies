@@ -76,6 +76,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     private TrendingPagerAdapter trendingPagerAdapter;
 
     private int failConnection;
+    private Toast toast;
 
 
     public TVShowsFragment() {
@@ -165,7 +166,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
                 if (failConnection == 4) {
                     pbLoading.setVisibility(View.GONE);
@@ -194,7 +197,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }
@@ -220,7 +225,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }
@@ -246,7 +253,9 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-                Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
                 failConnection++;
 
             }

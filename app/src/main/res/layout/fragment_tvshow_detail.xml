@@ -163,7 +163,10 @@
                         android:id="@+id/ll_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingRight="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                         <ImageView
                             android:id="@+id/iv_rate"
@@ -187,7 +190,10 @@
                         android:id="@+id/ll_add_watch_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true">
+                        android:layout_alignParentEnd="true"
+                        android:paddingRight="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                         <ImageView
                             android:id="@+id/iv_add_watch_list"
@@ -279,7 +285,8 @@
                     android:text="@string/full_cast"
                     android:textColor="@color/colorRatingBarYellow"
                     android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:padding="4dp"/>
 
                 <TextView
                     android:layout_width="match_parent"

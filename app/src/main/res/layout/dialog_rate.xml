@@ -58,7 +58,8 @@
             android:text="@string/btn_confirm"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:padding="8dp"/>
 
         <Button
             android:id="@+id/btn_cancel"
@@ -68,7 +69,8 @@
             android:text="@string/btn_cancel"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"/>
 
     </LinearLayout>
 

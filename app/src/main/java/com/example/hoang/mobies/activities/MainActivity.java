@@ -161,14 +161,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SearchResultFragment searchResultFragment = (SearchResultFragment) getSupportFragmentManager().findFragmentByTag("SearchResultFragment");
             if (searchResultFragment != null) {
                 if (!searchResultFragment.isVisible()) {
-                    System.out.println("Exit");
+                    System.out.println("Exit, not visible search");
                     finish();
                     System.exit(0);
                 } else super.onBackPressed();
             } else {
-                System.out.println("Exit");
-                finish();
-                System.exit(0);
+//                System.out.println("Exit, null search");
+//                finish();
+//                System.exit(0);
+                super.onBackPressed();
             }
         } else super.onBackPressed();
     }
