@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -145,9 +146,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
         ButterKnife.bind(this, view);
-        if (Utils.genresModelList.size() != 0 && Utils.genresModelList.size() != genresModelList.size()) {
-            genresModelList.addAll(Utils.genresModelList);
-        }
         loadData();
         setupUI(view);
         return view;
@@ -179,11 +177,10 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             tvPlot.setText("-");
         }
 
-
         if (movieModel.getGenresString() == null) {
             String genres = "";
             for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
-                for (GenresModel genreModel : genresModelList) {
+                for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
                     if (genreModel.getId() == movieModel.getGenre_ids().get(i).intValue()) {
                         if (i == movieModel.getGenre_ids().size() - 1) {
                             genres += genreModel.getName();
@@ -280,40 +277,44 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         getTrailerService.getMovieTrailer(movieModel.getId(), API_KEY, LANGUAGE).enqueue(new Callback<MainTrailerObject>() {
             @Override
             public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
-                for (TrailerObject trailerObject : response.body().getResults()) {
-                    keys.add(trailerObject.getKey());
-                }
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        for (TrailerObject trailerObject : response.body().getResults()) {
+                            keys.add(trailerObject.getKey());
+                        }
 
 
-                floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 //                        YoutubePlayFragment youTubePlayerFragment = new YoutubePlayFragment();
 //                        Bundle bundle = new Bundle();
 //                        ArrayList<String> urls = new ArrayList<String>();
 //                        urls.addAll(keys);
 //                        bundle.putStringArrayList("keys", urls);
 //                        youTubePlayerFragment.setArguments(bundle);
-                        YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
-                        youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
-                            @Override
-                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                                player = youTubePlayer;
-                                player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                                player.loadVideos(keys);
-                                player.play();
-                            }
+                                YouTubePlayerSupportFragment youTubePlayerFragment = new YouTubePlayerSupportFragment().newInstance();
+                                youTubePlayerFragment.initialize(Utils.getYoutubeKey(), new YouTubePlayer.OnInitializedListener() {
+                                    @Override
+                                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                        player = youTubePlayer;
+                                        player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE | FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                                        player.loadVideos(keys);
+                                        player.play();
+                                    }
 
-                            @Override
-                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                                    @Override
+                                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                                    }
+                                });
+                                ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
 
                             }
                         });
-                        ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
 
                     }
-                });
-
+                }
             }
 
             @Override
@@ -335,15 +336,19 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         getRecommendMovieService.getRecommendMovies(movieModel.getId(), API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
-                for (MovieModel movieModel : response.body().getResults()) {
-                    movieModelList.add(movieModel);
-                }
-                moviesByCategoriesAdapter.notifyDataSetChanged();
-                pbProgressRecommended.setVisibility(View.GONE);
-                rvRecommended.setVisibility(View.VISIBLE);
-                if (movieModelList.size() == 0) {
-                    tvNoRecommended.setVisibility(View.VISIBLE);
-                    rvRecommended.setVisibility(View.GONE);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        for (MovieModel movieModel : response.body().getResults()) {
+                            movieModelList.add(movieModel);
+                        }
+                        moviesByCategoriesAdapter.notifyDataSetChanged();
+                        pbProgressRecommended.setVisibility(View.GONE);
+                        rvRecommended.setVisibility(View.VISIBLE);
+                        if (movieModelList.size() == 0) {
+                            tvNoRecommended.setVisibility(View.VISIBLE);
+                            rvRecommended.setVisibility(View.GONE);
+                        }
+                    }
                 }
             }
 
@@ -362,20 +367,22 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         getCastOfAMovieService.getCastOfAMovie(movieModel.getId(), API_KEY).enqueue(new Callback<MainCastObject>() {
             @Override
             public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                MainCastObject mainCastObject = response.body();
-                List<CastModel> castModels = mainCastObject.getCast();
-                for (CastModel castModel : castModels) {
-                    if (castModelList.size() < 5)
-                        castModelList.add(castModel);
-                }
-                castsAdapter.notifyDataSetChanged();
-                tvFullCast.setVisibility(View.VISIBLE);
-                pbProgressCast.setVisibility(View.GONE);
-                rvCasts.setVisibility(View.VISIBLE);
-                if (castModelList.size() == 0) {
-                    rvCasts.setVisibility(View.GONE);
-                    tvFullCast.setVisibility(View.GONE);
-                    tvNoCast.setVisibility(View.VISIBLE);
+                if (response.body() != null) {
+                    MainCastObject mainCastObject = response.body();
+                    List<CastModel> castModels = mainCastObject.getCast();
+                    for (CastModel castModel : castModels) {
+                        if (castModelList.size() < 5)
+                            castModelList.add(castModel);
+                    }
+                    castsAdapter.notifyDataSetChanged();
+                    tvFullCast.setVisibility(View.VISIBLE);
+                    pbProgressCast.setVisibility(View.GONE);
+                    rvCasts.setVisibility(View.VISIBLE);
+                    if (castModelList.size() == 0) {
+                        rvCasts.setVisibility(View.GONE);
+                        tvFullCast.setVisibility(View.GONE);
+                        tvNoCast.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -398,6 +405,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
@@ -407,6 +415,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.example.hoang.mobies.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,6 @@ public class NewsDetailFragment extends Fragment {
             }
         });
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorTextSecondary));
-        toolbar.setSubtitle(newsModel.getUrl());
         WebSettings webSettings = wvNewsDetail.getSettings();
         webSettings.setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -75,5 +75,17 @@ public class NewsDetailFragment extends Fragment {
 
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 }

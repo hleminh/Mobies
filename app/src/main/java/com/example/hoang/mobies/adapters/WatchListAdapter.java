@@ -12,9 +12,8 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.databases.RealmHandle;
-import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
  */
 
 public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder> {
-    private List<TV_Model> tvModelList;
+    private List<TVModel> tvModelList;
     private List<MovieModel> movieModelList;
     private Context context;
     private View.OnClickListener onClickListener;
@@ -36,7 +35,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
         this.onClickListener = onClickListener;
     }
 
-    public WatchListAdapter(Context context, @Nullable List<MovieModel> movieModels, @Nullable List<TV_Model> tvModels) {
+    public WatchListAdapter(Context context, @Nullable List<MovieModel> movieModels, @Nullable List<TVModel> tvModels) {
         this.movieModelList = movieModels;
         this.tvModelList = tvModels;
         this.context = context;
@@ -105,7 +104,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             view.setTag(movieModel);
         }
 
-        public void setData(final TV_Model tvModel) {
+        public void setData(final TVModel tvModel) {
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tvModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             tvName.setText(tvModel.getName());
             tvRealseDate.setText(tvModel.getFirst_air_date());

@@ -41,7 +41,7 @@ public class ScreenManager {
         } else if (fragment instanceof NewsDetailFragment) {
             transaction.replace(layoutID, fragment, "NewsDetailFragment");
         }else if(fragment instanceof SearchResultFragment){
-            transaction.replace(layoutID, fragment, "SearchResultFragment");
+            transaction.replace(layoutID, fragment, "SearchResultFragment ");
         } else {
             transaction.replace(layoutID, fragment);
         }

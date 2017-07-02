@@ -1,9 +1,7 @@
 package com.example.hoang.mobies.fragments;
 
-import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +12,8 @@ import android.widget.TextView;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +35,7 @@ public class TrendingFragment extends Fragment {
     @BindView(R.id.rb_trending)
     RatingBar rbTrending;
     private MovieModel movieModel;
-    private TV_Model tvModel;
+    private TVModel tvModel;
 
     public TrendingFragment() {
         // Required empty public constructor
@@ -54,8 +50,8 @@ public class TrendingFragment extends Fragment {
         if (getArguments().getSerializable("TrendingModel") instanceof MovieModel) {
             movieModel = (MovieModel) getArguments().getSerializable("TrendingModel");
             view.setTag(movieModel);
-        } else if (getArguments().getSerializable("TrendingModel") instanceof TV_Model) {
-            tvModel = (TV_Model) getArguments().getSerializable("TrendingModel");
+        } else if (getArguments().getSerializable("TrendingModel") instanceof TVModel) {
+            tvModel = (TVModel) getArguments().getSerializable("TrendingModel");
             view.setTag(tvModel);
         }
         loadData(view);
@@ -92,7 +88,7 @@ public class TrendingFragment extends Fragment {
             Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
             tvTrendingName.setText(tvModel.getName());
             tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
-            for (TV_Model model : RATED_TV_LIST) {
+            for (TVModel model : RATED_TV_LIST) {
                 if (model.getId() == tvModel.getId()) {
                     tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()+1) + " Ratings");
                     break;
@@ -111,8 +107,8 @@ public class TrendingFragment extends Fragment {
                     movieDetailFragment.setArguments(bundle);
                     ScreenManager.openFragment(getActivity().getSupportFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
                 }
-                if (v.getTag() instanceof TV_Model) {
-                    TV_Model tv_model = (TV_Model) v.getTag();
+                if (v.getTag() instanceof TVModel) {
+                    TVModel tv_model = (TVModel) v.getTag();
                     TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("TVDetail", tv_model);

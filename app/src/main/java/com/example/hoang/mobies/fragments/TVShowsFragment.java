@@ -2,9 +2,9 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ import com.example.hoang.mobies.activities.MainActivity;
 import com.example.hoang.mobies.adapters.TVShowByCategoriesAdapter;
 import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
 import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
@@ -66,10 +66,10 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     TextView tvNoConnection;
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
-    private List<TV_Model> tvShowTopRateList;
-    private List<TV_Model> tvShowTrendingList;
-    private List<TV_Model> tvShowOnAirList;
-    private List<TV_Model> tvShowAiringTodayList;
+    private List<TVModel> tvShowTopRateList;
+    private List<TVModel> tvShowTrendingList;
+    private List<TVModel> tvShowOnAirList;
+    private List<TVModel> tvShowAiringTodayList;
     private TVShowByCategoriesAdapter topRatedAdapter;
     private TVShowByCategoriesAdapter onAirAdapter;
     private TVShowByCategoriesAdapter airingTodayAdapter;
@@ -152,11 +152,15 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 tvOnAir.setVisibility(View.VISIBLE);
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    tvShowOnAirList.add(tv_model);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        MainTvObject mainTvObject = response.body();
+                        for (TVModel tv_model : mainTvObject.getResults()) {
+                            tvShowOnAirList.add(tv_model);
+                        }
+                        onAirAdapter.notifyDataSetChanged();
+                    }
                 }
-                onAirAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -177,11 +181,15 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 tvAiringToday.setVisibility(View.VISIBLE);
-                MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
-                    tvShowAiringTodayList.add(tv_model);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        MainTvObject mainTvObject = response.body();
+                        for (TVModel tv_model : mainTvObject.getResults()) {
+                            tvShowAiringTodayList.add(tv_model);
+                        }
+                        airingTodayAdapter.notifyDataSetChanged();
+                    }
                 }
-                airingTodayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -199,11 +207,15 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 pbLoading.setVisibility(View.GONE);
-                MainTvObject mainObject = response.body();
-                for (TV_Model tv_model : mainObject.getResults()) {
-                    tvShowTrendingList.add(tv_model);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        MainTvObject mainObject = response.body();
+                        for (TVModel tv_model : mainObject.getResults()) {
+                            tvShowTrendingList.add(tv_model);
+                        }
+                        trendingPagerAdapter.notifyDataSetChanged();
+                    }
                 }
-                trendingPagerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -221,11 +233,15 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 tvTopRated.setVisibility(View.VISIBLE);
-                MainTvObject mainObject = response.body();
-                for (TV_Model tv_model : mainObject.getResults()) {
-                    tvShowTopRateList.add(tv_model);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null) {
+                        MainTvObject mainObject = response.body();
+                        for (TVModel tv_model : mainObject.getResults()) {
+                            tvShowTopRateList.add(tv_model);
+                        }
+                        topRatedAdapter.notifyDataSetChanged();
+                    }
                 }
-                topRatedAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -240,13 +256,25 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getTag() instanceof TV_Model) {
-            TV_Model tvModel = (TV_Model) v.getTag();
+        if (v.getTag() instanceof TVModel) {
+            TVModel tvModel = (TVModel) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);
             tvShowDetailFragment.setArguments(bundle);
             ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 }

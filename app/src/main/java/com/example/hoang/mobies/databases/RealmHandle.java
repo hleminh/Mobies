@@ -1,10 +1,8 @@
 package com.example.hoang.mobies.databases;
 
-import com.example.hoang.mobies.Utils.Utils;
-import com.example.hoang.mobies.models.GenreIDs;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 
 import java.util.List;
 
@@ -59,13 +57,13 @@ public class RealmHandle {
         } else return true;
     }
 
-    public boolean isAdded(TV_Model model) {
-        if (realm.where(TV_Model.class).equalTo("belongTo","WatchList").equalTo("id", model.getId()).findAll().size() == 0) {
+    public boolean isAdded(TVModel model) {
+        if (realm.where(TVModel.class).equalTo("belongTo","WatchList").equalTo("id", model.getId()).findAll().size() == 0) {
             return false;
         } else return true;
     }
 
-    public void addToWatchList(TV_Model tvModel) {
+    public void addToWatchList(TVModel tvModel) {
         realm.beginTransaction();
         String genres = "";
         for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
@@ -87,8 +85,8 @@ public class RealmHandle {
         return realm.where(MovieModel.class).equalTo("belongTo", "WatchList").findAll();
     }
 
-    public List<TV_Model> getListTVWatchList() {
-        return realm.where(TV_Model.class).equalTo("belongTo", "WatchList").findAll();
+    public List<TVModel> getListTVWatchList() {
+        return realm.where(TVModel.class).equalTo("belongTo", "WatchList").findAll();
     }
 
     public void deleteFromWatchList(final MovieModel model) {
@@ -101,11 +99,11 @@ public class RealmHandle {
         });
     }
 
-    public void deleteFromWatchList(final TV_Model model) {
+    public void deleteFromWatchList(final TVModel model) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<TV_Model> tv = realm.where(TV_Model.class).equalTo("id", model.getId()).findAll();
+                RealmResults<TVModel> tv = realm.where(TVModel.class).equalTo("id", model.getId()).findAll();
                 tv.deleteAllFromRealm();
             }
         });

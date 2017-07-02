@@ -1,6 +1,6 @@
 package com.example.hoang.mobies.network.get_tv;
 
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 
 public class MainTvObject {
-    List<TV_Model> results;
+    List<TVModel> results;
 
-    public List<TV_Model> getResults() {
+    public List<TVModel> getResults() {
         return results;
     }
 
-    public void setResults(List<TV_Model> results) {
+    public void setResults(List<TVModel> results) {
         this.results = results;
     }
 }

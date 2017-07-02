@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
@@ -149,7 +148,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
             public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
                 Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(new Float(rating));
-                RATED_TV_LIST.add(new TV_Model(movieID,rating));
+                RATED_TV_LIST.add(new TVModel(movieID,rating));
             }
 
             @Override

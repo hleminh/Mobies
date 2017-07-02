@@ -13,11 +13,7 @@ import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.adapters.WatchListAdapter;
 import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.managers.ScreenManager;
-import com.example.hoang.mobies.models.GenreIDs;
-import com.example.hoang.mobies.models.TV_Model;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.hoang.mobies.models.TVModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +51,8 @@ public class TVWatchListFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v.getTag() instanceof TV_Model) {
-            TV_Model tvModel = (TV_Model) v.getTag();
+        if (v.getTag() instanceof TVModel) {
+            TVModel tvModel = (TVModel) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);

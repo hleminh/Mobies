@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.get_people.KnownForObject;
 import com.squareup.picasso.Picasso;
 
@@ -85,7 +85,7 @@ public class KnownForAdapter extends RecyclerView.Adapter<KnownForAdapter.KnownF
                 MovieModel movieModel = new MovieModel(knownForObject);
                 view.setTag(movieModel);
             } else {
-                TV_Model tv_model = new TV_Model(knownForObject);
+                TVModel tv_model = new TVModel(knownForObject);
                 view.setTag(tv_model);
             }
         }

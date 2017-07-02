@@ -2,12 +2,10 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -34,9 +32,8 @@ import com.example.hoang.mobies.dialogs.RateDialog;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.GenresModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
-import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
 import com.example.hoang.mobies.network.get_cast.GetCastTvService;
 import com.example.hoang.mobies.network.get_cast.MainCastObject;
 import com.example.hoang.mobies.network.get_movies.GetTrailerService;
@@ -117,9 +114,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     TextView tvRate;
     @BindView(R.id.iv_rate)
     ImageView ivRate;
-    private TV_Model tvModel;
+    private TVModel tvModel;
     private List<CastModel> castModelList;
-    private List<TV_Model> tv_modelList;
+    private List<TVModel> tv_modelList;
     private TVShowByCategoriesAdapter tvShowByCategoriesAdapter;
     private CastsAdapter castsAdapter;
     private List<String> keys = new ArrayList<>();
@@ -143,7 +140,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         getActivity().setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View view = inflater.inflate(R.layout.fragment_tvshow_detail, container, false);
-        tvModel = (TV_Model) getArguments().getSerializable("TVDetail");
+        tvModel = (TVModel) getArguments().getSerializable("TVDetail");
         loadData();
         setupUI(view);
         return view;
@@ -168,7 +165,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivBackDrop);
         tvTvShowName.setText(tvModel.getName());
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
-        for (TV_Model model : RATED_TV_LIST) {
+        for (TVModel model : RATED_TV_LIST) {
             if (model.getId() == tvModel.getId()) {
                 tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
                 break;
@@ -189,7 +186,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         if (tvModel.getGenresString() == null) {
             String genres = "";
             for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
-                for (GenresModel genreModel : Utils.genresModelList) {
+                for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
                     if (genreModel.getId() == tvModel.getGenre_ids().get(i).intValue()) {
                         if (i == tvModel.getGenre_ids().size() - 1) {
                             genres += genreModel.getName();
@@ -332,7 +329,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 MainTvObject mainTvObject = response.body();
-                for (TV_Model tv_model : mainTvObject.getResults()) {
+                for (TVModel tv_model : mainTvObject.getResults()) {
                     tv_modelList.add(tv_model);
                 }
                 tvShowByCategoriesAdapter.notifyDataSetChanged();
@@ -406,8 +403,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getTag() instanceof TV_Model) {
-            TV_Model tvModel = (TV_Model) v.getTag();
+        if (v.getTag() instanceof TVModel) {
+            TVModel tvModel = (TVModel) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);

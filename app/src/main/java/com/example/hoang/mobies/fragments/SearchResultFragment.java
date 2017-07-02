@@ -1,14 +1,10 @@
 package com.example.hoang.mobies.fragments;
 
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +18,7 @@ import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.PeopleModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_search.GetMultiSearchService;
 import com.example.hoang.mobies.network.get_search.MainSearchModel;
@@ -135,7 +131,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             {
                 TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("TVDetail", new TV_Model(multiSearchModel));
+                bundle.putSerializable("TVDetail", new TVModel(multiSearchModel));
                 tvShowDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
             }

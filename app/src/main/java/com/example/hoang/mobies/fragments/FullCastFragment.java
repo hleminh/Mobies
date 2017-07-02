@@ -1,7 +1,6 @@
 package com.example.hoang.mobies.fragments;
 
 
-import android.app.ActionBar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,7 @@ import com.example.hoang.mobies.adapters.CastsAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.CastModel;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_cast.GetCastOfAMovieService;
 import com.example.hoang.mobies.network.get_cast.GetCastTvService;
@@ -42,7 +41,7 @@ import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
  */
 public class FullCastFragment extends Fragment {
     private MovieModel movieModel;
-    private TV_Model tvModel;
+    private TVModel tvModel;
     private List<CastModel> castModelList;
     private CastsAdapter castsAdapter;
 
@@ -67,7 +66,7 @@ public class FullCastFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_full_cast, container, false);
         ButterKnife.bind(this, view);
         movieModel = (MovieModel) getArguments().getSerializable("MovieDetail");
-        tvModel = (TV_Model) getArguments().getSerializable("TVDetail");
+        tvModel = (TVModel) getArguments().getSerializable("TVDetail");
         loadData();
         setupUI();
         return view;

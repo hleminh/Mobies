@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hoang.mobies.R;
-import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.hoang.mobies.activities.MainActivity.RATED_MOVIE_LIST;
 import static com.example.hoang.mobies.activities.MainActivity.RATED_TV_LIST;
 
 /**
@@ -26,7 +24,7 @@ import static com.example.hoang.mobies.activities.MainActivity.RATED_TV_LIST;
  */
 
 public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCategoriesAdapter.TVShowByCategoriesViewHolder> {
-    private List<TV_Model> tv_modelList;
+    private List<TVModel> tv_modelList;
     private Context context;
     private View.OnClickListener onClickListener;
 
@@ -34,7 +32,7 @@ public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCate
         this.onClickListener = onItemClickListener;
     }
 
-    public TVShowByCategoriesAdapter(List<TV_Model> tv_modelList, Context context) {
+    public TVShowByCategoriesAdapter(List<TVModel> tv_modelList, Context context) {
         this.tv_modelList = tv_modelList;
         this.context = context;
     }
@@ -74,12 +72,12 @@ public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCate
             view = itemView;
         }
 
-        public void setData(TV_Model tv_model) {
+        public void setData(TVModel tv_model) {
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tv_model.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivTvbcImage);
             tvTvbcName.setText(tv_model.getName());
             tvTVbcVote.setText(tv_model.getVote_average() + "");
             tvTvbcRating.setText(tv_model.getVote_count() + " Ratings");
-            for (TV_Model model : RATED_TV_LIST) {
+            for (TVModel model : RATED_TV_LIST) {
                 if (model.getId() == tv_model.getId()) {
                     tvTvbcRating.setText(String.format("%,d",tv_model.getVote_count()+1) + " Ratings");
                     break;

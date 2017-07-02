@@ -1,7 +1,6 @@
 package com.example.hoang.mobies.network.get_tv;
 
-import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,6 +13,6 @@ import retrofit2.http.Query;
 
 public interface GetTvDetailService {
     @GET("tv/{tv_id}")
-    Call<TV_Model> getDetailTv(@Path("tv_id") int tv_id, @Query("api_key")
+    Call<TVModel> getDetailTv(@Path("tv_id") int tv_id, @Query("api_key")
             String api_key, @Query("language") String language);
 }

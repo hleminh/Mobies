@@ -34,6 +34,8 @@ public class MovieModel extends RealmObject implements Serializable {
 
     private String genresString;
 
+
+
     public String getGenresString() {
         return genresString;
     }

@@ -5,11 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.View;
 
 import com.example.hoang.mobies.fragments.TrendingFragment;
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 
 import java.util.List;
 
@@ -19,9 +18,9 @@ import java.util.List;
 
 public class TrendingPagerAdapter extends FragmentStatePagerAdapter {
     private List<MovieModel> movieModelList;
-    private List<TV_Model> tv_modelList;
+    private List<TVModel> tv_modelList;
 
-    public TrendingPagerAdapter(FragmentManager fm, @Nullable List<MovieModel> movieModelList, @Nullable List<TV_Model> tv_modelList) {
+    public TrendingPagerAdapter(FragmentManager fm, @Nullable List<MovieModel> movieModelList, @Nullable List<TVModel> tv_modelList) {
         super(fm);
         this.movieModelList = movieModelList;
         this.tv_modelList = tv_modelList;

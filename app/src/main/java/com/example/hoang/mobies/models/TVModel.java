@@ -14,7 +14,7 @@ import io.realm.annotations.Ignore;
  * Created by Inpriron on 6/17/2017.
  */
 
-public class TV_Model extends RealmObject implements Serializable{
+public class TVModel extends RealmObject implements Serializable{
     private String original_name;
     private int id;
     private String name;
@@ -28,8 +28,8 @@ public class TV_Model extends RealmObject implements Serializable{
     private String original_language;
     private String backdrop_path;
     private String overview;
-    @Ignore
-    private List<String> origin_country;
+//    @Ignore
+//    private List<String> origin_country;
     float rating;
     private String belongTo;
 
@@ -39,6 +39,54 @@ public class TV_Model extends RealmObject implements Serializable{
         return genresString;
     }
 
+    public void setOriginal_name(String original_name) {
+        this.original_name = original_name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setVote_count(int vote_count) {
+        this.vote_count = vote_count;
+    }
+
+    public void setVote_average(float vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public void setPoster_path(String poster_path) {
+        this.poster_path = poster_path;
+    }
+
+    public void setFirst_air_date(String first_air_date) {
+        this.first_air_date = first_air_date;
+    }
+
+    public void setPopularity(float popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setOriginal_language(String original_language) {
+        this.original_language = original_language;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+//    public void setOrigin_country(List<String> origin_country) {
+//        this.origin_country = origin_country;
+//    }
+
     public void setGenresString(String genresString) {
         this.genresString = genresString;
     }
@@ -47,7 +95,7 @@ public class TV_Model extends RealmObject implements Serializable{
         return belongTo;
     }
 
-    public TV_Model() {
+    public TVModel() {
     }
 
     public void setGenre_ids(List<Integer> genre_ids) {
@@ -59,7 +107,7 @@ public class TV_Model extends RealmObject implements Serializable{
     }
 
 
-    public TV_Model(int id, float rating) {
+    public TVModel(int id, float rating) {
         this.id = id;
         this.rating = rating;
     }
@@ -121,16 +169,16 @@ public class TV_Model extends RealmObject implements Serializable{
         return overview;
     }
 
-    public List<String> getOrigin_country() {
-        return origin_country;
-    }
+//    public List<String> getOrigin_country() {
+//        return origin_country;
+//    }
 
     @Override
     public String toString() {
         return String.format("name: %s, id: %d",original_name,id);
     }
 
-    public TV_Model(KnownForObject knownForObject) {
+    public TVModel(KnownForObject knownForObject) {
         original_name=knownForObject.getOriginal_name();
         id=knownForObject.getId();
         name=knownForObject.getName();
@@ -143,9 +191,9 @@ public class TV_Model extends RealmObject implements Serializable{
         original_language=knownForObject.getOriginal_language();
         backdrop_path=knownForObject.getBackdrop_path();
         overview=knownForObject.getOverview();
-        origin_country=knownForObject.getOrigin_country();
+//        origin_country=knownForObject.getOrigin_country();
     }
-    public TV_Model(MultiSearchModel multiSearchModel)
+    public TVModel(MultiSearchModel multiSearchModel)
     {
         original_name=multiSearchModel.getOriginal_name();
         id=multiSearchModel.getId();
@@ -159,6 +207,6 @@ public class TV_Model extends RealmObject implements Serializable{
         original_language=multiSearchModel.getOriginal_language();
         backdrop_path=multiSearchModel.getBackdrop_path();
         overview=multiSearchModel.getOverview();
-        origin_country=multiSearchModel.getOrigin_country();
+//        origin_country=multiSearchModel.getOrigin_country();
     }
 }

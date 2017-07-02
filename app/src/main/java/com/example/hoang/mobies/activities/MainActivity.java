@@ -9,12 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,9 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -45,22 +38,14 @@ import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.GenresModel;
 
 import com.example.hoang.mobies.models.MovieModel;
-import com.example.hoang.mobies.models.NewsModel;
 
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
-import com.example.hoang.mobies.network.get_movies.GetDetailMoviesService;
-import com.example.hoang.mobies.network.get_movies.GetTrailerService;
 
 
 import com.example.hoang.mobies.fragments.MoviesFragment;
 import com.example.hoang.mobies.network.get_movies.MainObject;
-import com.example.hoang.mobies.network.get_movies.MainTrailerObject;
-import com.example.hoang.mobies.network.get_movies.TrailerObject;
-import com.example.hoang.mobies.network.get_news.GetNewService;
-import com.example.hoang.mobies.network.get_news.MainNewsObject;
 
-import com.example.hoang.mobies.network.get_tv.GetTvDetailService;
 import com.example.hoang.mobies.network.get_tv.MainTvObject;
 import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
@@ -80,7 +65,6 @@ import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID_PREFERENCE;
-import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.MyPREFERENCES;
 import static com.example.hoang.mobies.network.RetrofitFactory.SHAREED_PREFERENCES;
 import static com.example.hoang.mobies.network.RetrofitFactory.retrofitFactory;
@@ -91,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Menu mMenu;
     private static List<GenresModel> genresModelList;
     public static List<MovieModel> RATED_MOVIE_LIST = new ArrayList<>();
-    public static List<TV_Model> RATED_TV_LIST = new ArrayList<>();
+    public static List<TVModel> RATED_TV_LIST = new ArrayList<>();
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -109,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SHAREED_PREFERENCES = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         GUEST_ID = SHAREED_PREFERENCES.getString(GUEST_ID_PREFERENCE, null);
         setUpGuestID();
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -143,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
-                    Toast.makeText(MainActivity.this,"No connection!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -308,14 +291,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"No connection!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT).show();
             }
         });
         GetRatedTVService getRatedTVService = retrofitFactory.getInstance().createService(GetRatedTVService.class);
         getRatedTVService.getRatedTV(GUEST_ID, API_KEY).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                for (TV_Model tv_model : response.body().getResults()) {
+                for (TVModel tv_model : response.body().getResults()) {
                     RATED_TV_LIST.add(tv_model);
 
                 }

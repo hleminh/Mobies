@@ -4,20 +4,18 @@ package com.example.hoang.mobies.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +24,9 @@ import com.example.hoang.mobies.adapters.KnownForAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.MovieModel;
 import com.example.hoang.mobies.models.PeopleModel;
-import com.example.hoang.mobies.models.TV_Model;
+import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 import com.example.hoang.mobies.network.get_people.GetDetailPeopleService;
-import com.example.hoang.mobies.network.get_people.KnownForObject;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 
@@ -166,7 +163,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
                 tvAlsoKA.setVisibility(View.VISIBLE);
                 tvKnownFor.setVisibility(View.VISIBLE);
                 tvBiography.setVisibility(View.VISIBLE);
-                celebModel = response.body();
+                if (response.body() != null)
+                    celebModel = response.body();
                 setupUI();
 
             }
@@ -187,6 +185,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
     }
 
     @Override
@@ -196,6 +196,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
     }
 
     @Override
@@ -209,8 +211,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
             ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
         }
 
-        if (v.getTag() instanceof TV_Model) {
-            TV_Model tvModel = (TV_Model) v.getTag();
+        if (v.getTag() instanceof TVModel) {
+            TVModel tvModel = (TVModel) v.getTag();
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);
