@@ -29,6 +29,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import com.example.hoang.mobies.R;
@@ -110,30 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpGuestID();
 
 
-//        GetDetailMoviesService getDetailMoviesService= retrofitFactory.getInstance().createService(GetDetailMoviesService.class);
-//        getDetailMoviesService.getDetailMovie(297762,API_KEY,LANGUAGE).enqueue(new Callback<MovieModel>() {
-//            @Override
-//            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-//                Log.d("detail",response.body().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MovieModel> call, Throwable t) {
-//
-//            }
-//        });
-        GetTvDetailService getTvDetailService = retrofitFactory.getInstance().createService(GetTvDetailService.class);
-        getTvDetailService.getDetailTv(57243, API_KEY, LANGUAGE).enqueue(new Callback<TV_Model>() {
-            @Override
-            public void onResponse(Call<TV_Model> call, Response<TV_Model> response) {
-                Log.d("detail", response.body().toString());
-            }
 
-            @Override
-            public void onFailure(Call<TV_Model> call, Throwable t) {
-
-            }
-        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.movies);
@@ -165,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
-
+                    Toast.makeText(MainActivity.this,"No connection!",Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -330,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this,"No connection!",Toast.LENGTH_SHORT).show();
             }
         });
         GetRatedTVService getRatedTVService = retrofitFactory.getInstance().createService(GetRatedTVService.class);
