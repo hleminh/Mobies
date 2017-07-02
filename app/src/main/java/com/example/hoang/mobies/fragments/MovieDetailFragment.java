@@ -179,20 +179,29 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             tvPlot.setText("-");
         }
 
-        String genres = "";
-        for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
-            for (GenresModel genreModel : genresModelList) {
-                if (genreModel.getId() == movieModel.getGenre_ids().get(i).intValue()) {
-                    if (i == movieModel.getGenre_ids().size() - 1) {
-                        genres += genreModel.getName();
-                    } else genres += genreModel.getName() + ", ";
+
+        if (movieModel.getGenresString() == null) {
+            String genres = "";
+            for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
+                for (GenresModel genreModel : genresModelList) {
+                    if (genreModel.getId() == movieModel.getGenre_ids().get(i).intValue()) {
+                        if (i == movieModel.getGenre_ids().size() - 1) {
+                            genres += genreModel.getName();
+                        } else genres += genreModel.getName() + ", ";
+                    }
                 }
             }
+            if (genres.trim().equals("")) {
+                tvGenre.setText("-");
+            } else
+                tvGenre.setText(genres);
+        } else {
+            if (movieModel.getGenresString().trim().equals("")) {
+                tvGenre.setText("-");
+            } else
+                tvGenre.setText(movieModel.getGenresString());
         }
-        if (genres.trim().equals("")) {
-            tvGenre.setText("-");
-        } else
-            tvGenre.setText(genres);
+
 
         castsAdapter = new CastsAdapter(castModelList, getContext());
         rvCasts.setAdapter(castsAdapter);
@@ -251,7 +260,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
             }
         }
 
-        if (RealmHandle.getInstance().isAdded(movieModel)){
+        if (RealmHandle.getInstance().isAdded(movieModel)) {
             tvAddWatchList.setText("Added to Watch List");
             ivAddWatchList.setImageResource(R.drawable.bookmark_check);
         }

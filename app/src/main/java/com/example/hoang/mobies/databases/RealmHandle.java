@@ -1,5 +1,6 @@
 package com.example.hoang.mobies.databases;
 
+import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.models.GenreIDs;
 import com.example.hoang.mobies.models.GenresModel;
 import com.example.hoang.mobies.models.MovieModel;
@@ -35,9 +36,18 @@ public class RealmHandle {
 
     public void addToWatchList(MovieModel movieModel) {
         realm.beginTransaction();
-        for (Integer id : movieModel.getGenre_ids()) {
-            movieModel.getGenreIDsRealmList().add(new GenreIDs(id.intValue()));
+        String genres = "";
+        for (int i = 0; i < movieModel.getGenre_ids().size(); i++) {
+            for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
+                if (genreModel.getId() == movieModel.getGenre_ids().get(i).intValue()) {
+                    if (i == movieModel.getGenre_ids().size() - 1) {
+                        genres += genreModel.getName();
+                    } else genres += genreModel.getName() + ", ";
+                }
+            }
         }
+
+        movieModel.setGenresString(genres);
         movieModel.setBelongTo("WatchList");
         realm.copyToRealm(movieModel);
         realm.commitTransaction();
@@ -57,9 +67,17 @@ public class RealmHandle {
 
     public void addToWatchList(TV_Model tvModel) {
         realm.beginTransaction();
-        for (Integer id : tvModel.getGenre_ids()) {
-            tvModel.getGenreIDsRealmList().add(new GenreIDs(id.intValue()));
+        String genres = "";
+        for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
+            for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
+                if (genreModel.getId() == tvModel.getGenre_ids().get(i).intValue()) {
+                    if (i == tvModel.getGenre_ids().size() - 1) {
+                        genres += genreModel.getName();
+                    } else genres += genreModel.getName() + ", ";
+                }
+            }
         }
+        tvModel.setGenresString(genres);
         tvModel.setBelongTo("WatchList");
         realm.copyToRealm(tvModel);
         realm.commitTransaction();

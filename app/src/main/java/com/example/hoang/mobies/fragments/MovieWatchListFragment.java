@@ -56,11 +56,6 @@ public class MovieWatchListFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         if (v.getTag() instanceof MovieModel) {
             MovieModel movieModel = (MovieModel) v.getTag();
-            List<Integer> genres = new ArrayList<>();
-            for (GenreIDs genreID : movieModel.getGenreIDsRealmList()) {
-                genres.add(genreID.getId());
-            }
-            movieModel.setGenre_ids(genres);
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("MovieDetail", movieModel);

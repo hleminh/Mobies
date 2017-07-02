@@ -57,11 +57,6 @@ public class TVWatchListFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v.getTag() instanceof TV_Model) {
             TV_Model tvModel = (TV_Model) v.getTag();
-            List<Integer> genres = new ArrayList<>();
-            for (GenreIDs genreID : tvModel.getGenreIDsRealmList()) {
-                genres.add(genreID.getId());
-            }
-            tvModel.setGenre_ids(genres);
             TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("TVDetail", tvModel);

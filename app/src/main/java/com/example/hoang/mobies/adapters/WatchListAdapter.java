@@ -90,17 +90,10 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             tvName.setText(movieModel.getTitle());
             tvRealseDate.setText(movieModel.getRelease_date());
-            String genres = "";
-            for (int i = 0; i < movieModel.getGenreIDsRealmList().size(); i++) {
-                for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
-                    if (genreModel.getId() == movieModel.getGenreIDsRealmList().get(i).getId()) {
-                        if (i == movieModel.getGenreIDsRealmList().size() - 1) {
-                            genres += genreModel.getName();
-                        } else genres += genreModel.getName() + ", ";
-                    }
-                }
-            }
-            tvGenre.setText(genres);
+            if (movieModel.getGenresString().trim().equals("")) {
+                tvGenre.setText("-");
+            } else
+                tvGenre.setText(movieModel.getGenresString());
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,17 +109,14 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tvModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             tvName.setText(tvModel.getName());
             tvRealseDate.setText(tvModel.getFirst_air_date());
-            String genres = "";
-            for (int i = 0; i < tvModel.getGenreIDsRealmList().size(); i++) {
-                for (GenresModel genreModel : RealmHandle.getInstance().getListGenresModel()) {
-                    if (genreModel.getId() == tvModel.getGenreIDsRealmList().get(i).getId()) {
-                        if (i == tvModel.getGenreIDsRealmList().size() - 1) {
-                            genres += genreModel.getName();
-                        } else genres += genreModel.getName() + ", ";
-                    }
-                }
+            if (tvModel.getGenresString().trim().equals("")) {
+                tvGenre.setText("-");
+            } else {
+                if (tvModel.getGenresString().trim().charAt(tvModel.getGenresString().trim().length() - 1) == ',') {
+                    tvGenre.setText(tvModel.getGenresString().trim().substring(0, tvModel.getGenresString().length() - 2));
+                } else
+                    tvGenre.setText(tvModel.getGenresString());
             }
-            tvGenre.setText(genres);
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

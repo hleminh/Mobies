@@ -170,11 +170,11 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         for (TV_Model model : RATED_TV_LIST) {
             if (model.getId() == tvModel.getId()) {
-                tvRatingDetail.setText(String.format("%,d",tvModel.getVote_count()+1) + " Ratings");
+                tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
                 break;
             }
         }
-        if (RealmHandle.getInstance().isAdded(tvModel)){
+        if (RealmHandle.getInstance().isAdded(tvModel)) {
             tvAddWatchList.setText("Added to Watch List");
             ivAddWatchList.setImageResource(R.drawable.bookmark_check);
         }
@@ -186,25 +186,36 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             tvPlot.setText("-");
         }
 
-        String genres = "";
-        for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
-            for (GenresModel genreModel : Utils.genresModelList) {
-                if (genreModel.getId() == tvModel.getGenre_ids().get(i).intValue()) {
-                    if (i == tvModel.getGenre_ids().size() - 1) {
-                        genres += genreModel.getName();
-                    } else genres += genreModel.getName() + ", ";
+        if (tvModel.getGenresString() == null) {
+            String genres = "";
+            for (int i = 0; i < tvModel.getGenre_ids().size(); i++) {
+                for (GenresModel genreModel : Utils.genresModelList) {
+                    if (genreModel.getId() == tvModel.getGenre_ids().get(i).intValue()) {
+                        if (i == tvModel.getGenre_ids().size() - 1) {
+                            genres += genreModel.getName();
+                        } else genres += genreModel.getName() + ", ";
+                    }
                 }
             }
+            if (genres.trim().equals("")) {
+                tvGenre.setText("-");
+            } else {
+                if (genres.trim().charAt(genres.trim().length() - 1) == ',') {
+                    tvGenre.setText(genres.trim().substring(0, genres.length() - 2));
+                } else
+                    tvGenre.setText(genres);
+            }
+        } else  {
+            if (tvModel.getGenresString().trim().equals("")) {
+                tvGenre.setText("-");
+            } else {
+                if (tvModel.getGenresString().trim().charAt(tvModel.getGenresString().trim().length() - 1) == ',') {
+                    tvGenre.setText(tvModel.getGenresString().trim().substring(0, tvModel.getGenresString().length() - 2));
+                } else
+                    tvGenre.setText(tvModel.getGenresString());
+            }
         }
-        System.out.println("|" + genres + "|");
-        if (genres.trim().equals("")) {
-            tvGenre.setText("-");
-        } else {
-            if (genres.trim().charAt(genres.trim().length() - 1) == ',') {
-                tvGenre.setText(genres.trim().substring(0, genres.length() - 2));
-            } else
-                tvGenre.setText(genres);
-        }
+
 
         castsAdapter = new CastsAdapter(castModelList, getContext());
         rvCasts.setAdapter(castsAdapter);
@@ -237,7 +248,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         llRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RateDialog rateDialog = new RateDialog(getContext(), tvModel.getId(),false);
+                RateDialog rateDialog = new RateDialog(getContext(), tvModel.getId(), false);
                 rateDialog.show();
             }
         });
@@ -404,9 +415,10 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
     }
+
     @Subscribe
     public void onEvent(Float rating) {
-        Log.d("receive","receive");
+        Log.d("receive", "receive");
         float x = rating;
         tvRate.setText("Your rating: " + (int) x + "/10");
         ivRate.setImageResource(R.drawable.ic_star_black_24dp);

@@ -32,7 +32,16 @@ public class TV_Model extends RealmObject implements Serializable{
     private List<String> origin_country;
     float rating;
     private String belongTo;
-    private transient RealmList<GenreIDs> genreIDsRealmList = new RealmList<>();
+
+    private String genresString;
+
+    public String getGenresString() {
+        return genresString;
+    }
+
+    public void setGenresString(String genresString) {
+        this.genresString = genresString;
+    }
 
     public String getBelongTo() {
         return belongTo;
@@ -49,9 +58,6 @@ public class TV_Model extends RealmObject implements Serializable{
         this.belongTo = belongTo;
     }
 
-    public RealmList<GenreIDs> getGenreIDsRealmList() {
-        return genreIDsRealmList;
-    }
 
     public TV_Model(int id, float rating) {
         this.id = id;
