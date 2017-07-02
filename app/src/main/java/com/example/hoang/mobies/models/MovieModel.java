@@ -29,7 +29,7 @@ public class MovieModel extends RealmObject implements Serializable {
     private int vote_count;
     private boolean video;
     private float vote_average;
-    private RealmList<GenreIDs> genreIDsRealmList = new RealmList<>();
+    private transient RealmList<GenreIDs> genreIDsRealmList = new RealmList<>();
     private String belongTo;
 
     public void setGenreIDsRealmList(RealmList<GenreIDs> genreIDsRealmList) {
