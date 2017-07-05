@@ -23,6 +23,7 @@ import com.example.hoang.mobies.managers.ScreenManager;
 public class SearchResultsActivity extends AppCompatActivity {
     SearchView viewSearch;
     MenuItem menuItem;
+    public static String LAST_QUERY ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         handleIntent(getIntent());
 
     }
@@ -56,30 +58,54 @@ public class SearchResultsActivity extends AppCompatActivity {
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
+        viewSearch = (SearchView) menu.findItem(R.id.search).getActionView();
 
+        viewSearch.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
+                SearchResultsActivity.class)));
 
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
-        this.viewSearch = searchView;
-
-        viewSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                menuItem.collapseActionView();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                viewSearch.setQuery(LAST_QUERY, false);
+//                System.out.println(LAST_QUERY);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                return true;
+//            }
+//        });
 
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+//                System.out.println(LAST_QUERY);
+//                viewSearch.setQuery(LAST_QUERY, false);
+                viewSearch.setQueryHint(LAST_QUERY);
+                viewSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        LAST_QUERY = query;
+                        menuItem.collapseActionView();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {

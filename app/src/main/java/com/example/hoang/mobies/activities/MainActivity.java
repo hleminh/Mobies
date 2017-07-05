@@ -61,6 +61,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.hoang.mobies.activities.SearchResultsActivity.LAST_QUERY;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onQueryTextSubmit(String query) {
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
+                LAST_QUERY = query;
                 mMenu.findItem(R.id.search).collapseActionView();
                 return false;
             }

@@ -60,8 +60,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
-    SearchView viewSearch;
-    MenuItem menuItem;
 
     public SearchResultFragment() {
         // Required empty public constructor
