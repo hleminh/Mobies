@@ -61,6 +61,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
+    SearchView searchView;
+    MenuItem menuItem;
 
     public SearchResultFragment() {
         // Required empty public constructor
@@ -78,7 +80,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         setUpUI(view);
         return view;
     }
-
 
     private void setUpUI(View view) {
         ButterKnife.bind(this, view);
@@ -103,17 +104,20 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
                 MainSearchModel mainSearchModel = response.body();
-                for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
-                    resultList.add(searchModel);
+                if (mainSearchModel != null) {
+                    for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
+                        resultList.add(searchModel);
+                    }
+                    multiSearchAdapter.notifyDataSetChanged();
+                    pbSearch.setVisibility(View.GONE);
+                    rvSearchResult.setVisibility(View.VISIBLE);
+                    if (resultList.size() == 0) {
+                        rvSearchResult.setVisibility(View.GONE);
+                        tvNoConnection.setVisibility(View.VISIBLE);
+                        tvNoConnection.setText("No result found");
+                    }
                 }
-                multiSearchAdapter.notifyDataSetChanged();
-                pbSearch.setVisibility(View.GONE);
-                rvSearchResult.setVisibility(View.VISIBLE);
-                if (resultList.size() == 0) {
-                    rvSearchResult.setVisibility(View.GONE);
-                    tvNoConnection.setVisibility(View.VISIBLE);
-                    tvNoConnection.setText("No result found");
-                }
+
             }
 
             @Override
