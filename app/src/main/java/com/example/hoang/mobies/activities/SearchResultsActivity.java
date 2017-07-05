@@ -20,8 +20,9 @@ import com.example.hoang.mobies.fragments.SearchResultFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
 
 
-public class SearchResultsActivity extends MainActivity {
-    SearchView searchView;
+public class SearchResultsActivity extends AppCompatActivity {
+    SearchView viewSearch;
+    MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class SearchResultsActivity extends MainActivity {
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBar));
         }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -48,16 +50,36 @@ public class SearchResultsActivity extends MainActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search, menu);
+
+        menuItem = menu.findItem(R.id.search);
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();
+
+
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
-        this.searchView = searchView;
+        this.viewSearch = searchView;
+
+        viewSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                menuItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -67,7 +89,6 @@ public class SearchResultsActivity extends MainActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-
             SearchResultFragment searchResultFragment = new SearchResultFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("SearchQuery", query);
@@ -78,9 +99,6 @@ public class SearchResultsActivity extends MainActivity {
 
     @Override
     public void onBackPressed() {
-        if (!searchView.isIconified())
-            searchView.setIconified(true);
-        System.out.println("SearchResult: onBackPressed");
         super.onBackPressed();
     }
 }

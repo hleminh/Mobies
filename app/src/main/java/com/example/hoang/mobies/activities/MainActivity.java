@@ -177,18 +177,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.mMenu = menu;
         getMenuInflater().inflate(R.menu.search, menu);
+        this.mMenu = menu;
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchView.setIconified(true);
+                searchView.setQuery(query, false);
                 searchView.clearFocus();
                 mMenu.findItem(R.id.search).collapseActionView();
                 return false;

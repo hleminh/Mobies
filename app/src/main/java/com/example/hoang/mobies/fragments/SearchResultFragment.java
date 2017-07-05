@@ -1,13 +1,20 @@
 package com.example.hoang.mobies.fragments;
 
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.activities.SearchResultsActivity;
 import com.example.hoang.mobies.adapters.MultiSearchAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.MovieModel;
@@ -52,7 +60,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
-
+    SearchView viewSearch;
+    MenuItem menuItem;
 
     public SearchResultFragment() {
         // Required empty public constructor
@@ -71,6 +80,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
         return view;
     }
+
 
     private void setUpUI(View view) {
         ButterKnife.bind(this, view);
@@ -129,22 +139,20 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 bundle.putSerializable("MovieDetail", new MovieModel(multiSearchModel));
                 movieDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
-            }
-            else if(multiSearchModel.getMedia_type().equals("tv"))
-            {
+            } else if (multiSearchModel.getMedia_type().equals("tv")) {
                 TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("TVDetail", new TVModel(multiSearchModel));
                 tvShowDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
-            }
-            else {
+            } else {
                 CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("CelebDetail", new PeopleModel(multiSearchModel));
                 celebDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
             }
+
 
         }
     }
@@ -161,5 +169,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         super.onStop();
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
+
+
 }
 

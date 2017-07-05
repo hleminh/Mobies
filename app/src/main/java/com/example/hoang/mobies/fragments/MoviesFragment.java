@@ -114,11 +114,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         genresModelList = new ArrayList<>();
         if (RealmHandle.getInstance().getListGenresModel().size() == 0) {
             loadGenres();
-            System.out.println("load online");
         } else {
             failConnection++;
             if (Utils.genresModelList == null) {
-                System.out.println("add to utils");
                 Utils.genresModelList = new ArrayList<>();
                 for (GenresModel genresModel : RealmHandle.getInstance().getListGenresModel()) {
                     genresModelList.add(genresModel);
@@ -126,7 +124,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                     tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
                 }
             } else {
-                System.out.println("load offline");
                 for (GenresModel genresModel : RealmHandle.getInstance().getListGenresModel()) {
                     genresModelList.add(genresModel);
                     tlCategory.addTab(tlCategory.newTab().setText(genresModel.getName()));
