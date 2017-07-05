@@ -53,13 +53,13 @@ public class RateDialog extends Dialog implements View.OnClickListener {
     float rating;
     int movieID;
     boolean isMovie;
+    private Toast toast;
+
     public RateDialog(@NonNull Context context, int movieID, boolean isMovie) {
         super(context);
-        this.movieID=movieID;
-        this.isMovie=isMovie;
+        this.movieID = movieID;
+        this.isMovie = isMovie;
     }
-
-
 
 
     @Override
@@ -73,25 +73,40 @@ public class RateDialog extends Dialog implements View.OnClickListener {
         rbDialog.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-                tvDialog.setText((int)(rating*2)+"");
-                RateDialog.this.rating = rating*2;
+                tvDialog.setText((int) (rating * 2) + "");
+                RateDialog.this.rating = rating * 2;
+                if (rating < 1.0f) ratingBar.setProgress(1);
             }
         });
+        rbDialog.setProgress(1);
+        for (MovieModel model : RATED_MOVIE_LIST) {
+            if (model.getId() == movieID) {
+                System.out.println("Current rating: " + model.getRating());
+                rbDialog.setProgress((int) model.getRating());
+                rating = model.getRating();
+                break;
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm:
-                createGuestAndRate();
-                dismiss();
+                if (rating != 0) {
+                    createGuestAndRate();
+                    dismiss();
+                }
+                else{
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(getContext(), "Rating must be between 1 - 10. Please try again.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             case R.id.btn_cancel:
                 dismiss();
         }
     }
-
 
 
     private void createGuestAndRate() {
@@ -104,56 +119,60 @@ public class RateDialog extends Dialog implements View.OnClickListener {
                     SharedPreferences.Editor editor = SHAREED_PREFERENCES.edit();
                     editor.putString(GUEST_ID_PREFERENCE, GUEST_ID);
                     editor.commit();
-                    if(isMovie)
+                    if (isMovie)
                         RateDialog.this.rate();
                     else
                         RateDialog.this.rateTV();
                 }
+
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
-                    Toast.makeText(getContext(),"Rate failed. Check your connection",Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), "Rate failed. Check your connection", Toast.LENGTH_SHORT);
                 }
             });
 
-        }
-        else {
-            if(isMovie)
+        } else {
+            if (isMovie)
                 rate();
             else
                 rateTV();
         }
     }
 
-    private void rate(){
+    private void rate() {
         final RateMoviesService rateMoviesService = RetrofitFactory.getInstance().createService(RateMoviesService.class);
-        rateMoviesService.rateMovie(movieID, new RateMovieRequest(rating),API_KEY,GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
+        rateMoviesService.rateMovie(movieID, new RateMovieRequest(rating), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
             @Override
             public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
                 Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(new Float(rating));
-                RATED_MOVIE_LIST.add(new MovieModel(movieID,rating));
+                RATED_MOVIE_LIST.add(new MovieModel(movieID, rating));
             }
 
             @Override
             public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-                Toast.makeText(getContext(),"Rate Failed. Check your connection",Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Rate Failed. Check your connection", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
-    private void rateTV()
-    {
-        RateTVService rateTVService= RetrofitFactory.getInstance().createService(RateTVService.class);
-        rateTVService.rateTV(movieID, new RateMovieRequest(rating),API_KEY,GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
+
+    private void rateTV() {
+        RateTVService rateTVService = RetrofitFactory.getInstance().createService(RateTVService.class);
+        rateTVService.rateTV(movieID, new RateMovieRequest(rating), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
             @Override
             public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
                 Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(new Float(rating));
-                RATED_TV_LIST.add(new TVModel(movieID,rating));
+                RATED_TV_LIST.add(new TVModel(movieID, rating));
             }
 
             @Override
             public void onFailure(Call<RateMoviesResponse> call, Throwable t) {
-                Toast.makeText(getContext(),"Rate Failed. Check your connection",Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Rate Failed. Check your connection", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }

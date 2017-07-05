@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="370dp"
-    android:layout_height="150dp"
+    android:layout_height="205dp"
     android:background="@color/colorStatusBar"
     android:orientation="vertical"
     android:gravity="center"
     android:paddingRight="44dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/rate_prompt"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/ll_dialog"
@@ -15,6 +26,7 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp"
         android:gravity="center">
+
 
         <RatingBar
             android:id="@+id/rb_dialog"
@@ -54,7 +66,7 @@
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorStatusBar"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/btn_confirm"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"
@@ -65,7 +77,7 @@
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorStatusBar"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/btn_cancel"
             android:textAllCaps="true"
             android:textColor="@color/colorTextPrimary"

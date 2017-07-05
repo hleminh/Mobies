@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -75,13 +76,13 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         query = (String) getArguments().getSerializable("SearchQuery");
         loadData();
         setUpUI(view);
-
         return view;
     }
 
 
     private void setUpUI(View view) {
         ButterKnife.bind(this, view);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Results for \"" + query + "\"");
         multiSearchAdapter = new MultiSearchAdapter(getContext(), resultList);
         multiSearchAdapter.setOnItemClickListener(this);
         rvSearchResult.setAdapter(multiSearchAdapter);
