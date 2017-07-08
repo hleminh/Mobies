@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
                 MainActivity.class)));
-        
+
         MyRxSearchView.queryTextChanges(searchView)
                 .debounce(600, TimeUnit.MILLISECONDS)
                 .filter(item -> item.length() > 1)
