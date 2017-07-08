@@ -117,28 +117,30 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
                             MainSearchModel mainSearchModel = response.body();
                             if (mainSearchModel != null) {
                                 for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
-                                    if (searchModel.getMedia_type().equals("person")){
-                                        CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putSerializable("CelebDetail", new PeopleModel(searchModel));
-                                        celebDetailFragment.setArguments(bundle);
-                                        ScreenManager.openFragment(((AppCompatActivity)context).getSupportFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
-                                        return;
+                                    if (searchModel.getMedia_type().equals("person")) {
+                                        if (searchModel.getId() == castModel.getId()) {
+                                            CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("CelebDetail", new PeopleModel(searchModel));
+                                            celebDetailFragment.setArguments(bundle);
+                                            ScreenManager.openFragment(((AppCompatActivity) context).getSupportFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
+                                            return;
+                                        }
                                     }
                                 }
+
                             }
-
                         }
 
-                        @Override
-                        public void onFailure(Call<MainSearchModel> call, Throwable t) {
-                            Toast.makeText(context, "Bad connection", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
+                            @Override
+                            public void onFailure (Call < MainSearchModel > call, Throwable t){
+                                Toast.makeText(context, "Bad connection", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
         }
     }
-}
 
 
