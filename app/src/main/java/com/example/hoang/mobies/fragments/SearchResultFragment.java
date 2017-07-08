@@ -83,7 +83,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     private void setUpUI(View view) {
         ButterKnife.bind(this, view);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Results for \"" + query + "\"");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(query);
         multiSearchAdapter = new MultiSearchAdapter(getContext(), resultList);
         multiSearchAdapter.setOnItemClickListener(this);
         rvSearchResult.setAdapter(multiSearchAdapter);

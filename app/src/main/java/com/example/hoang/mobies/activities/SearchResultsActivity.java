@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -19,6 +20,7 @@ import android.view.Window;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.fragments.SearchResultFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
+import com.example.hoang.mobies.searchs.MyRxSearchView;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
 
 import org.reactivestreams.Subscriber;
@@ -33,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SearchResultsActivity extends AppCompatActivity {
     SearchView viewSearch;
     MenuItem menuItem;
-    public static String LAST_QUERY ;
+    public static String LAST_QUERY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,29 +59,33 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.search, menu);
+        System.out.println("Search on create option");
 
-        menuItem = menu.findItem(R.id.search);
+        if (menuItem == null) {
 
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            getMenuInflater().inflate(R.menu.search, menu);
 
-        viewSearch = (SearchView) menu.findItem(R.id.search).getActionView();
+            menuItem = menu.findItem(R.id.search);
 
-        viewSearch.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
-                SearchResultsActivity.class)));
+            SearchManager searchManager =
+                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        RxSearchView.queryTextChanges(viewSearch)
-                .debounce(600, TimeUnit.MILLISECONDS)
-                .filter(item -> item.length() > 1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(query -> {
-                    SearchResultFragment searchResultFragment = new SearchResultFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("SearchQuery", query.toString());
-                    searchResultFragment.setArguments(bundle);
-                    ScreenManager.openFragment(getSupportFragmentManager(), searchResultFragment, R.id.fl_container, false, false);
-                });
+            viewSearch = (SearchView) menu.findItem(R.id.search).getActionView();
+
+            viewSearch.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
+                    SearchResultsActivity.class)));
+
+            RxSearchView.queryTextChanges(viewSearch)
+                    .debounce(600, TimeUnit.MILLISECONDS)
+                    .filter(item -> item.length() > 1)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(query -> {
+                        SearchResultFragment searchResultFragment = new SearchResultFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("SearchQuery", query.toString());
+                        searchResultFragment.setArguments(bundle);
+                        ScreenManager.openFragment(getSupportFragmentManager(), searchResultFragment, R.id.fl_container, false, false);
+                    });
 
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(new Subscriber<List<Item>>() {
@@ -98,11 +104,61 @@ public class SearchResultsActivity extends AppCompatActivity {
 //                    }
 //                });
 
+            MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return true;
+                }
 
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    onBackPressed();
+                    return false;
+                }
+            });
+            menuItem.expandActionView();
+        } else {
+            getMenuInflater().inflate(R.menu.search, menu);
+
+            menuItem = menu.findItem(R.id.search);
+
+            SearchManager searchManager =
+                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+            viewSearch = (SearchView) menu.findItem(R.id.search).getActionView();
+
+            viewSearch.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
+                    SearchResultsActivity.class)));
+
+            MyRxSearchView.queryTextChanges(viewSearch)
+                    .debounce(600, TimeUnit.MILLISECONDS)
+                    .filter(item -> item.length() > 1)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(query -> {
+                        SearchResultFragment searchResultFragment = new SearchResultFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("SearchQuery", query.toString());
+                        searchResultFragment.setArguments(bundle);
+                        ScreenManager.openFragment(getSupportFragmentManager(), searchResultFragment, R.id.fl_container, false, false);
+                    });
+
+            MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return true;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    onBackPressed();
+                    return false;
+                }
+            });
+        }
         return true;
     }
 
-//    @Override
+    //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        switch (item.getItemId()) {
 //            case R.id.search:
@@ -149,4 +205,17 @@ public class SearchResultsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
 }

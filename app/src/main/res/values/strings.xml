@@ -69,6 +69,8 @@
 
     <string name="rate_prompt">Choose your rating (1-10)</string>
 
+    <string name="search">Search</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

@@ -2,6 +2,7 @@ package com.example.hoang.mobies.searchs;
 
 import android.support.v7.widget.SearchView;
 
+import com.example.hoang.mobies.managers.ScreenManager;
 import com.jakewharton.rxbinding2.*;
 
 import io.reactivex.Observer;
