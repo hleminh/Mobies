@@ -130,7 +130,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             viewSearch.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
                     SearchResultsActivity.class)));
 
-            MyRxSearchView.queryTextChanges(viewSearch)
+            RxSearchView.queryTextChanges(viewSearch)
                     .debounce(600, TimeUnit.MILLISECONDS)
                     .filter(item -> item.length() > 1)
                     .observeOn(AndroidSchedulers.mainThread())

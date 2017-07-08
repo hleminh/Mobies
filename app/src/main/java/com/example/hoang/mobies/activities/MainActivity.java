@@ -172,9 +172,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     System.exit(0);
                 } else super.onBackPressed();
             } else {
-//                System.out.println("Exit, null search");
-//                finish();
-//                System.exit(0);
+                System.out.println("Exit, null search");
+                finish();
+                System.exit(0);
                 super.onBackPressed();
             }
         } else super.onBackPressed();
