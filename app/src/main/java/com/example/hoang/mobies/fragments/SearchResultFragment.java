@@ -131,10 +131,13 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     }
 
+
     @Override
     public void onClick(View v) {
 
         if (v.getTag() instanceof MultiSearchModel) {
+            setHasOptionsMenu(true);
+            setHasOptionsMenu(false);
             MultiSearchModel multiSearchModel = (MultiSearchModel) v.getTag();
             if (multiSearchModel.getMedia_type().equals("movie")) {
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
@@ -163,7 +166,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
     }
 
     @Override
