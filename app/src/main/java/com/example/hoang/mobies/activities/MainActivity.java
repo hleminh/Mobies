@@ -51,6 +51,7 @@ import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
 import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 import com.example.hoang.mobies.network.rate.GetRatedTVService;
+import com.example.hoang.mobies.searchs.MyRxSearchView;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
 
 
@@ -186,15 +187,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         MenuItem menuItem = menu.findItem(R.id.search);
 
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        final SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                searchView.setQuery(query, false);
+//                searchView.clearFocus();
+//                LAST_QUERY = query;
+//                mMenu.findItem(R.id.search).collapseActionView();
+//                return false;
+//            }
+
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
                 MainActivity.class)));
-
-        RxSearchView.queryTextChanges(searchView)
+        
+        MyRxSearchView.queryTextChanges(searchView)
                 .debounce(600, TimeUnit.MILLISECONDS)
                 .filter(item -> item.length() > 1)
                 .observeOn(AndroidSchedulers.mainThread())

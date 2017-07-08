@@ -156,7 +156,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
             }
 
-
         }
     }
 
@@ -172,7 +171,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         super.onStop();
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
-
 
 }
 
