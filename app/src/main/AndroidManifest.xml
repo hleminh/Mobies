@@ -25,21 +25,6 @@
         </activity>
 
         <activity
-            android:name=".activities.SearchResultsActivity"
-            android:label="Search Results"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"
-                android:value=".activities.SearchResultsActivity" />
-        </activity>
-
-        <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
             android:label="@string/app_name"
@@ -48,6 +33,9 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
 
 

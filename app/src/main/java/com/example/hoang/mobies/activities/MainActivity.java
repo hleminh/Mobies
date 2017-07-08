@@ -51,12 +51,15 @@ import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
 import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 import com.example.hoang.mobies.network.rate.GetRatedTVService;
+import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -180,28 +183,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search, menu);
         this.mMenu = menu;
+
+        MenuItem menuItem = menu.findItem(R.id.search);
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchView.setQuery(query, false);
-                searchView.clearFocus();
-                LAST_QUERY = query;
-                mMenu.findItem(R.id.search).collapseActionView();
-                return false;
-            }
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(),
+                MainActivity.class)));
+
+        RxSearchView.queryTextChanges(searchView)
+                .debounce(600, TimeUnit.MILLISECONDS)
+                .filter(item -> item.length() > 1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(query -> {
+                    SearchResultFragment searchResultFragment = new SearchResultFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("SearchQuery", query.toString());
+                    searchResultFragment.setArguments(bundle);
+                    ScreenManager.openFragment(getSupportFragmentManager(), searchResultFragment, R.id.fl_container, false, false);
+                });
+
         return true;
     }
 
