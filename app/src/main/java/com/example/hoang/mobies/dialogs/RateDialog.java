@@ -79,12 +79,23 @@ public class RateDialog extends Dialog implements View.OnClickListener {
             }
         });
         rbDialog.setProgress(1);
-        for (MovieModel model : RATED_MOVIE_LIST) {
-            if (model.getId() == movieID) {
-                System.out.println("Current rating: " + model.getRating());
-                rbDialog.setProgress((int) model.getRating());
-                rating = model.getRating();
-                break;
+        if (isMovie) {
+            for (MovieModel model : RATED_MOVIE_LIST) {
+                if (model.getId() == movieID) {
+                    System.out.println("Current rating: " + model.getRating());
+                    rbDialog.setProgress((int) model.getRating());
+                    rating = model.getRating();
+                    break;
+                }
+            }
+        } else {
+            for (TVModel model : RATED_TV_LIST) {
+                if (model.getId() == movieID) {
+                    System.out.println("Current rating: " + model.getRating());
+                    rbDialog.setProgress((int) model.getRating());
+                    rating = model.getRating();
+                    break;
+                }
             }
         }
     }
@@ -96,8 +107,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
                 if (rating != 0) {
                     createGuestAndRate();
                     dismiss();
-                }
-                else{
+                } else {
                     if (toast != null) toast.cancel();
                     toast = Toast.makeText(getContext(), "Rating must be between 1 - 10. Please try again.", Toast.LENGTH_SHORT);
                     toast.show();

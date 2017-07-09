@@ -322,7 +322,6 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                                     }
                                 });
                                 ScreenManager.openFragment(getFragmentManager(), youTubePlayerFragment, R.id.drawer_layout, true, false);
-
                             }
                         });
 
