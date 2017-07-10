@@ -26,6 +26,7 @@
 
         <activity
             android:name=".activities.SearchResultsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
             android:label="Search"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

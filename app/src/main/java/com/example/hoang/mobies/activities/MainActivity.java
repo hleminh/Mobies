@@ -296,10 +296,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadRatedList() {
+        GetRatedTVService getRatedTVService = retrofitFactory.getInstance().createService(GetRatedTVService.class);
+        getRatedTVService.getRatedTV(GUEST_ID, API_KEY).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                if (response.body().getResults() != null)
+                for (TVModel tv_model : response.body().getResults()) {
+                    RATED_TV_LIST.add(tv_model);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+
+            }
+        });
+
         GetRatedMoviesService getRatedMoviesService = retrofitFactory.getInstance().createService(GetRatedMoviesService.class);
         getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (response.body() != null)
                 for (MovieModel movieModel : response.body().getResults()) {
                     RATED_MOVIE_LIST.add(movieModel);
 
@@ -313,21 +331,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT).show();
             }
         });
-        GetRatedTVService getRatedTVService = retrofitFactory.getInstance().createService(GetRatedTVService.class);
-        getRatedTVService.getRatedTV(GUEST_ID, API_KEY).enqueue(new Callback<MainTvObject>() {
-            @Override
-            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                for (TVModel tv_model : response.body().getResults()) {
-                    RATED_TV_LIST.add(tv_model);
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainTvObject> call, Throwable t) {
-
-            }
-        });
 
     }
 
