@@ -96,7 +96,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Deleted " + movieModel.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Removed " + movieModel.getTitle() + " from Watch List.", Toast.LENGTH_SHORT).show();
                     RealmHandle.getInstance().deleteFromWatchList(movieModel);
                     notifyDataSetChanged();
                 }
@@ -119,7 +119,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Deleted " + tvModel.getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Removed " + tvModel.getName() + " from Watch List.", Toast.LENGTH_SHORT).show();
                     RealmHandle.getInstance().deleteFromWatchList(tvModel);
                     notifyDataSetChanged();
                 }

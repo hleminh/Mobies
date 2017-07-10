@@ -178,6 +178,9 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         for (TVModel model : RATED_TV_LIST) {
             if (model.getId() == tvModel.getId()) {
+                System.out.println("Rated TV");
+                tvRate.setText("Your rating: " + (int) model.getRating() + "/10");
+                ivRate.setImageResource(R.drawable.ic_star_black_24dp);
                 tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");
                 break;
             }

@@ -261,7 +261,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
 
         for (MovieModel model : RATED_MOVIE_LIST) {
             if (model.getId() == this.movieModel.getId()) {
-
+                System.out.println("Rated Movie");
                 tvRate.setText("Your rating: " + (int) model.getRating() + "/10");
                 ivRate.setImageResource(R.drawable.ic_star_black_24dp);
                 tvRatingDetail.setText(String.format("%,d", movieModel.getVote_count() + 1) + " Ratings");

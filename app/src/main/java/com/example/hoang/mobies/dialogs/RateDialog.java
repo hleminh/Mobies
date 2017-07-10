@@ -25,6 +25,8 @@ import com.example.hoang.mobies.network.rate.RateTVService;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Iterator;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -82,7 +84,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
         if (isMovie) {
             for (MovieModel model : RATED_MOVIE_LIST) {
                 if (model.getId() == movieID) {
-                    System.out.println("Current rating: " + model.getRating());
+                    System.out.println("Current Movie rating: " + model.getRating());
                     rbDialog.setProgress((int) model.getRating());
                     rating = model.getRating();
                     break;
@@ -91,7 +93,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
         } else {
             for (TVModel model : RATED_TV_LIST) {
                 if (model.getId() == movieID) {
-                    System.out.println("Current rating: " + model.getRating());
+                    System.out.println("Current TV Show rating: " + model.getRating());
                     rbDialog.setProgress((int) model.getRating());
                     rating = model.getRating();
                     break;
@@ -156,6 +158,11 @@ public class RateDialog extends Dialog implements View.OnClickListener {
             public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
                 Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(new Float(rating));
+                Iterator iterator = RATED_MOVIE_LIST.iterator();
+                while(iterator.hasNext()){
+                    MovieModel movieModel = (MovieModel) iterator.next();
+                    if (movieModel.getId() == movieID) iterator.remove();
+                }
                 RATED_MOVIE_LIST.add(new MovieModel(movieID, rating));
             }
 
@@ -173,8 +180,15 @@ public class RateDialog extends Dialog implements View.OnClickListener {
         rateTVService.rateTV(movieID, new RateMovieRequest(rating), API_KEY, GUEST_ID).enqueue(new Callback<RateMoviesResponse>() {
             @Override
             public void onResponse(Call<RateMoviesResponse> call, Response<RateMoviesResponse> response) {
-                Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), response.body().getStatus_message(), Toast.LENGTH_SHORT);
+                toast.show();
                 EventBus.getDefault().post(new Float(rating));
+                Iterator iterator = RATED_TV_LIST.iterator();
+                while(iterator.hasNext()){
+                    TVModel tvModel = (TVModel) iterator.next();
+                    if (tvModel.getId() == movieID) iterator.remove();
+                }
                 RATED_TV_LIST.add(new TVModel(movieID, rating));
             }
 
