@@ -51,7 +51,6 @@ public class SearchResultsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
         handleIntent(getIntent());
 
     }
@@ -209,12 +208,14 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("Resume search activity");
         ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        System.out.println("Stop search activity");
         ((DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 

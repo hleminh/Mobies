@@ -126,6 +126,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     private List<String> keys = new ArrayList<>();
     private YouTubePlayer player;
     private Toast toast;
+    private boolean fromSearch;
 
     public TVShowDetailFragment() {
         // Required empty public constructor
@@ -145,6 +146,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_tvshow_detail, container, false);
         if (getArguments() != null) {
             tvModel = (TVModel) getArguments().getSerializable("TVDetail");
+            fromSearch = getArguments().getBoolean("FromSearch");
         }
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
@@ -431,7 +433,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
-        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (!fromSearch)
+            ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     @Override

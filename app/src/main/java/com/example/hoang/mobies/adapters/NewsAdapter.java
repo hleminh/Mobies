@@ -114,7 +114,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     ScreenManager.openFragment(fragmentManager, newsDetailFragment, R.id.drawer_layout, true, false);
                 }
             });
-            Picasso.with(context).load(newsModel.getUrlToImage()).placeholder(R.drawable.no_image_movie_tv_landscape_final).into(ivImage);
+            Picasso.with(context).load(newsModel.getUrlToImage()).fit().centerInside().placeholder(R.drawable.no_image_movie_tv_landscape_final).into(ivImage);
             view.setTag(newsModel);
         }
     }

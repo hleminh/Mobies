@@ -93,7 +93,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 //
 //        rvSearchResult.addItemDecoration(dividerItemDecoration);
         rvSearchResult.setLayoutManager(manager);
-
     }
 
 
@@ -143,18 +142,21 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("MovieDetail", new MovieModel(multiSearchModel));
+                bundle.putBoolean("FromSearch", true);
                 movieDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
             } else if (multiSearchModel.getMedia_type().equals("tv")) {
                 TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("TVDetail", new TVModel(multiSearchModel));
+                bundle.putBoolean("FromSearch", true);
                 tvShowDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
             } else {
                 CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("CelebDetail", new PeopleModel(multiSearchModel));
+                bundle.putBoolean("FromSearch", true);
                 celebDetailFragment.setArguments(bundle);
                 ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
             }
@@ -165,12 +167,14 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("Resume search fragment");
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        System.out.println("Stop search fragment");
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 

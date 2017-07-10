@@ -73,7 +73,7 @@ public class KnownForAdapter extends RecyclerView.Adapter<KnownForAdapter.KnownF
         }
 
         public void setData(KnownForObject knownForObject) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + knownForObject.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + knownForObject.getPoster_path()).centerCrop().fit().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             if (knownForObject.getMedia_type().equals("movie")) {
                 tvName.setText(knownForObject.getTitle());
             } else {

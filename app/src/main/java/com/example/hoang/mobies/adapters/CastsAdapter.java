@@ -98,11 +98,11 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
 
         public void setData(CastModel castModel) {
             if (castModel.getGender() == 1)
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_f_final).into(ivCastImage);
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).fit().centerCrop().placeholder(R.drawable.no_image_person_f_final).into(ivCastImage);
             else if (castModel.getGender() == 2)
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_m_final).into(ivCastImage);
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).fit().centerCrop().placeholder(R.drawable.no_image_person_m_final).into(ivCastImage);
             else
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).placeholder(R.drawable.no_image_person_u_final_2).into(ivCastImage);
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + castModel.getProfile_path()).fit().centerCrop().placeholder(R.drawable.no_image_person_u_final_2).into(ivCastImage);
 
             tvCastName.setText(castModel.getName());
             tvCharacterName.setText(castModel.getCharacter());
@@ -122,6 +122,7 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
                                             CelebDetailFragment celebDetailFragment = new CelebDetailFragment();
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("CelebDetail", new PeopleModel(searchModel));
+                                            bundle.putBoolean("FromSearch", true);
                                             celebDetailFragment.setArguments(bundle);
                                             ScreenManager.openFragment(((AppCompatActivity) context).getSupportFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
                                             return;
@@ -132,15 +133,15 @@ public class CastsAdapter extends RecyclerView.Adapter<CastsAdapter.CastViewHold
                             }
                         }
 
-                            @Override
-                            public void onFailure (Call < MainSearchModel > call, Throwable t){
-                                Toast.makeText(context, "Bad connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-            }
+                        @Override
+                        public void onFailure(Call<MainSearchModel> call, Throwable t) {
+                            Toast.makeText(context, "Bad connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         }
     }
+}
 
 

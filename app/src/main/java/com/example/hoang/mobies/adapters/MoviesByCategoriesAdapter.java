@@ -73,7 +73,7 @@ public class MoviesByCategoriesAdapter extends RecyclerView.Adapter<MoviesByCate
         }
 
         public void setData(MovieModel movieModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivMbcImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivMbcImage);
             tvMbcName.setText(movieModel.getTitle());
             tvMbcVote.setText(movieModel.getVote_average() + "");
             tvMbcRating.setText(String.format("%,d Ratings",movieModel.getVote_count()));

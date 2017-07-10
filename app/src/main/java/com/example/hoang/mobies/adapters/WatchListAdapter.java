@@ -86,7 +86,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
         }
 
         public void setData(final MovieModel movieModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + movieModel.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             tvName.setText(movieModel.getTitle());
             tvRealseDate.setText(movieModel.getRelease_date());
             if (movieModel.getGenresString().trim().equals("")) {
@@ -105,7 +105,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
         }
 
         public void setData(final TVModel tvModel) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tvModel.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tvModel.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
             tvName.setText(tvModel.getName());
             tvRealseDate.setText(tvModel.getFirst_air_date());
             if (tvModel.getGenresString().trim().equals("")) {

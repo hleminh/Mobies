@@ -77,6 +77,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     private PeopleModel peopleModel;
     private PeopleModel celebModel;
     private Toast toast;
+    private boolean fromSearch;
 
 
     public CelebDetailFragment() {
@@ -90,6 +91,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_celeb_detail, container, false);
         peopleModel = (PeopleModel) getArguments().getSerializable("CelebDetail");
+        fromSearch = getArguments().getBoolean("FromSearch");
         loadData();
         ButterKnife.bind(this, view);
         tbDetail.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -198,7 +200,8 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getActivity().getWindow();
         }
-        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (!fromSearch)
+            ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
     }
 

@@ -54,6 +54,7 @@ import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 import com.example.hoang.mobies.network.rate.GetRatedTVService;
 import com.example.hoang.mobies.searchs.MyRxSearchView;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
+import com.squareup.leakcanary.LeakCanary;
 
 
 import java.util.ArrayList;

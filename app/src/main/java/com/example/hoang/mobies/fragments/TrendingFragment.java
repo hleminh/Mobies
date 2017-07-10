@@ -67,7 +67,7 @@ public class TrendingFragment extends Fragment {
     private void loadData(View view) {
         ButterKnife.bind(this, view);
         if (movieModel != null) {
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + movieModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().centerCrop().into(ivTrendingImage);
             tvTrendingName.setText(movieModel.getTitle());
             rbTrending.setRating(movieModel.getVote_average() / 2);
             boolean check=true;
@@ -85,7 +85,7 @@ public class TrendingFragment extends Fragment {
         }
 
         if (tvModel != null) {
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().into(ivTrendingImage);
+            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/original/" + tvModel.getBackdrop_path()).placeholder(R.drawable.no_image_movie_tv_landscape_final).fit().centerCrop().into(ivTrendingImage);
             tvTrendingName.setText(tvModel.getName());
             tvTrendingRating.setText(String.format("%,d",tvModel.getVote_count()) + " Ratings");
             for (TVModel model : RATED_TV_LIST) {

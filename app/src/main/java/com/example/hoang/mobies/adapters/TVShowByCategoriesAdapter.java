@@ -73,7 +73,7 @@ public class TVShowByCategoriesAdapter extends RecyclerView.Adapter<TVShowByCate
         }
 
         public void setData(TVModel tv_model) {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tv_model.getPoster_path()).placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivTvbcImage);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + tv_model.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivTvbcImage);
             tvTvbcName.setText(tv_model.getName());
             tvTVbcVote.setText(tv_model.getVote_average() + "");
             tvTvbcRating.setText(tv_model.getVote_count() + " Ratings");
