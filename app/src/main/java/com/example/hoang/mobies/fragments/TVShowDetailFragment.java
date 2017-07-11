@@ -4,8 +4,11 @@ package com.example.hoang.mobies.fragments;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -118,6 +121,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     TextView tvRate;
     @BindView(R.id.iv_rate)
     ImageView ivRate;
+    @BindView(R.id.cl_container)
+    CoordinatorLayout coordinatorLayout;
     private TVModel tvModel;
     private List<CastModel> castModelList;
     private List<TVModel> tv_modelList;
@@ -127,6 +132,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
     private YouTubePlayer player;
     private Toast toast;
     private boolean fromSearch;
+    private Snackbar snackbar;
 
     public TVShowDetailFragment() {
         // Required empty public constructor
@@ -345,6 +351,15 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
                         toast.show();
+                        if (snackbar != null) snackbar.dismiss();
+                        snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.detach(TVShowDetailFragment.this).attach(TVShowDetailFragment.this).commit();
+                            }
+                        });
+                        snackbar.show();
                     }
                 });
             }
@@ -377,6 +392,15 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 pbProgressRecommended.setVisibility(View.GONE);
                 tvNoRecommended.setVisibility(View.VISIBLE);
                 tvNoRecommended.setText("No connection");
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowDetailFragment.this).attach(TVShowDetailFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }
@@ -410,7 +434,15 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 tvFullCast.setVisibility(View.GONE);
                 tvNoCast.setVisibility(View.VISIBLE);
                 tvNoCast.setText("No connection");
-
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowDetailFragment.this).attach(TVShowDetailFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.hoang.mobies.fragments.FullCastFragment">
+    tools:context="com.example.hoang.mobies.fragments.FullCastFragment"
+    android:id="@+id/rl_container">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,6 +24,7 @@
         android:layout_marginTop="10dp" />
 
     <TextView
+        android:layout_below="@+id/toolbar"
         android:id="@+id/tv_no_connection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

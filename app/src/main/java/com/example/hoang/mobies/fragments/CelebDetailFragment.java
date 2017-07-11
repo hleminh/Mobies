@@ -3,7 +3,10 @@ package com.example.hoang.mobies.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,10 +77,13 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
     TextView tvAlsoKA;
     @BindView(R.id.tv_biography)
     TextView tvBiography;
+    @BindView(R.id.cl_container)
+    CoordinatorLayout coordinatorLayout;
     private PeopleModel peopleModel;
     private PeopleModel celebModel;
     private Toast toast;
     private boolean fromSearch;
+    private Snackbar snackbar;
 
 
     public CelebDetailFragment() {
@@ -177,6 +183,15 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
                 if (toast != null) toast.cancel();
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(CelebDetailFragment.this).attach(CelebDetailFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }

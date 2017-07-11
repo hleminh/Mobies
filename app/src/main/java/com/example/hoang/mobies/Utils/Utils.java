@@ -1,5 +1,8 @@
 package com.example.hoang.mobies.Utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.example.hoang.mobies.models.GenresModel;
@@ -23,6 +26,10 @@ import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
  */
 
 public class Utils {
+    public static int TYPE_WIFI = 1;
+    public static int TYPE_MOBILE = 2;
+    public static int TYPE_NOT_CONNECTED = 0;
+
     public static List<GenresModel> genresModelList;
 
     private static String YOUTUBE_KEY = "AIzaSyB9zrN4FoPatH4HyoHf2SS8PND57t3Z8rk";
@@ -33,5 +40,19 @@ public class Utils {
 
     public static String capitalize(String s){
          return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+
+    public static int getConnectivityStatus(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (null != activeNetwork) {
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+                return TYPE_WIFI;
+
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+                return TYPE_MOBILE;
+        }
+        return TYPE_NOT_CONNECTED;
     }
 }

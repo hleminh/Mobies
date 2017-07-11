@@ -6,8 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -120,6 +124,8 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     ProgressBar pbProgressRecommended;
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
+    @BindView(R.id.cl_container)
+    CoordinatorLayout coordinatorLayout;
     private List<CastModel> castModelList;
     private List<MovieModel> movieModelList;
     private List<GenresModel> genresModelList = new ArrayList<>();
@@ -129,6 +135,7 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
     private YouTubePlayer player;
     private Toast toast;
     private boolean fromSearch;
+    private Snackbar snackbar;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -340,7 +347,15 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
                         toast.show();
-
+                        if (snackbar != null) snackbar.dismiss();
+                        snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.detach(MovieDetailFragment.this).attach(MovieDetailFragment.this).commit();
+                            }
+                        });
+                        snackbar.show();
                     }
                 });
             }
@@ -377,6 +392,15 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 pbProgressRecommended.setVisibility(View.GONE);
                 tvNoRecommended.setVisibility(View.VISIBLE);
                 tvNoRecommended.setText("No connection");
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(MovieDetailFragment.this).attach(MovieDetailFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }
@@ -414,6 +438,15 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                 tvNoCast.setVisibility(View.VISIBLE);
                 tvFullCast.setVisibility(View.GONE);
                 tvNoCast.setText("No connection");
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(MovieDetailFragment.this).attach(MovieDetailFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }

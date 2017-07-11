@@ -4,7 +4,9 @@ package com.example.hoang.mobies.fragments;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +60,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
     private int visibleItemCount;
     private int totalItemCount;
     private int loadTimes = 0;
+    private Snackbar snackbar;
     public CelebFragment() {
         // Required empty public constructor
     }
@@ -138,6 +142,16 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
                 pbLoading.setVisibility(View.GONE);
                 tvNoConnection.setVisibility(View.VISIBLE);
+                if (snackbar != null) snackbar.dismiss();
+                FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(CelebFragment.this).attach(CelebFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }

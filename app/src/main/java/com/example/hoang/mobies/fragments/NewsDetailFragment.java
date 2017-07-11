@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -31,6 +32,8 @@ public class NewsDetailFragment extends Fragment {
     WebView wvNewsDetail;
     @BindView(R.id.iv_fullscreen)
     ImageView ivFullScreen;
+    @BindView(R.id.rl_container)
+    RelativeLayout relativeLayout;
     private NewsModel newsModel;
 
     public NewsDetailFragment() {

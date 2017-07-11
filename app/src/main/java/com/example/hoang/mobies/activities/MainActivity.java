@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SearchView;
 
 import android.support.design.widget.NavigationView;
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static List<TVModel> RATED_TV_LIST = new ArrayList<>();
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
+    private Toast toast;
+    private Snackbar snackbar;
 
     public static NavigationView navigationView;
 
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        displayStartScreen();
 
     }
 
@@ -133,7 +137,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<GuestObject> call, Throwable t) {
-                    Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT).show();
+                    if (toast != null) toast.cancel();
+                    toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
+                    toast.show();
+//                    if (snackbar != null) snackbar.dismiss();
+//                    DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent intent = getIntent();
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                            finish();
+//                            startActivity(intent);
+//                        }
+//                    });
                 }
             });
         } else {
@@ -223,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_search){
+        if (id == R.id.action_search) {
             Intent intent = new Intent(MainActivity.this, SearchResultsActivity.class);
             startActivity(intent);
         }
@@ -302,15 +319,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 if (response.body().getResults() != null)
-                for (TVModel tv_model : response.body().getResults()) {
-                    RATED_TV_LIST.add(tv_model);
+                    for (TVModel tv_model : response.body().getResults()) {
+                        RATED_TV_LIST.add(tv_model);
 
-                }
+                    }
             }
 
             @Override
             public void onFailure(Call<MainTvObject> call, Throwable t) {
-
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
+                toast.show();
+//                if (snackbar != null) snackbar.dismiss();
+//                DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = getIntent();
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                        finish();
+//                        startActivity(intent);
+//                    }
+//                });
+//                snackbar.show();
             }
         });
 
@@ -319,17 +350,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 if (response.body() != null)
-                for (MovieModel movieModel : response.body().getResults()) {
-                    RATED_MOVIE_LIST.add(movieModel);
+                    for (MovieModel movieModel : response.body().getResults()) {
+                        RATED_MOVIE_LIST.add(movieModel);
 
-                }
+                    }
                 if (Utils.genresModelList == null)
                     displayStartScreen();
             }
 
             @Override
             public void onFailure(Call<MainObject> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT).show();
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
+                toast.show();
+//                if (snackbar != null) snackbar.dismiss();
+//                DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = getIntent();
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                        finish();
+//                        startActivity(intent);
+//                    }
+//                });
+//                snackbar.show();
             }
         });
 

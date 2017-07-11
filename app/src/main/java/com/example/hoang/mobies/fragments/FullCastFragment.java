@@ -3,14 +3,18 @@ package com.example.hoang.mobies.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +57,9 @@ public class FullCastFragment extends Fragment {
     ProgressBar pbLoading;
     @BindView(R.id.tv_no_connection)
     TextView tvNoConnection;
+    @BindView(R.id.rl_container)
+    RelativeLayout relativeLayout;
+    private Snackbar snackbar;
 
     public FullCastFragment() {
         // Required empty public constructor
@@ -113,6 +120,15 @@ public class FullCastFragment extends Fragment {
                     Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
                     pbLoading.setVisibility(View.GONE);
                     tvNoConnection.setVisibility(View.VISIBLE);
+                    if (snackbar != null) snackbar.dismiss();
+                    snackbar = Snackbar.make(relativeLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(FullCastFragment.this).attach(FullCastFragment.this).commit();
+                        }
+                    });
+                    snackbar.show();
                 }
             });
         }
@@ -134,6 +150,15 @@ public class FullCastFragment extends Fragment {
                     Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
                     pbLoading.setVisibility(View.GONE);
                     tvNoConnection.setVisibility(View.VISIBLE);
+                    if (snackbar != null) snackbar.dismiss();
+                    snackbar = Snackbar.make(relativeLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(FullCastFragment.this).attach(FullCastFragment.this).commit();
+                        }
+                    });
+                    snackbar.show();
                 }
             });
         }

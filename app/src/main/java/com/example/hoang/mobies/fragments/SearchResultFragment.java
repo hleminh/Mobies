@@ -6,7 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,11 +61,14 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     ProgressBar pbSearch;
     @BindView(R.id.tv_no_connection)
     TextView tvNoConnection;
+    @BindView(R.id.fl_container)
+    FrameLayout frameLayout;
     List<MultiSearchModel> resultList;
     String query;
     MultiSearchAdapter multiSearchAdapter;
     SearchView searchView;
     MenuItem menuItem;
+    private Snackbar snackbar;
 
     public SearchResultFragment() {
         // Required empty public constructor
@@ -124,6 +130,15 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT).show();
                 pbSearch.setVisibility(View.GONE);
                 tvNoConnection.setVisibility(View.VISIBLE);
+                if (snackbar != null) snackbar.dismiss();
+                snackbar = Snackbar.make(frameLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(SearchResultFragment.this).attach(SearchResultFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
 

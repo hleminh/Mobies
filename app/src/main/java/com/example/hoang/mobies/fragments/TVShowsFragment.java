@@ -2,7 +2,9 @@ package com.example.hoang.mobies.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +77,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     private TVShowByCategoriesAdapter onAirAdapter;
     private TVShowByCategoriesAdapter airingTodayAdapter;
     private TrendingPagerAdapter trendingPagerAdapter;
+    private Snackbar snackbar;
 
     private int failConnection;
     private Toast toast;
@@ -173,6 +177,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 if (failConnection == 4) {
                     pbLoading.setVisibility(View.GONE);
                     tvNoConnection.setVisibility(View.VISIBLE);
+                    if (snackbar != null) snackbar.dismiss();
+                    FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                        }
+                    });
+                    snackbar.show();
                 }
             }
         });
@@ -201,7 +215,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
                 failConnection++;
-
+                if (snackbar != null) snackbar.dismiss();
+                FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }
@@ -229,7 +252,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
                 failConnection++;
-
+                if (snackbar != null) snackbar.dismiss();
+                FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }
@@ -257,7 +289,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
                 failConnection++;
-
+                if (snackbar != null) snackbar.dismiss();
+                FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }
