@@ -69,7 +69,11 @@
 
     <string name="rate_prompt">Choose your rating (1-10)</string>
 
+    <string name="no_internet">No internet connection available. Would you like to visit the network settings page to set one up?</string>
+
     <string name="search">Search</string>
+
+    <string name="btn_network_settings">Network settings</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

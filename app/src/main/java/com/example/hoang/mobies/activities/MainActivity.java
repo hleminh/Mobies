@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.Utils.Utils;
+import com.example.hoang.mobies.dialogs.NoConnectionDialog;
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
@@ -55,6 +56,7 @@ import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 import com.example.hoang.mobies.network.rate.GetRatedTVService;
 import com.example.hoang.mobies.searchs.MyRxSearchView;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
+import com.squareup.haha.perflib.Main;
 import com.squareup.leakcanary.LeakCanary;
 
 
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FrameLayout flContainer;
     private Toast toast;
     private Snackbar snackbar;
+    private NoConnectionDialog noConnectionDialog;
 
     public static NavigationView navigationView;
 
@@ -140,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (toast != null) toast.cancel();
                     toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
                     toast.show();
+                    if (noConnectionDialog != null) noConnectionDialog.dismiss();
+                    noConnectionDialog = new NoConnectionDialog(MainActivity.this);
+                    noConnectionDialog.show();
 //                    if (snackbar != null) snackbar.dismiss();
 //                    DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
@@ -162,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
     }
 
@@ -318,11 +325,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getRatedTVService.getRatedTV(GUEST_ID, API_KEY).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                if (response.body().getResults() != null)
-                    for (TVModel tv_model : response.body().getResults()) {
-                        RATED_TV_LIST.add(tv_model);
+                if (response.body() != null) {
+                    if (response.body().getResults() != null)
+                        for (TVModel tv_model : response.body().getResults()) {
+                            RATED_TV_LIST.add(tv_model);
 
-                    }
+                        }
+                }
             }
 
             @Override
@@ -330,6 +339,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (toast != null) toast.cancel();
                 toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
                 toast.show();
+                if (noConnectionDialog != null) noConnectionDialog.dismiss();
+                noConnectionDialog = new NoConnectionDialog(MainActivity.this);
+                noConnectionDialog.show();
 //                if (snackbar != null) snackbar.dismiss();
 //                DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
@@ -363,6 +375,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (toast != null) toast.cancel();
                 toast = Toast.makeText(MainActivity.this, "No connection!", Toast.LENGTH_SHORT);
                 toast.show();
+                if (noConnectionDialog != null) noConnectionDialog.dismiss();
+                noConnectionDialog = new NoConnectionDialog(MainActivity.this);
+                noConnectionDialog.show();
 //                if (snackbar != null) snackbar.dismiss();
 //                DrawerLayout flContainer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
@@ -377,8 +392,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                snackbar.show();
             }
         });
-
-
     }
-
 }
