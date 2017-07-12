@@ -57,7 +57,11 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -174,6 +178,20 @@ public class MovieDetailFragment extends Fragment implements View.OnClickListene
                     toast = Toast.makeText(getContext(), "This movie is already added to the Watch List", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date parsed = df.parse(movieModel.getRelease_date());
+                        Date now = df.parse(df.format(calendar.getTime()));
+                        System.out.println("now: " + now);
+                        System.out.println("parsed: " + parsed);
+                        if (parsed.compareTo(now) >= 0) {
+                            System.out.println("setcheck");
+                            movieModel.setCheckLater(true);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     RealmHandle.getInstance().addToWatchList(movieModel);
                     if (toast != null) toast.cancel();
                     toast = Toast.makeText(getContext(), "Added to Watch List", Toast.LENGTH_SHORT);

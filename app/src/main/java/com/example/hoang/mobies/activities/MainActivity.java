@@ -1,7 +1,6 @@
 package com.example.hoang.mobies.activities;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,8 @@ import android.os.Bundle;
 
 
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,11 +31,15 @@ import android.widget.Toast;
 import com.example.hoang.mobies.R;
 
 import com.example.hoang.mobies.Utils.Utils;
+import com.example.hoang.mobies.adapters.WatchListAdapter;
+import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.dialogs.NoConnectionDialog;
 import com.example.hoang.mobies.fragments.CelebFragment;
+import com.example.hoang.mobies.fragments.MovieDetailFragment;
 import com.example.hoang.mobies.fragments.NewsDetailFragment;
 import com.example.hoang.mobies.fragments.NewsFragment;
 import com.example.hoang.mobies.fragments.SearchResultFragment;
+import com.example.hoang.mobies.fragments.TVShowDetailFragment;
 import com.example.hoang.mobies.fragments.TVShowsFragment;
 import com.example.hoang.mobies.fragments.WatchListFragment;
 import com.example.hoang.mobies.managers.ScreenManager;
@@ -42,6 +47,7 @@ import com.example.hoang.mobies.models.GenresModel;
 
 import com.example.hoang.mobies.models.MovieModel;
 
+import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
 
@@ -54,23 +60,20 @@ import com.example.hoang.mobies.network.guest_session.CreateGuestSessionService;
 import com.example.hoang.mobies.network.guest_session.GuestObject;
 import com.example.hoang.mobies.network.rate.GetRatedMoviesService;
 import com.example.hoang.mobies.network.rate.GetRatedTVService;
-import com.example.hoang.mobies.searchs.MyRxSearchView;
-import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
-import com.squareup.haha.perflib.Main;
-import com.squareup.leakcanary.LeakCanary;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.hoang.mobies.activities.SearchResultsActivity.LAST_QUERY;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 
 import static com.example.hoang.mobies.network.RetrofitFactory.GUEST_ID;
@@ -91,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toast toast;
     private Snackbar snackbar;
     private NoConnectionDialog noConnectionDialog;
+    private RecyclerView rvWatchList;
+    private WatchListAdapter watchListAdapter;
+    private List<MultiSearchModel> watchList;
 
     public static NavigationView navigationView;
 
@@ -121,6 +127,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         displayStartScreen();
+        if (watchList == null)
+            loadWatchListOnTime();
+
+    }
+
+    private void loadWatchListOnTime() {
+        watchList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(calendar.getTime());
+        for (MovieModel movieModel : RealmHandle.getInstance().getListMoviesWatchList()) {
+            if (movieModel.isCheckLater()) {
+                try {
+                    Date parsed = df.parse(movieModel.getRelease_date());
+                    Date now = calendar.getTime();
+                    if (parsed.compareTo(now) <= 0) {
+                        MultiSearchModel multiSearchModel = new MultiSearchModel(movieModel);
+                        watchList.add(multiSearchModel);
+                        RealmHandle.getInstance().setCheckLater(movieModel, false);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }
+        for (TVModel tvModel : RealmHandle.getInstance().getListTVWatchList()) {
+            if (tvModel.isCheckLater()) {
+                try {
+                    Date parsed = df.parse(tvModel.getFirst_air_date());
+                    Date now = calendar.getTime();
+                    if (parsed.compareTo(now) <= 0) {
+                        MultiSearchModel multiSearchModel = new MultiSearchModel(tvModel);
+                        watchList.add(multiSearchModel);
+                        RealmHandle.getInstance().setCheckLater(tvModel, false);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (watchList.size() > 0) {
+            LayoutInflater layoutInflater = LayoutInflater.from(this);
+            Dialog dialog = new Dialog(MainActivity.this);
+            View dialogView = layoutInflater.inflate(R.layout.dialog_coming_watch_list, null);
+            dialog.setContentView(dialogView);
+            rvWatchList = (RecyclerView) dialogView.findViewById(R.id.rv_coming_watch_list);
+            dialog.setTitle("Released Today");
+
+            watchListAdapter = new WatchListAdapter(this, watchList);
+            watchListAdapter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MultiSearchModel multiSearchModel = (MultiSearchModel) v.getTag();
+                    if (multiSearchModel.getMedia_type().equals("movie")) {
+                        MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+                        Bundle bundle = new Bundle();
+                        MovieModel movieModel = new MovieModel(multiSearchModel);
+                        movieModel.setGenresString(multiSearchModel.getGenresString());
+                        bundle.putSerializable("MovieDetail", movieModel);
+                        bundle.putBoolean("FromSearch", true);
+                        movieDetailFragment.setArguments(bundle);
+                        ScreenManager.openFragment(getSupportFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
+                        dialog.cancel();
+                    } else if (multiSearchModel.getMedia_type().equals("tv")) {
+                        TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
+                        Bundle bundle = new Bundle();
+                        TVModel tvModel = new TVModel(multiSearchModel);
+                        tvModel.setGenresString(multiSearchModel.getGenresString());
+                        bundle.putSerializable("TVDetail", tvModel);
+                        bundle.putBoolean("FromSearch", true);
+                        tvShowDetailFragment.setArguments(bundle);
+                        ScreenManager.openFragment(getSupportFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
+                        dialog.cancel();
+                    }
+                }
+            });
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            rvWatchList.setLayoutManager(mLayoutManager);
+            rvWatchList.setAdapter(watchListAdapter);
+
+            dialog.show();
+        }
+
 
     }
 

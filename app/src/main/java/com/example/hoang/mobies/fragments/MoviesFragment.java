@@ -270,7 +270,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     randomMoviesList.add(movieModel);
-                    System.out.println(movieModel.toString());
                 }
                 randomAdapter.notifyDataSetChanged();
             }

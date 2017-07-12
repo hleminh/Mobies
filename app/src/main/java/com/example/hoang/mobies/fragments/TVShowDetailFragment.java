@@ -4,6 +4,8 @@ package com.example.hoang.mobies.fragments;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -55,7 +57,11 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -171,6 +177,19 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                     toast = Toast.makeText(getContext(), "This tv show is already added to the Watch List", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date parsed = df.parse(tvModel.getFirst_air_date());
+                        Date now = df.parse(df.format(calendar.getTime()));
+                        System.out.println("now: " + now);
+                        System.out.println("parsed: " + parsed);
+                        if (parsed.compareTo(now) >= 0) {
+                            tvModel.setCheckLater(true);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     RealmHandle.getInstance().addToWatchList(tvModel);
                     if (toast != null) toast.cancel();
                     toast = Toast.makeText(getContext(), "Added to Watch list", Toast.LENGTH_SHORT);
@@ -186,7 +205,6 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count()) + " Ratings");
         for (TVModel model : RATED_TV_LIST) {
             if (model.getId() == tvModel.getId()) {
-                System.out.println("Rated TV");
                 tvRate.setText("Your rating: " + (int) model.getRating() + "/10");
                 ivRate.setImageResource(R.drawable.ic_star_black_24dp);
                 tvRatingDetail.setText(String.format("%,d", tvModel.getVote_count() + 1) + " Ratings");

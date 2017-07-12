@@ -11,6 +11,7 @@ import io.realm.MovieModelRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Hoang on 6/9/2017.
@@ -22,6 +23,7 @@ public class MovieModel extends RealmObject implements Serializable {
     private String release_date;
     @Ignore
     private List<Integer> genre_ids;
+    @PrimaryKey
     private int id;
     private String original_title;
     private String original_language;
@@ -36,7 +38,15 @@ public class MovieModel extends RealmObject implements Serializable {
 
     private String genresString;
 
+    private boolean checkLater;
 
+    public boolean isCheckLater() {
+        return checkLater;
+    }
+
+    public void setCheckLater(boolean checkLater) {
+        this.checkLater = checkLater;
+    }
 
     public String getGenresString() {
         return genresString;

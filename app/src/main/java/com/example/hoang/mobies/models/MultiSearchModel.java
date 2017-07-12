@@ -30,6 +30,24 @@ public class MultiSearchModel {
     String original_name;
     String profile_path;
     List<KnownForObject> known_for;
+    String genresString;
+    float rating;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getGenresString() {
+        return genresString;
+    }
+
+    public void setGenresString(String genresString) {
+        this.genresString = genresString;
+    }
 
     public String getPoster_path() {
         return poster_path;
@@ -199,8 +217,55 @@ public class MultiSearchModel {
         this.known_for = known_for;
     }
 
+    private boolean checkLater;
+
+    public boolean isCheckLater() {
+        return checkLater;
+    }
+
+    public void setCheckLater(boolean checkLater) {
+        this.checkLater = checkLater;
+    }
+
     @Override
     public String toString() {
         return String.format("media_type: %s",media_type);
+    }
+
+    public MultiSearchModel(MovieModel movieModel) {
+        this.poster_path = movieModel.getPoster_path();
+        this.adult = movieModel.isAdult();
+        this.overview = movieModel.getOverview();
+        this.release_date = movieModel.getRelease_date();
+        this.id = movieModel.getId();
+        this.media_type = "movie";
+        this.backdrop_path = movieModel.getBackdrop_path();
+        this.vote_count = movieModel.getVote_count();
+        this.video = movieModel.isVideo();
+        this.vote_average = movieModel.getVote_average();
+        this.genresString = movieModel.getGenresString();
+        this.title = movieModel.getTitle();
+        this.original_language = movieModel.getOriginal_language();
+        this.original_title = movieModel.getOriginal_title();
+        this.rating = movieModel.getRating();
+        this.checkLater = movieModel.isCheckLater();
+    }
+
+    public MultiSearchModel(TVModel tvModel) {
+        this.poster_path = tvModel.getPoster_path();
+        this.overview = tvModel.getOverview();
+        this.id = tvModel.getId();
+        this.media_type = "tv";
+        this.backdrop_path = tvModel.getBackdrop_path();
+        this.vote_count = tvModel.getVote_count();
+        this.vote_average = tvModel.getVote_average();
+        this.genresString = tvModel.getGenresString();
+        this.original_language = tvModel.getOriginal_language();
+        this.first_air_date = tvModel.getFirst_air_date();
+        this.name = tvModel.getName();
+        this.original_name = tvModel.getOriginal_name();
+        this.popularity = tvModel.getPopularity();
+        this.rating = tvModel.getRating();
+        this.checkLater = tvModel.isCheckLater();
     }
 }

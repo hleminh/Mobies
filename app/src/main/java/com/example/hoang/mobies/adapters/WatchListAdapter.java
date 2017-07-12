@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.hoang.mobies.R;
 import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.models.MovieModel;
+import com.example.hoang.mobies.models.MultiSearchModel;
 import com.example.hoang.mobies.models.TVModel;
 import com.squareup.picasso.Picasso;
 
@@ -28,12 +29,18 @@ import butterknife.ButterKnife;
 public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder> {
     private List<TVModel> tvModelList;
     private List<MovieModel> movieModelList;
+    private List<MultiSearchModel> watchList;
     private Context context;
     private View.OnClickListener onClickListener;
     private Toast toast;
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public WatchListAdapter(Context context, List<MultiSearchModel> watchList) {
+        this.watchList = watchList;
+        this.context = context;
     }
 
     public WatchListAdapter(Context context, @Nullable List<MovieModel> movieModels, @Nullable List<TVModel> tvModels) {
@@ -55,7 +62,11 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
         if (movieModelList != null) {
             holder.setData(movieModelList.get(position));
         } else {
-            holder.setData(tvModelList.get(position));
+            if (tvModelList != null)
+                holder.setData(tvModelList.get(position));
+            else {
+                holder.setData(watchList.get(position));
+            }
         }
     }
 
@@ -63,8 +74,9 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
     public int getItemCount() {
         if (movieModelList != null) {
             return movieModelList.size();
-        } else
+        } else if (tvModelList != null)
             return tvModelList.size();
+        else return watchList.size();
     }
 
     public class WatchListViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +113,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(context, "Removed " + movieModel.getTitle() + " from Watch List.", Toast.LENGTH_SHORT);
                         toast.show();
-                    }else {
+                    } else {
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT);
                         toast.show();
@@ -132,7 +144,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(context, "Removed " + tvModel.getName() + " from Watch List.", Toast.LENGTH_SHORT);
                         toast.show();
-                    }else {
+                    } else {
                         if (toast != null) toast.cancel();
                         toast = Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT);
                         toast.show();
@@ -142,6 +154,35 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
                 }
             });
             view.setTag(tvModel);
+        }
+
+        public void setData (MultiSearchModel multiSearchModel) {
+            if (multiSearchModel.getMedia_type().equals("movie")) {
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + multiSearchModel.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
+                tvName.setText(multiSearchModel.getTitle());
+                tvRealseDate.setText(multiSearchModel.getRelease_date());
+                if (multiSearchModel.getGenresString().trim().equals("")) {
+                    tvGenre.setText("-");
+                } else
+                    tvGenre.setText(multiSearchModel.getGenresString());
+                ivRemove.setVisibility(View.GONE);
+                view.setTag(multiSearchModel);
+            } else {
+                Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + multiSearchModel.getPoster_path()).fit().centerCrop().placeholder(R.drawable.no_image_movie_tv_portrait_final).into(ivImage);
+                tvName.setText(multiSearchModel.getName());
+                tvRealseDate.setText(multiSearchModel.getFirst_air_date());
+                if (multiSearchModel.getGenresString().trim().equals("")) {
+                    tvGenre.setText("-");
+                } else {
+                    if (multiSearchModel.getGenresString().trim().charAt(multiSearchModel.getGenresString().trim().length() - 1) == ',') {
+                        tvGenre.setText(multiSearchModel.getGenresString().trim().substring(0, multiSearchModel.getGenresString().length() - 2));
+                    } else
+                        tvGenre.setText(multiSearchModel.getGenresString());
+                }
+                ivRemove.setVisibility(View.GONE);
+                view.setTag(multiSearchModel);
+            }
+
         }
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Inpriron on 6/17/2017.
@@ -16,6 +17,7 @@ import io.realm.annotations.Ignore;
 
 public class TVModel extends RealmObject implements Serializable{
     private String original_name;
+    @PrimaryKey
     private int id;
     private String name;
     private int vote_count;
@@ -28,7 +30,17 @@ public class TVModel extends RealmObject implements Serializable{
     private String original_language;
     private String backdrop_path;
     private String overview;
-//    @Ignore
+    private boolean checkLater;
+
+    public boolean isCheckLater() {
+        return checkLater;
+    }
+
+    public void setCheckLater(boolean checkLater) {
+        this.checkLater = checkLater;
+    }
+
+    //    @Ignore
 //    private List<String> origin_country;
     float rating;
     private String belongTo;

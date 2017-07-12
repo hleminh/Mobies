@@ -109,5 +109,20 @@ public class RealmHandle {
         });
     }
 
+    public void setCheckLater(MovieModel model, boolean isCheck) {
+        realm.beginTransaction();
+        model.setBelongTo("WatchList");
+        model.setCheckLater(false);
+        realm.copyToRealmOrUpdate(model);
+        realm.commitTransaction();
+    }
+
+    public void setCheckLater(TVModel model, boolean isCheck) {
+        realm.beginTransaction();
+        model.setBelongTo("WatchList");
+        model.setCheckLater(false);
+        realm.copyToRealmOrUpdate(model);
+        realm.commitTransaction();
+    }
 
 }
