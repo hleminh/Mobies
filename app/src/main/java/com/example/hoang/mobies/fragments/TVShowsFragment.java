@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -216,6 +217,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                             ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
                         }
                     });
+                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                     snackbar.show();
                 }
             }
@@ -255,6 +257,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                         ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -292,6 +295,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                         ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -329,6 +333,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                         ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -366,6 +371,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                         ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });

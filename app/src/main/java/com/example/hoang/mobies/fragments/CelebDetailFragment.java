@@ -7,6 +7,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -191,6 +192,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
                         ft.detach(CelebDetailFragment.this).attach(CelebDetailFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
