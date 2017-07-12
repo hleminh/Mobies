@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (tvShowsFragment != null) {
                 if (!tvShowsFragment.isVisible())
                     ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
-                else tvShowsFragment.loadRandom();
+//                else tvShowsFragment.loadRandom();
             }
             if (tvShowsFragment == null) {
                 ScreenManager.openFragment(getSupportFragmentManager(), new TVShowsFragment(), R.id.fl_container, true, false);
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (moviesFragment != null) {
                 if (!moviesFragment.isVisible())
                     ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);
-                else moviesFragment.loadRandom();
+//                else moviesFragment.loadRandom();
             }
             if (moviesFragment == null) {
                 ScreenManager.openFragment(getSupportFragmentManager(), new MoviesFragment(), R.id.fl_container, true, false);

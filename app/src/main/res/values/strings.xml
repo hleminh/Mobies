@@ -76,6 +76,8 @@
 
     <string name="btn_network_settings">Network settings</string>
 
+    <string name="randomize">Randomize</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

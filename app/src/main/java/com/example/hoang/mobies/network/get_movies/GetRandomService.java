@@ -9,11 +9,12 @@ import retrofit2.http.Query;
  */
 
 public interface GetRandomService {
-    @GET("discover/tv")
+    @GET("discover/movie")
     Call<MainObject> getRandomMovies(@Query("api_key") String api_key,
                                      @Query("language") String language,
                                      @Query("page") int page,
                                      @Query("region") String region,
-                                     @Query("vote_average.gte") int vote);
+                                     @Query("vote_average.gte") int vote,
+                                     @Query("include_video") boolean include_video);
 
 }

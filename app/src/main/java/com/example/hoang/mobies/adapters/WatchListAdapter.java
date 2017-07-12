@@ -30,6 +30,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
     private List<MovieModel> movieModelList;
     private Context context;
     private View.OnClickListener onClickListener;
+    private Toast toast;
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -96,11 +97,15 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (movieModel.getTitle() != null)
-                        Toast.makeText(context, "Removed " + movieModel.getTitle() + " from Watch List.", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT).show();
-
+                    if (movieModel.getTitle() != null) {
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(context, "Removed " + movieModel.getTitle() + " from Watch List.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }else {
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                     RealmHandle.getInstance().deleteFromWatchList(movieModel);
                     notifyDataSetChanged();
                 }
@@ -123,11 +128,15 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
             ivRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tvModel.getName() != null)
-                        Toast.makeText(context, "Removed " + tvModel.getName() + " from Watch List.", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT).show();
-
+                    if (tvModel.getName() != null) {
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(context, "Removed " + tvModel.getName() + " from Watch List.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }else {
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(context, "Removed from Watch List.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                     RealmHandle.getInstance().deleteFromWatchList(tvModel);
                     notifyDataSetChanged();
                 }

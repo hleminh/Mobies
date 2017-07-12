@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,8 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     TextView tvRandom;
     @BindView(R.id.rv_random)
     RecyclerView rvRandom;
+    @BindView(R.id.iv_randomize)
+    ImageView ivRandomize;
 
     private List<TVModel> tvShowTopRateList;
     private List<TVModel> tvShowRandomList = new ArrayList<>();
@@ -152,7 +155,14 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         snapHelper3.attachToRecyclerView(rvAiringToday);
         snapHelper4.attachToRecyclerView(rvRandom);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.tv_shows);
+        ivRandomize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadRandom();
+            }
+        });
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.tv_shows);
         MainActivity.navigationView.setCheckedItem(R.id.nav_tvshow);
 
     }
@@ -174,10 +184,13 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         tvShowRandomList.clear();
         Random random = new Random();
         GetRandomTvService getRandomService = RetrofitFactory.getInstance().createService(GetRandomTvService.class);
-        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11)).enqueue(new Callback<MainTvObject>() {
+        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11), true).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                tvRandom.setVisibility(View.VISIBLE);
+                if (tvRandom.getVisibility() == View.GONE)
+                    tvRandom.setVisibility(View.VISIBLE);
+                if (ivRandomize.getVisibility() == View.GONE)
+                    ivRandomize.setVisibility(View.VISIBLE);
                 MainTvObject mainObject = response.body();
                 for (TVModel tvModel : mainObject.getResults()) {
                     tvShowRandomList.add(tvModel);
