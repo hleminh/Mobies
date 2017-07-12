@@ -371,16 +371,20 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         getRecommendTvService.getRecommendTv(tvModel.getId(), API_KEY, LANGUAGE, DEFAULT_PAGE).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
-                MainTvObject mainTvObject = response.body();
-                for (TVModel tv_model : mainTvObject.getResults()) {
-                    tv_modelList.add(tv_model);
-                }
-                tvShowByCategoriesAdapter.notifyDataSetChanged();
-                pbProgressRecommended.setVisibility(View.GONE);
-                rvRecommended.setVisibility(View.VISIBLE);
-                if (tv_modelList.size() == 0) {
-                    rvRecommended.setVisibility(View.GONE);
-                    tvNoRecommended.setVisibility(View.VISIBLE);
+                if (response.body() != null) {
+                    MainTvObject mainTvObject = response.body();
+                    if (mainTvObject.getResults() != null) {
+                        for (TVModel tv_model : mainTvObject.getResults()) {
+                            tv_modelList.add(tv_model);
+                        }
+                        tvShowByCategoriesAdapter.notifyDataSetChanged();
+                        pbProgressRecommended.setVisibility(View.GONE);
+                        rvRecommended.setVisibility(View.VISIBLE);
+                        if (tv_modelList.size() == 0) {
+                            rvRecommended.setVisibility(View.GONE);
+                            tvNoRecommended.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             }
 
@@ -410,18 +414,20 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         getCastTvService.getCastOfAMovie(tvModel.getId(), API_KEY).enqueue(new Callback<MainCastObject>() {
             @Override
             public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
-                for (CastModel castModel : response.body().getCast()) {
-                    if (castModelList.size() < 5)
-                        castModelList.add(castModel);
-                }
-                castsAdapter.notifyDataSetChanged();
-                tvFullCast.setVisibility(View.VISIBLE);
-                pbProgressCast.setVisibility(View.GONE);
-                rvCasts.setVisibility(View.VISIBLE);
-                if (castModelList.size() == 0) {
-                    tvFullCast.setVisibility(View.GONE);
-                    tvNoCast.setVisibility(View.VISIBLE);
-                    rvCasts.setVisibility(View.GONE);
+                if (response.body() != null) {
+                    for (CastModel castModel : response.body().getCast()) {
+                        if (castModelList.size() < 5)
+                            castModelList.add(castModel);
+                    }
+                    castsAdapter.notifyDataSetChanged();
+                    tvFullCast.setVisibility(View.VISIBLE);
+                    pbProgressCast.setVisibility(View.GONE);
+                    rvCasts.setVisibility(View.VISIBLE);
+                    if (castModelList.size() == 0) {
+                        tvFullCast.setVisibility(View.GONE);
+                        tvNoCast.setVisibility(View.VISIBLE);
+                        rvCasts.setVisibility(View.GONE);
+                    }
                 }
             }
 

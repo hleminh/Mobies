@@ -185,11 +185,6 @@ public class MovieModel extends RealmObject implements Serializable {
         this.vote_average = vote_average;
     }
 
-    @Override
-    public String toString() {
-        return String.format("ID:%s-title:%s", id, title);
-    }
-
     public MovieModel(KnownForObject knownForObject) {
 
         poster_path= knownForObject.getPoster_path();

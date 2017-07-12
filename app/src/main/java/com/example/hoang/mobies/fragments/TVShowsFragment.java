@@ -27,7 +27,9 @@ import com.example.hoang.mobies.adapters.TrendingPagerAdapter;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.TVModel;
 import com.example.hoang.mobies.network.RetrofitFactory;
+import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.example.hoang.mobies.network.get_tv.GetPopularTvService;
+import com.example.hoang.mobies.network.get_tv.GetRandomTvService;
 import com.example.hoang.mobies.network.get_tv.GetTopRatedTVService;
 import com.example.hoang.mobies.network.get_tv.GetTvAiringToday;
 import com.example.hoang.mobies.network.get_tv.GetTvOnTheAir;
@@ -36,6 +38,7 @@ import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +49,7 @@ import retrofit2.Response;
 import static com.example.hoang.mobies.network.RetrofitFactory.API_KEY;
 import static com.example.hoang.mobies.network.RetrofitFactory.DEFAULT_PAGE;
 import static com.example.hoang.mobies.network.RetrofitFactory.LANGUAGE;
+import static com.example.hoang.mobies.network.RetrofitFactory.REGION;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,11 +73,18 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
     TextView tvNoConnection;
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
+    @BindView(R.id.tv_random)
+    TextView tvRandom;
+    @BindView(R.id.rv_random)
+    RecyclerView rvRandom;
+
     private List<TVModel> tvShowTopRateList;
+    private List<TVModel> tvShowRandomList = new ArrayList<>();
     private List<TVModel> tvShowTrendingList;
     private List<TVModel> tvShowOnAirList;
     private List<TVModel> tvShowAiringTodayList;
     private TVShowByCategoriesAdapter topRatedAdapter;
+    private TVShowByCategoriesAdapter randomAdapter;
     private TVShowByCategoriesAdapter onAirAdapter;
     private TVShowByCategoriesAdapter airingTodayAdapter;
     private TrendingPagerAdapter trendingPagerAdapter;
@@ -107,32 +118,39 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         airingTodayAdapter = new TVShowByCategoriesAdapter(tvShowAiringTodayList, getContext());
         onAirAdapter = new TVShowByCategoriesAdapter(tvShowOnAirList, getContext());
         topRatedAdapter = new TVShowByCategoriesAdapter(tvShowTopRateList, getContext());
+        randomAdapter = new TVShowByCategoriesAdapter(tvShowRandomList, getContext());
 
         rvAiringToday.setAdapter(airingTodayAdapter);
         rvOnAir.setAdapter(onAirAdapter);
         rvTopRated.setAdapter(topRatedAdapter);
+        rvRandom.setAdapter(randomAdapter);
         vpTrending.setAdapter(trendingPagerAdapter);
         vpTrending.setOffscreenPageLimit(3);
 
         onAirAdapter.setOnItemClickListener(this);
         topRatedAdapter.setOnItemClickListener(this);
+        randomAdapter.setOnItemClickListener(this);
         airingTodayAdapter.setOnItemClickListener(this);
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         rvTopRated.setLayoutManager(linearLayoutManager1);
         rvOnAir.setLayoutManager(linearLayoutManager2);
         rvAiringToday.setLayoutManager(linearLayoutManager3);
+        rvRandom.setLayoutManager(linearLayoutManager4);
 
         SnapHelper snapHelper1 = new GravitySnapHelper(Gravity.START);
         SnapHelper snapHelper2 = new GravitySnapHelper(Gravity.START);
         SnapHelper snapHelper3 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper4 = new GravitySnapHelper(Gravity.START);
 
         snapHelper1.attachToRecyclerView(rvTopRated);
         snapHelper2.attachToRecyclerView(rvOnAir);
         snapHelper3.attachToRecyclerView(rvAiringToday);
+        snapHelper4.attachToRecyclerView(rvRandom);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.tv_shows);
         MainActivity.navigationView.setCheckedItem(R.id.nav_tvshow);
@@ -149,6 +167,47 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         loadTvTopRated();
         loadAiringToday();
         loadTVOnAir();
+        loadRandom();
+    }
+
+    public void loadRandom() {
+        tvShowRandomList.clear();
+        Random random = new Random();
+        GetRandomTvService getRandomService = RetrofitFactory.getInstance().createService(GetRandomTvService.class);
+        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11)).enqueue(new Callback<MainTvObject>() {
+            @Override
+            public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                tvRandom.setVisibility(View.VISIBLE);
+                MainTvObject mainObject = response.body();
+                for (TVModel tvModel : mainObject.getResults()) {
+                    tvShowRandomList.add(tvModel);
+                }
+                randomAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MainTvObject> call, Throwable t) {
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
+                failConnection++;
+                if (failConnection == 5) {
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
+                    if (snackbar != null) snackbar.dismiss();
+                    FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
+
     }
 
     private void loadTVOnAir() {
@@ -174,20 +233,16 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
                 failConnection++;
-                if (failConnection == 4) {
-                    pbLoading.setVisibility(View.GONE);
-                    tvNoConnection.setVisibility(View.VISIBLE);
-                    if (snackbar != null) snackbar.dismiss();
-                    FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
-                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
-                        }
-                    });
-                    snackbar.show();
-                }
+                if (snackbar != null) snackbar.dismiss();
+                FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TVShowsFragment.this).attach(TVShowsFragment.this).commit();
+                    }
+                });
+                snackbar.show();
             }
         });
     }

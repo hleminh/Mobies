@@ -48,16 +48,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vp_trending"
+                android:clipToPadding="false"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:clipToPadding="false"
                 android:scrollbars="none">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tl_category"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     app:tabIndicatorHeight="0dp"
                     app:tabSelectedTextColor="@color/colorTextPrimary"
                     app:tabTextColor="@color/colorTextSecondary">
@@ -168,6 +168,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_top_rated"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+
+
+            <TextView
+                android:id="@+id/tv_random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rv_top_rated"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/random"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_random"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"

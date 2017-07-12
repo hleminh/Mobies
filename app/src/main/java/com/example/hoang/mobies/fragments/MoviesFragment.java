@@ -36,6 +36,7 @@ import com.example.hoang.mobies.network.get_genres.MainGenresObject;
 import com.example.hoang.mobies.network.get_movies.GetComingSoonService;
 import com.example.hoang.mobies.network.get_movies.GetInCinemasMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetMovieByGenresService;
+import com.example.hoang.mobies.network.get_movies.GetRandomService;
 import com.example.hoang.mobies.network.get_movies.GetTopRatedMoviesService;
 import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
@@ -44,6 +45,7 @@ import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,10 +86,15 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     ProgressBar pbLoading;
     @BindView(R.id.pb_category_loading)
     ProgressBar pbCategory;
+    @BindView(R.id.rv_random)
+    RecyclerView rvRandom;
+    @BindView(R.id.tv_random)
+    TextView tvRandom;
 //    @BindView(R.id.tv_category_no_connection)
 //    TextView tvCategoryNoConnect;
 
     private List<MovieModel> topRatedMoviesList;
+    private List<MovieModel> randomMoviesList = new ArrayList<>();
     private List<MovieModel> comingSoonMoviesList;
     private List<MovieModel> inCinemasMoviesList;
     private List<MovieModel> trendingMoviesList;
@@ -98,6 +105,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private MoviesByCategoriesAdapter topRatedAdapter;
     private MoviesByCategoriesAdapter comingSoonAdapter;
     private MoviesByCategoriesAdapter inCinemasAdapter;
+    private MoviesByCategoriesAdapter randomAdapter;
     private int failConnection;
     private Toast toast;
     private Snackbar snackbar;
@@ -155,6 +163,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager5 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -180,22 +189,26 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        randomAdapter = new MoviesByCategoriesAdapter(randomMoviesList, getContext());
         moviesByCategoriesAdapter = new MoviesByCategoriesAdapter(moviesByCategoryList, getContext());
         topRatedAdapter = new MoviesByCategoriesAdapter(topRatedMoviesList, getContext());
         comingSoonAdapter = new MoviesByCategoriesAdapter(comingSoonMoviesList, getContext());
         inCinemasAdapter = new MoviesByCategoriesAdapter(inCinemasMoviesList, getContext());
 
+        randomAdapter.setOnItemClickListener(this);
         moviesByCategoriesAdapter.setOnItemClickListener(this);
         topRatedAdapter.setOnItemClickListener(this);
         comingSoonAdapter.setOnItemClickListener(this);
         inCinemasAdapter.setOnItemClickListener(this);
 
         rvMovies.setHasFixedSize(true);
+        rvRandom.setAdapter(randomAdapter);
         rvMovies.setAdapter(moviesByCategoriesAdapter);
         rvComingSoon.setAdapter(comingSoonAdapter);
         rvInCinemas.setAdapter(inCinemasAdapter);
         rvTopRated.setAdapter(topRatedAdapter);
 
+        rvRandom.setLayoutManager(linearLayoutManager5);
         rvMovies.setLayoutManager(linearLayoutManager1);
         rvTopRated.setLayoutManager(linearLayoutManager2);
         rvInCinemas.setLayoutManager(linearLayoutManager3);
@@ -205,11 +218,13 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         SnapHelper snapHelper2 = new GravitySnapHelper(Gravity.START);
         SnapHelper snapHelper3 = new GravitySnapHelper(Gravity.START);
         SnapHelper snapHelper4 = new GravitySnapHelper(Gravity.START);
+        SnapHelper snapHelper5 = new GravitySnapHelper(Gravity.START);
 
         snapHelper1.attachToRecyclerView(rvMovies);
         snapHelper2.attachToRecyclerView(rvTopRated);
         snapHelper3.attachToRecyclerView(rvInCinemas);
         snapHelper4.attachToRecyclerView(rvComingSoon);
+        snapHelper5.attachToRecyclerView(rvRandom);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.movies);
         MainActivity.navigationView.setCheckedItem(R.id.nav_movie);
@@ -228,6 +243,46 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         loadComingSoon();
         loadInCinemas();
         loadTopRated();
+        loadRandom();
+    }
+
+    public void loadRandom() {
+        randomMoviesList.clear();
+        Random random = new Random();
+        GetRandomService getRandomService = RetrofitFactory.getInstance().createService(GetRandomService.class);
+        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11)).enqueue(new Callback<MainObject>() {
+            @Override
+            public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                tvRandom.setVisibility(View.VISIBLE);
+                MainObject mainObject = response.body();
+                for (MovieModel movieModel : mainObject.getResults()) {
+                    randomMoviesList.add(movieModel);
+                }
+                randomAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MainObject> call, Throwable t) {
+                if (toast != null) toast.cancel();
+                toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
+                toast.show();
+                failConnection++;
+                if (failConnection == 6) {
+                    pbLoading.setVisibility(View.GONE);
+                    tvNoConnection.setVisibility(View.VISIBLE);
+                    if (snackbar != null) snackbar.dismiss();
+                    FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
+                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
     }
 
     private void loadTopRated() {
@@ -249,20 +304,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 toast = Toast.makeText(getContext(), "Bad connection", Toast.LENGTH_SHORT);
                 toast.show();
                 failConnection++;
-                if (failConnection == 5) {
-                    pbLoading.setVisibility(View.GONE);
-                    tvNoConnection.setVisibility(View.VISIBLE);
-                    if (snackbar != null) snackbar.dismiss();
-                    FrameLayout flContainer = (FrameLayout) getActivity().findViewById(R.id.fl_container);
-                    snackbar = Snackbar.make(flContainer, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
-                        }
-                    });
-                    snackbar.show();
-                }
             }
         });
     }
