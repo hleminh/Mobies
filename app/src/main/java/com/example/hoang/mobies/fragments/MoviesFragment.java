@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -292,6 +293,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                             ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
                         }
                     });
+                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                     snackbar.show();
                 }
             }
@@ -373,6 +375,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                         ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -408,6 +411,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                         ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -443,6 +447,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                         ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
@@ -477,6 +482,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                         ft.detach(MoviesFragment.this).attach(MoviesFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });

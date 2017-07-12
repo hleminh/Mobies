@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,6 +152,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
                         ft.detach(CelebFragment.this).attach(CelebFragment.this).commit();
                     }
                 });
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                 snackbar.show();
             }
         });
