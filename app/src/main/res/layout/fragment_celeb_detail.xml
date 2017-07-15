@@ -128,7 +128,8 @@
                                 android:layout_marginRight="8dp"
                                 android:textColor="@color/colorTextSecondary"
                                 android:textSize="12sp"
-                                android:textStyle="normal" />
+                                android:textStyle="normal"
+                                android:textAlignment="viewStart"/>
 
                             <TextView
                                 android:id="@+id/tv_celeb_dob_slash"
@@ -138,7 +139,8 @@
                                 android:text="/"
                                 android:textColor="@color/colorTextSecondary"
                                 android:textSize="14sp"
-                                android:visibility="gone" />
+                                android:visibility="gone"
+                                android:textAlignment="viewStart"/>
 
                             <TextView
                                 android:id="@+id/tv_celeb_dod_celeb_detail"
@@ -147,7 +149,8 @@
                                 android:maxLines="1"
                                 android:textColor="@color/colorTextSecondary"
                                 android:textSize="12sp"
-                                android:textStyle="normal" />
+                                android:textStyle="normal"
+                                android:textAlignment="viewStart"/>
 
                         </LinearLayout>
 

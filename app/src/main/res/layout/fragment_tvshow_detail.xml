@@ -113,7 +113,8 @@
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextPrimary"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textAlignment="viewStart"/>
 
                         <TextView
                             android:id="@+id/tv_tvshow_release_date_tvshow_detail"
@@ -124,7 +125,8 @@
                             android:layout_marginBottom="8dp"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            android:textAlignment="viewStart"/>
 
                         <RatingBar
                             android:id="@+id/rb_tvshow_detail"
@@ -137,7 +139,8 @@
                             android:numStars="5"
                             android:scaleX="1"
                             android:scaleY="1"
-                            android:theme="@style/RatingBar" />
+                            android:theme="@style/RatingBar"
+                            android:textAlignment="viewStart"/>
 
                         <TextView
                             android:id="@+id/tv_rating_detail"
@@ -148,7 +151,8 @@
                             android:layout_toEndOf="@id/rb_tvshow_detail"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            android:textAlignment="viewStart"/>
 
                     </RelativeLayout>
 

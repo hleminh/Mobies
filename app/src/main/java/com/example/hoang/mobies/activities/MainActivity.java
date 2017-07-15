@@ -34,6 +34,7 @@ import com.example.hoang.mobies.Utils.Utils;
 import com.example.hoang.mobies.adapters.WatchListAdapter;
 import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.dialogs.NoConnectionDialog;
+import com.example.hoang.mobies.dialogs.ReleasedWatchListDialog;
 import com.example.hoang.mobies.fragments.CelebFragment;
 import com.example.hoang.mobies.fragments.MovieDetailFragment;
 import com.example.hoang.mobies.fragments.NewsDetailFragment;
@@ -172,48 +173,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (watchList.size() > 0) {
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            Dialog dialog = new Dialog(MainActivity.this);
-            View dialogView = layoutInflater.inflate(R.layout.dialog_coming_watch_list, null);
-            dialog.setContentView(dialogView);
-            rvWatchList = (RecyclerView) dialogView.findViewById(R.id.rv_coming_watch_list);
-            dialog.setTitle("Released Today");
-
-            watchListAdapter = new WatchListAdapter(this, watchList);
-            watchListAdapter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MultiSearchModel multiSearchModel = (MultiSearchModel) v.getTag();
-                    if (multiSearchModel.getMedia_type().equals("movie")) {
-                        MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
-                        Bundle bundle = new Bundle();
-                        MovieModel movieModel = new MovieModel(multiSearchModel);
-                        movieModel.setGenresString(multiSearchModel.getGenresString());
-                        bundle.putSerializable("MovieDetail", movieModel);
-                        bundle.putBoolean("FromSearch", true);
-                        movieDetailFragment.setArguments(bundle);
-                        ScreenManager.openFragment(getSupportFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
-                        dialog.cancel();
-                    } else if (multiSearchModel.getMedia_type().equals("tv")) {
-                        TVShowDetailFragment tvShowDetailFragment = new TVShowDetailFragment();
-                        Bundle bundle = new Bundle();
-                        TVModel tvModel = new TVModel(multiSearchModel);
-                        tvModel.setGenresString(multiSearchModel.getGenresString());
-                        bundle.putSerializable("TVDetail", tvModel);
-                        bundle.putBoolean("FromSearch", true);
-                        tvShowDetailFragment.setArguments(bundle);
-                        ScreenManager.openFragment(getSupportFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
-                        dialog.cancel();
-                    }
-                }
-            });
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            rvWatchList.setLayoutManager(mLayoutManager);
-            rvWatchList.setAdapter(watchListAdapter);
-
-            dialog.show();
+            ReleasedWatchListDialog releasedWatchListDialog = new ReleasedWatchListDialog(MainActivity.this, watchList);
+            releasedWatchListDialog.show();
         }
-
 
     }
 

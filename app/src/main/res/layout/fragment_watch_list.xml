@@ -42,9 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tl_watch_list"
-            android:clipToPadding="false"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
             android:visibility="visible" />
     </RelativeLayout>
 

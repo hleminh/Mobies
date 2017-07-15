@@ -18,20 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivitiy extends AppCompatActivity {
-//    @BindView(R.id.iv_logo)
-//    TextView tvLogo;
-//    @BindView(R.id.tv_splash)
-//    TextView tvSplash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-//        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/modern M.ttf");
-//        tvSplash.setTypeface(typeface);
-//        YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvLogo);
-//        YoYo.with(Techniques.FadeIn).duration(1000).playOn(tvSplash);
         CountDownTimer countDownTimer = new CountDownTimer(500, 500) {
             @Override
             public void onTick(long millisUntilFinished) {

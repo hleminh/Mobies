@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+    android:layout_width="370dp"
+    android:layout_height="320dp"
+    android:orientation="vertical"
+    android:paddingRight="44dp"
+    android:background="@color/colorStatusBar">
+
+    <TextView
+        android:id="@+id/tv_watch_list_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/watch_list_dialog"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorRatingBarGrey" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_coming_watch_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="200dp"
+        android:clipToPadding="false"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorRatingBarGrey"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btn_okay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/watch_list_dialog_confirm"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextPrimary" />
 
 </LinearLayout>

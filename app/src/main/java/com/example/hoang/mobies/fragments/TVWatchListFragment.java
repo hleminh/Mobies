@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.hoang.mobies.adapters.WatchListAdapter;
 import com.example.hoang.mobies.databases.RealmHandle;
 import com.example.hoang.mobies.managers.ScreenManager;
 import com.example.hoang.mobies.models.TVModel;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,6 +51,8 @@ public class TVWatchListFragment extends Fragment implements View.OnClickListene
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvWatchList.setLayoutManager(manager);
         watchListAdapter.setOnClickListener(this);
+//        GravitySnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
+//        snapHelper.attachToRecyclerView(rvWatchList);
     }
 
     @Override
