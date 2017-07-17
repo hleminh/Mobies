@@ -264,6 +264,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11), true).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 if (tvRandom.getVisibility() == View.GONE)
                     tvRandom.setVisibility(View.VISIBLE);
                 if (ivRandomize.getVisibility() == View.GONE)
@@ -305,6 +306,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getTopRatedMoviesService.getTopRatedMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 tvTopRated.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
@@ -328,6 +330,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getInCinemasMoviesService.getInCinemaMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 tvInCinemas.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
@@ -352,6 +355,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getComingSoonService.getComingSoonMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 tvComingSoon.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
@@ -387,6 +391,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getMovieByGenresService.getMovieByGenres(genreID, API_KEY, LANGUAGE, "false").enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 MainObject mainObject = response.body();
                 for (MovieModel movieModel : mainObject.getResults()) {
                     moviesByCategoryList.add(movieModel);
@@ -423,6 +428,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getGenresService.getAllGenres(API_KEY, LANGUAGE).enqueue(new Callback<MainGenresObject>() {
             @Override
             public void onResponse(Call<MainGenresObject> call, Response<MainGenresObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 MainGenresObject mainGenresObject = response.body();
                 for (GenresModel genresModel : mainGenresObject.getGenres()) {
                     genresModelList.add(genresModel);
@@ -458,6 +464,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         getTrendingMoviesService.getTrendingMovies(API_KEY, LANGUAGE, DEFAULT_PAGE, REGION).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 pbLoading.setVisibility(View.GONE);
                 tlCategory.setVisibility(View.VISIBLE);
                 MainObject mainObject = response.body();
@@ -499,5 +506,11 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             movieDetailFragment.setArguments(bundle);
             ScreenManager.openFragment(getFragmentManager(), movieDetailFragment, R.id.drawer_layout, true, false);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (snackbar != null) snackbar.dismiss();
     }
 }

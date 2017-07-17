@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -129,6 +130,7 @@ public class FullCastFragment extends Fragment {
                             ft.detach(FullCastFragment.this).attach(FullCastFragment.this).commit();
                         }
                     });
+                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorStatusBar));
                     snackbar.show();
                 }
             });
@@ -167,7 +169,15 @@ public class FullCastFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
+        ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (snackbar != null) snackbar.dismiss();
     }
 }

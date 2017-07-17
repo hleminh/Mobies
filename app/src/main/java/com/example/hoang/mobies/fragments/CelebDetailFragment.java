@@ -170,6 +170,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         getDetailPeopleService.getDetailPeople(peopleModel.getId(), API_KEY).enqueue(new Callback<PeopleModel>() {
             @Override
             public void onResponse(Call<PeopleModel> call, Response<PeopleModel> response) {
+                if (snackbar != null) snackbar.dismiss();
                 tvAlsoKA.setVisibility(View.VISIBLE);
                 tvKnownFor.setVisibility(View.VISIBLE);
                 tvBiography.setVisibility(View.VISIBLE);
@@ -220,6 +221,7 @@ public class CelebDetailFragment extends Fragment implements View.OnClickListene
         if (!fromSearch)
             ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
+        if (snackbar != null) snackbar.dismiss();
     }
 
     @Override

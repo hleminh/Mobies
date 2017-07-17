@@ -85,6 +85,7 @@ public class NewsFragment extends Fragment {
         getNewService.getNews().enqueue(new Callback<MainNewsObject>() {
             @Override
             public void onResponse(Call<MainNewsObject> call, Response<MainNewsObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 for (NewsModel newsModel : response.body().getArticles()) {
                     newsModelList.add(newsModel);
                 }
@@ -111,6 +112,12 @@ public class NewsFragment extends Fragment {
                 snackbar.show();
             }
         });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (snackbar != null) snackbar.dismiss();
     }
 
 }

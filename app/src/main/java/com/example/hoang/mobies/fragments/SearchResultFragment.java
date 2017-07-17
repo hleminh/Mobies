@@ -111,6 +111,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             public void onResponse(Call<MainSearchModel> call, Response<MainSearchModel> response) {
                 MainSearchModel mainSearchModel = response.body();
                 if (mainSearchModel != null) {
+                    if (snackbar != null) snackbar.dismiss();
                     for (MultiSearchModel searchModel : mainSearchModel.getResults()) {
                         resultList.add(searchModel);
                     }
@@ -193,6 +194,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         super.onStop();
         System.out.println("Stop search fragment");
         ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (snackbar != null) snackbar.dismiss();
     }
 
 }

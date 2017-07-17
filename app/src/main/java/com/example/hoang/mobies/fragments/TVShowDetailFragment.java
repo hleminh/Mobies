@@ -323,6 +323,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             public void onResponse(Call<MainTrailerObject> call, Response<MainTrailerObject> response) {
                 if (response.body() != null) {
                     if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         for (TrailerObject trailerObject : response.body().getResults()) {
                             keys.add(trailerObject.getKey());
                         }
@@ -350,7 +351,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                                     @Override
                                     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                                         if (toast != null) toast.cancel();
-                                        toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                                        toast = Toast.makeText(getContext(), "Sorry, this tv show doesn't have a trailer yet", Toast.LENGTH_SHORT);
                                         toast.show();
                                     }
                                 });
@@ -368,7 +369,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                     @Override
                     public void onClick(View v) {
                         if (toast != null) toast.cancel();
-                        toast = Toast.makeText(getContext(), "Sorry this movie doesn't have trailer yet :'(", Toast.LENGTH_SHORT);
+                        toast = Toast.makeText(getContext(), "Sorry, this tv show doesn't have a trailer yet", Toast.LENGTH_SHORT);
                         toast.show();
                         if (snackbar != null) snackbar.dismiss();
                         snackbar = Snackbar.make(coordinatorLayout, "No connection", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
@@ -394,6 +395,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
                 if (response.body() != null) {
                     MainTvObject mainTvObject = response.body();
                     if (mainTvObject.getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         for (TVModel tv_model : mainTvObject.getResults()) {
                             tv_modelList.add(tv_model);
                         }
@@ -436,6 +438,7 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(Call<MainCastObject> call, Response<MainCastObject> response) {
                 if (response.body() != null) {
+                    if (snackbar != null) snackbar.dismiss();
                     for (CastModel castModel : response.body().getCast()) {
                         if (castModelList.size() < 5)
                             castModelList.add(castModel);
@@ -495,6 +498,8 @@ public class TVShowDetailFragment extends Fragment implements View.OnClickListen
         }
         if (!fromSearch)
             ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        if (snackbar != null) snackbar.dismiss();
     }
 
     @Override

@@ -188,6 +188,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11), true).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 if (tvRandom.getVisibility() == View.GONE)
                     tvRandom.setVisibility(View.VISIBLE);
                 if (ivRandomize.getVisibility() == View.GONE)
@@ -233,6 +234,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 tvOnAir.setVisibility(View.VISIBLE);
                 if (response.body() != null) {
                     if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         MainTvObject mainTvObject = response.body();
                         for (TVModel tv_model : mainTvObject.getResults()) {
                             tvShowOnAirList.add(tv_model);
@@ -271,6 +273,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 tvAiringToday.setVisibility(View.VISIBLE);
                 if (response.body() != null) {
                     if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         MainTvObject mainTvObject = response.body();
                         for (TVModel tv_model : mainTvObject.getResults()) {
                             tvShowAiringTodayList.add(tv_model);
@@ -309,6 +312,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 pbLoading.setVisibility(View.GONE);
                 if (response.body() != null) {
                     if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         MainTvObject mainObject = response.body();
                         for (TVModel tv_model : mainObject.getResults()) {
                             tvShowTrendingList.add(tv_model);
@@ -347,6 +351,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
                 tvTopRated.setVisibility(View.VISIBLE);
                 if (response.body() != null) {
                     if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         MainTvObject mainObject = response.body();
                         for (TVModel tv_model : mainObject.getResults()) {
                             tvShowTopRateList.add(tv_model);
@@ -388,6 +393,12 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
             tvShowDetailFragment.setArguments(bundle);
             ScreenManager.openFragment(getFragmentManager(), tvShowDetailFragment, R.id.drawer_layout, true, false);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (snackbar != null) snackbar.dismiss();
     }
 
 }

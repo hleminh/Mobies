@@ -129,6 +129,7 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
         getPopularPeopleService.getPopularPeople(API_KEY, LANGUAGE, DEFAULT_PAGE + loadTimes).enqueue(new Callback<MainPeopleObject>() {
             @Override
             public void onResponse(Call<MainPeopleObject> call, Response<MainPeopleObject> response) {
+                if (snackbar != null) snackbar.dismiss();
                 for (PeopleModel peopleModel : response.body().getResults()) {
                     popularList.add(peopleModel);
                 }
@@ -168,5 +169,11 @@ public class CelebFragment extends Fragment implements View.OnClickListener{
             celebDetailFragment.setArguments(bundle);
             ScreenManager.openFragment(getFragmentManager(), celebDetailFragment, R.id.drawer_layout, true, false);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (snackbar != null) snackbar.dismiss();
     }
 }

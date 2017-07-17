@@ -383,11 +383,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 if (response.body() != null) {
-                    if (response.body().getResults() != null)
+                    if (response.body().getResults() != null) {
+                        if (snackbar != null) snackbar.dismiss();
                         for (TVModel tv_model : response.body().getResults()) {
                             RATED_TV_LIST.add(tv_model);
 
                         }
+                    }
                 }
             }
 
@@ -418,13 +420,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getRatedMoviesService.getRatedMovies(GUEST_ID, API_KEY).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
-                if (response.body() != null)
+                if (response.body() != null) {
+                    if (snackbar != null) snackbar.dismiss();
                     for (MovieModel movieModel : response.body().getResults()) {
                         RATED_MOVIE_LIST.add(movieModel);
 
                     }
-                if (Utils.genresModelList == null)
-                    displayStartScreen();
+                    if (Utils.genresModelList == null)
+                        displayStartScreen();
+                }
             }
 
             @Override
@@ -449,5 +453,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                snackbar.show();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (snackbar != null) snackbar.dismiss();
     }
 }
