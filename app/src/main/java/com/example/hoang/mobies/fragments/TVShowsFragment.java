@@ -185,7 +185,7 @@ public class TVShowsFragment extends Fragment implements View.OnClickListener {
         tvShowRandomList.clear();
         Random random = new Random();
         GetRandomTvService getRandomService = RetrofitFactory.getInstance().createService(GetRandomTvService.class);
-        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11), true).enqueue(new Callback<MainTvObject>() {
+        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(5) + 5, true).enqueue(new Callback<MainTvObject>() {
             @Override
             public void onResponse(Call<MainTvObject> call, Response<MainTvObject> response) {
                 if (snackbar != null) snackbar.dismiss();

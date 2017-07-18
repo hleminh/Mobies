@@ -261,7 +261,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         randomMoviesList.clear();
         Random random = new Random();
         GetRandomService getRandomService = RetrofitFactory.getInstance().createService(GetRandomService.class);
-        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(11), true).enqueue(new Callback<MainObject>() {
+        getRandomService.getRandomMovies(API_KEY, LANGUAGE, DEFAULT_PAGE + random.nextInt(20), REGION, random.nextInt(5) + 5, true).enqueue(new Callback<MainObject>() {
             @Override
             public void onResponse(Call<MainObject> call, Response<MainObject> response) {
                 if (snackbar != null) snackbar.dismiss();
