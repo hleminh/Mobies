@@ -1,12 +1,13 @@
 package com.example.hoang.mobies.network.get_people;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by tonto on 6/19/2017.
  */
 
-public class KnownForObject {
+public class KnownForObject implements Serializable {
     int id; // cua ca 2 cai
     boolean video; //cua film
 
