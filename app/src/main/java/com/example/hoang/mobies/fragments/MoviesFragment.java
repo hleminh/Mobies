@@ -17,6 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,6 +46,7 @@ import com.example.hoang.mobies.network.get_movies.GetTrendingMoviesService;
 import com.example.hoang.mobies.network.get_movies.MainObject;
 import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.squareup.haha.perflib.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +116,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private int failConnection;
     private Toast toast;
     private Snackbar snackbar;
-
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -511,6 +513,12 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        if (snackbar != null) snackbar.dismiss();
+        if (MainActivity.flagNetworkSettings == false)
+            if (snackbar != null) snackbar.dismiss();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

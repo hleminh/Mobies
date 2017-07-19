@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.example.hoang.mobies.R;
+import com.example.hoang.mobies.activities.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ public class NoConnectionDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_confirm){
+            MainActivity.flagNetworkSettings = true;
             dismiss();
             Intent intent = new Intent(Settings.ACTION_SETTINGS);
             context.startActivity(intent);

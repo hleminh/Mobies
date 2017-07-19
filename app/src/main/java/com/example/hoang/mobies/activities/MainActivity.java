@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static NavigationView navigationView;
 
+    public static boolean flagNetworkSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        flagNetworkSettings = false;
 
     }
 
